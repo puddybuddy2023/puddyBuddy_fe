@@ -1,19 +1,19 @@
 class Board {
-  late int? boardId;
-  late int? userId;
-  late String? nickname;
-  late String? email;
-  late String? content;
-
+  late int boardId;
+  late int userId;
+  late int preferId;
+  late int clothesId;
+  late String content;
+  late String create_date;
   late String photoUrl;
 
   Board({
     required this.boardId,
     required this.userId,
-    required this.nickname,
-    required this.email,
+    required this.preferId,
+    required this.clothesId,
     required this.content,
-
+    required this.create_date,
     required this.photoUrl,
   });
 
@@ -21,9 +21,10 @@ class Board {
     return Board(
         boardId: json['boardId'],
         userId: json['userId'],
-        nickname: json['nickname'],
-        email: json['email'],
+        preferId: json['preferId'],
+        clothesId: json['clothesId'],
         content: json['content'],
+        create_date: json['create_date'],
         photoUrl: json['photoUrl']);
   }
 }

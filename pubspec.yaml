@@ -38,6 +38,8 @@ dependencies:
   dot_navigation_bar:
   http: ^1.1.0
   provider: ^6.0.5
+  image_picker: ^1.0.4
+  dio: ^5.3.3
 
 
 
