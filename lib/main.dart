@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
+import 'package:mungshinsa/board_detail.dart';
 import 'package:mungshinsa/providers/board_provider.dart';
 import 'package:provider/provider.dart';
-import 'feed_view.dart';
-import 'shop.dart';
+import 'boards.dart';
+import 'store.dart';
 import 'my_page.dart';
-import 'write_new_post.dart';
+import 'write_new_board.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    const MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -23,6 +26,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.indigo,
       ),
       home: MyHomePage(),
+      routes: {'/board_detail': (context) => BoardDetail()},
     );
   }
 }
@@ -46,7 +50,8 @@ class _MyHomePageState extends State<MyHomePage> {
     MyPage()
   ];
 
-  void changePage(int index) { // 하단바의 아이템을 클릭할 때 실행되는 함수
+  void changePage(int index) {
+    // 하단바의 아이템을 클릭할 때 실행되는 함수
     setState(() {
       _currentIndex = index;
     });
@@ -62,7 +67,11 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Center(
           child: const Text(
             'PuddyBuddy',
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 23,
+                fontWeight: FontWeight.w900,
+                fontStyle: FontStyle.italic),
           ),
         ),
       ),
@@ -73,17 +82,24 @@ class _MyHomePageState extends State<MyHomePage> {
               marginR: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
               paddingR: EdgeInsets.only(bottom: 5, top: 10),
               itemPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-              boxShadow: [ // 하단바 그림자
+              boxShadow: [
+                // 하단바 그림자
                 BoxShadow(color: Colors.black12, spreadRadius: 1, blurRadius: 5)
               ],
-              dotIndicatorColor: Colors.transparent, // 선택된 아이템을 가리키는 점이 보이지 않길 원하면 투명 상태로 설정해야 함
-              selectedItemColor: Color(0xFFA8ABFF), // 선택된 상태의 아이템 색상
-              unselectedItemColor: Colors.black, // 선택되지 않은 상태의 아이템 색상
+              dotIndicatorColor: Colors.transparent,
+              // 선택된 아이템을 가리키는 점이 보이지 않길 원하면 투명 상태로 설정해야 함
+              selectedItemColor: Color(0xFFA8ABFF),
+              // 선택된 상태의 아이템 색상
+              unselectedItemColor: Colors.black,
+              // 선택되지 않은 상태의 아이템 색상
               currentIndex: _currentIndex,
-              onTap: changePage, // 아이템을 선택하면 실행되는 함수
-              enablePaddingAnimation: false, // 아이템 선택할 때 실행되는 애니메이션 비활성화
+              onTap: changePage,
+              // 아이템을 선택하면 실행되는 함수
+              enablePaddingAnimation: false,
+              // 아이템 선택할 때 실행되는 애니메이션 비활성화
               items: [
-                DotNavigationBarItem( // 하단바에 들어갈 아이템들
+                DotNavigationBarItem(
+                  // 하단바에 들어갈 아이템들
                   icon: Icon(
                     Icons.home,
                     size: 35,
@@ -106,10 +122,13 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           Padding(
             padding: const EdgeInsets.only(right: 30.0),
-            child: FloatingActionButton( // BottomNavigationBar 옆에 추가한 Button
+            child: FloatingActionButton(
+              // BottomNavigationBar 옆에 추가한 Button
               backgroundColor: Color(0xFFA8ABFF),
-              onPressed: () {Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => WriteNewPost()));},
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => WriteNewBoard()));
+              },
               child: Icon(
                 Icons.edit,
                 color: Colors.black,

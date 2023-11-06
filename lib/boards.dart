@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import "../providers/board_provider.dart";
-import '../models/board_model.dart';
-
-
 
 class FeedView extends StatefulWidget {
   const FeedView({super.key});
@@ -25,10 +22,14 @@ class _FeedViewState extends State<FeedView> {
               childAspectRatio: 1 / 1.2,
             ),
             itemBuilder: (c, i) {
-              return Container(
-                padding: EdgeInsets.all(1),
-                margin: EdgeInsets.all(1),
-                child: Image.network(boardList[i].photoUrl),
+              return InkWell( // container에서 gesture를 쓰기 위해
+                onTap: (){Navigator.pushNamed(
+                    context, '/board_detail', arguments: boardList[i]);},
+                child: Container(
+                  padding: EdgeInsets.all(1),
+                  margin: EdgeInsets.all(1),
+                  child: Image.network(boardList[i].photoUrl),
+                ),
               );
             },
             itemCount: boardList.length,
