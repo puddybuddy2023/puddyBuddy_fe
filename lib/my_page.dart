@@ -14,9 +14,9 @@ class _MyPageState extends State<MyPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
       children: [
-        Container(
+        Container( // 카드 슬라이더
           padding: EdgeInsets.symmetric(horizontal: 4),
           width: double.infinity,
           height: 200,
@@ -31,10 +31,10 @@ class _MyPageState extends State<MyPage> {
               itemBuilder: (context, index) {
                 return Container(
                   padding: EdgeInsets.fromLTRB(20, 28, 20, 24),
-                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
-                      color: Colors.white,
+                      color: Color(0xFFA8ABFF),
                       boxShadow: [
                         BoxShadow(
                             color: Colors.black.withOpacity(0.1),
@@ -48,34 +48,41 @@ class _MyPageState extends State<MyPage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            for(num i=0;i<3;i++)
+            for (num i = 0; i < 3; i++)
               Container(
                 margin: EdgeInsets.all(3),
                 width: 6,
                 height: 6,
-                decoration: BoxDecoration(shape: BoxShape.circle, color: i==currentPage?RenderErrorBox.backgroundColor:RenderErrorBox.backgroundColor.withOpacity(.2)),
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: i == currentPage
+                        ? Colors.black
+                        : Colors.black.withOpacity(.2)),
               )
           ],
         ),
-        // GridView.builder(
-        //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        //     crossAxisCount: 3,
-        //     childAspectRatio: 1 / 1.2,
-        //   ),
-        //   itemBuilder: (c, i) {
-        //     return InkWell( // container에서 gesture를 쓰기 위해
-        //       onTap: (){Navigator.pushNamed(
-        //           context, '/board_detail');},
-        //       child: Container(
-        //         padding: EdgeInsets.all(1),
-        //         margin: EdgeInsets.all(1),
-        //         color: Colors.purple,
-        //       ),
-        //     );
-        //   },
-        //   itemCount: 10,
-        // )
-
+        SizedBox(
+          height: 15,
+        ),
+        Container(height: 1, color: Colors.grey),
+        GridView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: 9,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3, childAspectRatio: 1 / 1.2),
+            itemBuilder: (context, index) {
+              return InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, '/board_detail');
+                },
+                child: Container(
+                  margin: EdgeInsets.all(1),
+                  height: 3,
+                  color: Colors.grey,
+                ),
+              );
+            }),
       ],
     );
   }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:mungshinsa/providers/prefer_provider.dart';
 import "../providers/comments_provider.dart";
 import '../models/board_model.dart';
+import '../models/prefer_model.dart';
 import '../models/comments_model.dart';
 
 class BoardDetail extends StatefulWidget {
@@ -14,9 +15,12 @@ class BoardDetail extends StatefulWidget {
 class _BoardDetailState extends State<BoardDetail> {
   @override
   Widget build(BuildContext context) {
-    List<Comment> commentList = commentserver.getCommentList();
-
     final brd = ModalRoute.of(context)!.settings.arguments as Board;
+
+    List<Comment> commentList = commentserver.getCommentList();
+    //Map<String, dynamic> prefer = preferProvider.getPreferById(brd.userId);
+    preferProvider.fetchPreferById(brd.userId);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFFA8ABFF),
@@ -33,20 +37,21 @@ class _BoardDetailState extends State<BoardDetail> {
               Text('${brd.content}'),
             ]),
           ),
-          Card(
-            color: Colors.black,
-            child: Container(
-              height: 50,
-              child: Row(
-                children: [
-                  Text(
-                    '강아지정보',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          // Card(
+          //   color: Colors.black,
+          //   child: Container(
+          //     height: 50,
+          //     child: Column(
+          //       crossAxisAlignment: CrossAxisAlignment.start,
+          //       children: [
+          //         Text(
+          //           preferProvider.responseMap['name'],
+          //           style: TextStyle(color: Colors.white),
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
           Card(
             color: Color(0xFFA8ABFF),
             child: Container(
@@ -54,7 +59,7 @@ class _BoardDetailState extends State<BoardDetail> {
               child: Row(
                 children: [
                   Text(
-                    '옷정보',
+                    '착용한 옷 정보',
                     style: TextStyle(color: Colors.white),
                   ),
                 ],

@@ -3,6 +3,8 @@ import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:mungshinsa/board_detail.dart';
 import 'package:mungshinsa/providers/board_provider.dart';
 import 'package:provider/provider.dart';
+
+import 'splash_screen.dart';
 import 'boards.dart';
 import 'store.dart';
 import 'my_page.dart';
@@ -22,11 +24,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'PuddyBuddy',
       theme: ThemeData(
-        primaryColor: Colors.blue,
-        primarySwatch: Colors.indigo,
-      ),
+          primaryColor: Colors.blue,
+          primarySwatch: Colors.indigo,
+          fontFamily: 'Pretendard'),
       home: MyHomePage(),
-      routes: {'/board_detail': (context) => BoardDetail()},
+      routes: {
+        '/index' : (context) => MyHomePage(),
+        '/splash': (context) => SplashScreen(),
+        '/board_detail': (context) => BoardDetail()
+      },
+      //initialRoute: '/splash',
     );
   }
 }
@@ -63,7 +70,8 @@ class _MyHomePageState extends State<MyHomePage> {
       extendBody: true, // extendBody를 true로 해야 하단바 뒤로도 내용이 보임
       body: _widgetOptions[_currentIndex],
       appBar: AppBar(
-        backgroundColor: Color(0xFFA8ABFF),
+        backgroundColor: Colors.white,
+        elevation: 2,
         title: Center(
           child: const Text(
             'PuddyBuddy',

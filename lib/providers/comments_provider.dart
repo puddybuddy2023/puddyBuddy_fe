@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import '../models/comments_model.dart';
 import 'package:dio/dio.dart';
 
@@ -19,7 +17,7 @@ class CommentServer with ChangeNotifier{
     Dio dio = new Dio();
     response = await dio.get('$_API_PREFIX');
     Map<String, dynamic> responseMap = response.data;
-    print(response.data.toString());
+    //print(response.data.toString());
 
     final List<Comment> result = (response.data)["result"] // JSON 문자열을 파싱하여 Dart의 Map 형태로 변환
         .map<Comment>((json) => Comment.fromJson(json)) // Map에서 각 JSON 객체를 Board 모델로 mapping

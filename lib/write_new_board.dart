@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import "../providers/board_provider.dart";
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -12,7 +12,6 @@ final ImagePicker picker = ImagePicker();
 XFile? selectImage;
 XFile? showImage;
 
-/* upload function */
 Future<void> uploadBoard() async {
   // 파일 경로를 통해 formData 생성
   //Dio dio = new Dio();
@@ -24,10 +23,8 @@ Future<void> uploadBoard() async {
     "preferId": 1,
     "clothesId": 1,
     "content": "와라락",
-    'photoUrl': await MultipartFile.fromFile(showImage!.path)
+    'photoUrl': await MultipartFile.fromFile(showImage!.path, filename: showImage!.path.split('/').last)
   });
-  // SharedPreferences prefs = await SharedPreferences.getInstance();
-  // String? token = prefs.getString('access_token');
 
   print("프로필 사진을 서버에 업로드 합니다.");
   var dio = new Dio();
@@ -45,19 +42,6 @@ Future<void> uploadBoard() async {
   } catch (e) {
     print(e);
   }
-
-  // FormData formData = FormData.fromMap({
-  //   "userId": 1,
-  //   "preferId": 1,
-  //   "clothesId": 1,
-  //   "content": "와라락",
-  //   "photoUrl": await MultipartFile.fromFile(showImage!.path),
-  // });
-  // print(showImage!.path);
-  // print('bye');
-  //
-  // Response response = await dio.post("http://ec2-13-124-164-167.ap-northeast-2.compute.amazonaws.com/boards/create", data: formData);
-  // print(response);
 }
 
 class WriteNewBoard extends StatefulWidget {
@@ -215,10 +199,22 @@ class _WriteNewBoardState extends State<WriteNewBoard> {
               Container(
                   margin: EdgeInsets.all(10),
                   width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: () {
+                    },
+                    child: Text('착용 제품 선택'),
+                    style:
+                    ElevatedButton.styleFrom(backgroundColor: Color(0xFFA8ABFF)),
+                  )),
+
+              Container(
+                  margin: EdgeInsets.all(10),
+                  width: double.infinity,
                   height: 40,
                   child: ElevatedButton(
                     onPressed: () {
-                      uploadBoard();
+                      boardProvider.createBoard(showImage);
                     },
                     child: Text('업로드'),
                     style:
