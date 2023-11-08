@@ -18,8 +18,6 @@ class _BoardDetailState extends State<BoardDetail> {
     final brd = ModalRoute.of(context)!.settings.arguments as Board;
 
     List<Comment> commentList = commentserver.getCommentList();
-    //Map<String, dynamic> prefer = preferProvider.getPreferById(brd.userId);
-    preferProvider.fetchPreferById(brd.userId);
 
     return Scaffold(
       appBar: AppBar(
@@ -37,21 +35,36 @@ class _BoardDetailState extends State<BoardDetail> {
               Text('${brd.content}'),
             ]),
           ),
-          // Card(
-          //   color: Colors.black,
-          //   child: Container(
-          //     height: 50,
-          //     child: Column(
-          //       crossAxisAlignment: CrossAxisAlignment.start,
-          //       children: [
-          //         Text(
-          //           preferProvider.responseMap['name'],
-          //           style: TextStyle(color: Colors.white),
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          // ),
+          Card(
+            color: Colors.black,
+            child: Container(
+              height: 50,
+              child: FutureBuilder(
+                future: preferProvider.fetchPreferById(brd.userId),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    Map<dynamic, dynamic> responseMap = snapshot.data!;
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          responseMap['name'],
+                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+                        ),
+                        Text(
+                          responseMap['chest'].toString() + '/' + responseMap['back'].toString() + '(가슴둘레/등길이)',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    );
+                  } else {
+                    return CircularProgressIndicator();
+                  }
+                },
+
+              ),
+            ),
+          ),
           Card(
             color: Color(0xFFA8ABFF),
             child: Container(
