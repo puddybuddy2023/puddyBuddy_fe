@@ -14,8 +14,25 @@ class PreferProvider with ChangeNotifier {
     Map<dynamic, dynamic> responseMap = (response.data)['result'][0];
     //print(_responseMap['name']);
     return responseMap;
-
   }
+
+  Future<void> createPrefer(int uid) async{
+    Response response;
+    Dio dio = new Dio();
+    response = await dio.get("$_API_PREFIX/create/$uid");
+    Map<dynamic, dynamic> responseMap = (response.data)['result'][0];
+    //print(_responseMap['name']);
+  }
+
+  Future<void> deletePrefer(int uid) async{
+    Response response;
+    Dio dio = new Dio();
+    response = await dio.get("$_API_PREFIX/delete/$uid");
+    Map<dynamic, dynamic> responseMap = (response.data)['result'][0];
+    //print(_responseMap['name']);
+  }
+
+
 }
 
 PreferProvider preferProvider = PreferProvider();

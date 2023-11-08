@@ -29,10 +29,10 @@ class _BoardDetailState extends State<BoardDetail> {
           Card(
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text('${brd.userId}'),
+              Text('${brd.userId}', style: TextStyle(fontSize: 16),),
               Image.network(brd.photoUrl),
-              Text('${brd.create_date}'),
-              Text('${brd.content}'),
+              Text('${brd.create_date}', style: TextStyle(fontSize: 16),),
+              Text('${brd.content}', style: TextStyle(fontSize: 16),),
             ]),
           ),
           Card(
@@ -49,11 +49,11 @@ class _BoardDetailState extends State<BoardDetail> {
                       children: [
                         Text(
                           responseMap['name'],
-                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+                          style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
                         ),
                         Text(
-                          responseMap['chest'].toString() + '/' + responseMap['back'].toString() + '(가슴둘레/등길이)',
-                          style: TextStyle(color: Colors.white),
+                          responseMap['chest'].toString() + ' / ' + responseMap['back'].toString() + ' (가슴둘레 / 등길이)',
+                          style: TextStyle(color: Colors.white, fontSize: 16),
                         ),
                       ],
                     );
@@ -86,7 +86,7 @@ class _BoardDetailState extends State<BoardDetail> {
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (c, i) {
                   return Container(
-                      color: Colors.white, child: Text(commentList[i].content));
+                      color: Colors.white, child: Text(commentList[i].content, style: TextStyle(fontSize: 16),));
                 },
                 itemCount: commentList.length,
               ),
