@@ -87,7 +87,7 @@ class BoardProvider with ChangeNotifier {
     // print(response.data.toString());
   }
 
-  Future<void> getBoardDetail(int id) async {
+  Future<void> getBoardDetail(int bid) async {
     Response response;
     Dio dio = new Dio();
   }

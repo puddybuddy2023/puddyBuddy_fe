@@ -4,7 +4,9 @@ import 'package:mungshinsa/board_detail.dart';
 import 'package:mungshinsa/providers/board_provider.dart';
 import 'package:provider/provider.dart';
 
+import 'widgets/bottom_navigation_bar.dart';
 import 'splash_screen.dart';
+import 'log_in.dart';
 import 'boards.dart';
 import 'store.dart';
 import 'my_page.dart';
@@ -29,11 +31,12 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Pretendard'),
       home: MyHomePage(),
       routes: {
-        '/index' : (context) => MyHomePage(),
         '/splash': (context) => SplashScreen(),
+        '/login' : (context) => LogIn(),
+        '/index' : (context) => MyHomePage(),
         '/board_detail': (context) => BoardDetail()
       },
-      //initialRoute: '/splash',
+      initialRoute: '/login',
     );
   }
 }

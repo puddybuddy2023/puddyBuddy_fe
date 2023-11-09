@@ -44,18 +44,21 @@ class _BoardDetailState extends State<BoardDetail> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     Map<dynamic, dynamic> responseMap = snapshot.data!;
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          responseMap['name'],
-                          style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
-                        ),
-                        Text(
-                          responseMap['chest'].toString() + ' / ' + responseMap['back'].toString() + ' (가슴둘레 / 등길이)',
-                          style: TextStyle(color: Colors.white, fontSize: 16),
-                        ),
-                      ],
+                    return Container(
+                      padding: EdgeInsets.all(5),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            responseMap['name'],
+                            style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
+                          ),
+                          Text(
+                            responseMap['chest'].toString() + ' / ' + responseMap['back'].toString() + ' (가슴둘레 / 등길이)',
+                            style: TextStyle(color: Colors.white, fontSize: 16),
+                          ),
+                        ],
+                      ),
                     );
                   } else {
                     return CircularProgressIndicator();
