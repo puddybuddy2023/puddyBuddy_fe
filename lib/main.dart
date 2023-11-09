@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:mungshinsa/board_detail.dart';
 import 'package:mungshinsa/providers/board_provider.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +12,7 @@ import 'my_page.dart';
 import 'write_new_board.dart';
 
 void main() {
+  KakaoSdk.init(nativeAppKey: '네이티브 앱 키');
   runApp(
     const MyApp(),
   );
