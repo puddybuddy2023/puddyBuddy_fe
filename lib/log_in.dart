@@ -16,7 +16,7 @@ class _LogInState extends State<LogIn> {
         child: Column(
           children: [
             SizedBox(
-              height: 230,
+              height: 210,
             ),
             Text(
               'Puddy\nBuddy',

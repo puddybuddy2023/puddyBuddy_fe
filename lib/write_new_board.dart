@@ -12,38 +12,6 @@ final ImagePicker picker = ImagePicker();
 XFile? selectImage;
 XFile? showImage;
 
-Future<void> uploadBoard() async {
-  // 파일 경로를 통해 formData 생성
-  //Dio dio = new Dio();
-  //dio.options.contentType = Headers.formUrlEncodedContentType;
-  print('hello');
-
-  var formData = FormData.fromMap({
-    "userId": 1,
-    "preferId": 1,
-    "clothesId": 1,
-    "content": "와라락",
-    'photoUrl': await MultipartFile.fromFile(showImage!.path, filename: showImage!.path.split('/').last)
-  });
-
-  print("프로필 사진을 서버에 업로드 합니다.");
-  var dio = new Dio();
-  try {
-    dio.options.contentType = 'multipart/form-data';
-    dio.options.maxRedirects.isFinite;
-
-    //dio.options.headers = {'token': token};
-    var response = await dio.patch(
-      "http://ec2-13-124-164-167.ap-northeast-2.compute.amazonaws.com/boards/create",
-      data: formData,
-    );
-    print('성공적으로 업로드했습니다');
-    return response.data;
-  } catch (e) {
-    print(e);
-  }
-}
-
 class WriteNewBoard extends StatefulWidget {
   const WriteNewBoard({super.key});
 
@@ -215,6 +183,7 @@ class _WriteNewBoardState extends State<WriteNewBoard> {
                   child: ElevatedButton(
                     onPressed: () {
                       boardProvider.createBoard(showImage);
+                      //uploadBoard();
                     },
                     child: Text('업로드'),
                     style:

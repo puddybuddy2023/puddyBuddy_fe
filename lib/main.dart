@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
         '/index' : (context) => MyHomePage(),
         '/board_detail': (context) => BoardDetail()
       },
-      initialRoute: '/login',
+      //initialRoute: '/login',
     );
   }
 }

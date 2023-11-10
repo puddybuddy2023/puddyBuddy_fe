@@ -16,6 +16,18 @@ class _MyPageState extends State<MyPage> {
   Widget build(BuildContext context) {
     return ListView(
       children: [
+        Row(
+          children: [
+            Container(
+              height: 40,
+              width: 40,
+              margin: EdgeInsets.all(10.0),
+              decoration: BoxDecoration(
+                  color: Colors.grey, shape: BoxShape.circle),
+            ),
+            Text('유저 아이디', style: TextStyle(fontSize: 16),)
+          ],
+        ),
         Container( // 카드 슬라이더
           padding: EdgeInsets.symmetric(horizontal: 4),
           width: double.infinity,
@@ -30,8 +42,8 @@ class _MyPageState extends State<MyPage> {
               },
               itemBuilder: (context, index) {
                 return Container(
-                  padding: EdgeInsets.fromLTRB(20, 28, 20, 24),
-                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
                       color: Color(0xFFA8ABFF),
@@ -42,6 +54,39 @@ class _MyPageState extends State<MyPage> {
                             spreadRadius: 3,
                             offset: Offset(0, 0))
                       ]),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            height: 40,
+                            width: 40,
+                            margin: EdgeInsets.all(3.0),
+                            decoration: BoxDecoration(
+                                color: Colors.grey, shape: BoxShape.circle),
+                          ),
+                          Text('강아지 이름(종)', style: TextStyle(fontSize: 18,  fontWeight: FontWeight.w500),),
+                        ],
+                      ),
+                      SizedBox(height: 10,),
+                      Row(
+                        children: [
+                          Text('SIZE', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, fontStyle: FontStyle.italic),),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text('20/20(등길이/가슴둘레)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),),
+                        ],
+                      ),
+                      SizedBox(height: 10,),
+                      Row(
+                        children: [
+                          Text('PETSONAL COLOR', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, fontStyle: FontStyle.italic),),
+                        ],
+                      ),
+                    ],
+                  ),
                 );
               }),
         ),
@@ -51,8 +96,8 @@ class _MyPageState extends State<MyPage> {
             for (num i = 0; i < 3; i++)
               Container(
                 margin: EdgeInsets.all(3),
-                width: 6,
-                height: 6,
+                width: 10,
+                height: 10,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: i == currentPage
