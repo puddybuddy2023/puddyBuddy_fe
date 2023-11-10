@@ -12,29 +12,29 @@ const _API_PREFIX =
 class BoardProvider with ChangeNotifier {
 
   /*보드 전체 가져오기*/
-  final List<Board> _boardList = List.empty(growable: true);
+  final List<dynamic> _boardList = List.empty(growable: true);
 
-  List<Board> getBoardList() {
+  List<dynamic> getBoardList() {
     _fetchBoards(); // 게시물 목록을 가져온다.
     return _boardList;
   }
 
   void _fetchBoards() async {
-    final response = await http
-        .get(Uri.parse('$_API_PREFIX')); // 서버에서 게시물 데이터를 가져오는 GET 요청을 보낸다.
+    // final response = await http
+    //     .get(Uri.parse('$_API_PREFIX')); // 서버에서 게시물 데이터를 가져오는 GET 요청을 보낸다.
+    //
+    // final List<Board> result =
+    //     jsonDecode(response.body)["result"] // JSON 문자열을 파싱하여 Dart의 Map 형태로 변환
+    //         .map<Board>((json) =>
+    //             Board.fromJson(json)) // Map에서 각 JSON 객체를 Board 모델로 mapping
+    //         .toList(); // 리스트로 변환
+    // print(jsonDecode(response.body)["result"]);
 
-    final List<Board> result =
-        jsonDecode(response.body)["result"] // JSON 문자열을 파싱하여 Dart의 Map 형태로 변환
-            .map<Board>((json) =>
-                Board.fromJson(json)) // Map에서 각 JSON 객체를 Board 모델로 mapping
-            .toList(); // 리스트로 변환
-    print(jsonDecode(response.body)["result"]);
-
-    // Response response;
-    // Dio dio = new Dio();
-    // response = await dio.get("$_API_PREFIX");
-    // List<dynamic> result = (response.data)['result'];
-    // print((response.data)['result']);
+    Response response;
+    Dio dio = new Dio();
+    response = await dio.get("$_API_PREFIX");
+    List<dynamic> result = (response.data)['result'];
+    print((response.data)['result']);
     //return responseMap;
 
     _boardList.clear(); // 이전에 저장된 목록을 비운다.

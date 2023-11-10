@@ -17,11 +17,11 @@ class BoardDetail extends StatefulWidget {
 class _BoardDetailState extends State<BoardDetail> {
   @override
   Widget build(BuildContext context) {
-    final brd = ModalRoute.of(context)!.settings.arguments as Board;
+    final brd = ModalRoute.of(context)!.settings.arguments as dynamic;
     List<Comment> commentList = commentserver.getCommentList();
     breedTagProvider.fetchBreedTagById(1);
     boardProvider.getBoardDetail(10);
-    print(brd.content);
+    //print(brd.content);
 
     return Scaffold(
       appBar: AppBar(
@@ -46,18 +46,18 @@ class _BoardDetailState extends State<BoardDetail> {
                     width: 5,
                   ),
                   Text(
-                    '사용자${brd.userId}',
+                    '사용자${brd['userId']}',
                     style: TextStyle(fontSize: 16),
                   ),
                 ],
               ),
-              Image.network(brd.photoUrl),
+              Image.network(brd['photoUrl']),
               Text(
-                '${brd.create_date}',
+                '${brd['create_date']}',
                 style: TextStyle(fontSize: 16),
               ),
               Text(
-                '${brd.content}',
+                '${brd['content']}',
                 style: TextStyle(fontSize: 16),
               ),
               SizedBox(
@@ -70,7 +70,7 @@ class _BoardDetailState extends State<BoardDetail> {
             child: Container(
               height: 50,
               child: FutureBuilder(
-                future: preferProvider.fetchPreferById(brd.userId),
+                future: preferProvider.fetchPreferById(brd['userId']),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     Map<dynamic, dynamic> responseMap = snapshot.data!;

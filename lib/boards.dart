@@ -28,7 +28,7 @@ class _FeedViewState extends State<FeedView> {
                 child: Container(
                   padding: EdgeInsets.all(1),
                   margin: EdgeInsets.all(1),
-                  child: Image.network(boardList[i].photoUrl),
+                  child: Image.network(boardList[i]['photoUrl']),
                 ),
               );
             },
