@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../models/comments_model.dart';
 import 'package:mungshinsa/providers/board_provider.dart';
 import 'package:mungshinsa/providers/prefer_provider.dart';
@@ -18,7 +19,6 @@ class _BoardDetailState extends State<BoardDetail> {
   @override
   Widget build(BuildContext context) {
     final brd = ModalRoute.of(context)!.settings.arguments as dynamic;
-    List<dynamic> commentList = commentProvider.getCommentList(brd['boardId']);
     breedTagProvider.fetchBreedTagById(1);
     //print(brd.content);
 
@@ -141,10 +141,14 @@ class _BoardDetailState extends State<BoardDetail> {
                         suffixIcon: IconButton(
                           onPressed: () {
                             setState(() {
-                              commentProvider.createComments(brd['boardId'], brd['userId'], _commnetController.text);
+                              commentProvider.createComments(brd['boardId'],
+                                  brd['userId'], _commnetController.text);
                             });
                           },
-                          icon: Icon(Icons.send, color: Color(0xFFA8ABFF),),
+                          icon: Icon(
+                            Icons.send,
+                            color: Color(0xFFA8ABFF),
+                          ),
                         ),
                         contentPadding: EdgeInsets.only(left: 10),
                         hintText: '댓글을 남겨주세요'),
@@ -156,40 +160,45 @@ class _BoardDetailState extends State<BoardDetail> {
                     },
                   ),
                 ),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (c, i) {
-                    return Container(
-                        color: Colors.white,
-                        child: Row(
-                          children: [
-                            Container(
-                              height: 40,
-                              width: 40,
-                              margin: EdgeInsets.all(5.0),
-                              decoration: BoxDecoration(
-                                  color: Colors.grey, shape: BoxShape.circle),
-                            ),
-                            Column(
-                              children: [
-                                Text(
-                                  '사용자${commentList[i].userId}',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                Text(
-                                  commentList[i].content,
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ));
-                  },
-                  itemCount: commentList.length,
-                ),
+                Consumer<CommentProvider>(
+                    builder: (context, commentProvider, child) {
+                  final commentList =
+                      commentProvider.getCommentList(brd['boardId']);
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (c, i) {
+                      return Container(
+                          color: Colors.white,
+                          child: Row(
+                            children: [
+                              Container(
+                                height: 40,
+                                width: 40,
+                                margin: EdgeInsets.all(5.0),
+                                decoration: BoxDecoration(
+                                    color: Colors.grey, shape: BoxShape.circle),
+                              ),
+                              Column(
+                                children: [
+                                  Text(
+                                    '사용자${commentList[i]['userId']}',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  Text(
+                                    commentList[i]['content'],
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ));
+                    },
+                    itemCount: commentList.length,
+                  );
+                })
               ],
             ),
           ),

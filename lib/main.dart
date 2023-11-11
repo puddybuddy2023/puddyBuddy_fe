@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:dot_navigation_bar/dot_navigation_bar.dart';
-import 'package:mungshinsa/board_detail.dart';
-import 'package:mungshinsa/providers/board_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 
 import 'widgets/bottom_navigation_bar.dart';
 import 'splash_screen.dart';
 import 'log_in.dart';
 import 'boards.dart';
+import 'package:mungshinsa/board_detail.dart';
 import 'store.dart';
 import 'my_page/my_page.dart';
 import 'my_page/create_prefer.dart';
 import 'write_new_board.dart';
+
+import 'package:mungshinsa/providers/board_provider.dart';
+import 'providers/comments_provider.dart';
 
 void main() {
   runApp(
@@ -24,21 +26,27 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'PuddyBuddy',
-      theme: ThemeData(
-          primaryColor: Colors.blue,
-          primarySwatch: Colors.indigo,
-          fontFamily: 'Pretendard'),
-      home: MyHomePage(),
-      routes: {
-        '/splash': (context) => SplashScreen(),
-        '/login' : (context) => LogIn(),
-        '/index' : (context) => MyHomePage(),
-        '/board_detail': (context) => BoardDetail(),
-        '/createPrefer': (context) => CreatePrefer()
-      },
-      //initialRoute: '/login',
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => BoardProvider()),
+        ChangeNotifierProvider(create: (_) => CommentProvider()),
+      ],
+      child: MaterialApp(
+        title: 'PuddyBuddy',
+        theme: ThemeData(
+            primaryColor: Colors.blue,
+            primarySwatch: Colors.indigo,
+            fontFamily: 'Pretendard'),
+        home: MyHomePage(),
+        routes: {
+          '/splash': (context) => SplashScreen(),
+          '/login' : (context) => LogIn(),
+          '/index' : (context) => MyHomePage(),
+          '/board_detail': (context) => BoardDetail(),
+          '/createPrefer': (context) => CreatePrefer()
+        },
+        //initialRoute: '/login',
+      ),
     );
   }
 }
@@ -54,10 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
 
   final List<Widget> _widgetOptions = <Widget>[
-    ChangeNotifierProvider<BoardProvider>(
-      create: (context) => BoardProvider(),
-      child: const FeedView(),
-    ),
+    FeedView(),
     Shop(),
     MyPage()
   ];
