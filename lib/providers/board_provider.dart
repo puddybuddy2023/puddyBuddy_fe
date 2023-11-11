@@ -34,17 +34,16 @@ class BoardProvider with ChangeNotifier {
     Dio dio = new Dio();
     response = await dio.get("$_API_PREFIX");
     List<dynamic> result = (response.data)['result'];
-    print((response.data)['result']);
-    //return responseMap;
+    //print((response.data)['result']);
 
     _boardList.clear(); // 이전에 저장된 목록을 비운다.
     _boardList.addAll(result);
-    print(_boardList);
-    //notifyListeners(); // 데이터가 업데이트되었음을 리스너에게 알린다.
+    //print(_boardList);
+    notifyListeners(); // 데이터가 업데이트되었음을 리스너에게 알린다.
   }
 
-  /*게시물 업로드*/
-  Future<void> createBoard(XFile? showImage) async {
+  /* 게시물 업로드 */
+  Future<void> createBoard(XFile? showImage, int userId, int preferId, int clothesId, String content) async {
     /* 사진부터 업로드해서 url을 받는다 */
     dynamic sendImage = showImage!.path;
     var imageFormData = FormData.fromMap({'file': await MultipartFile.fromFile(sendImage)});
@@ -63,19 +62,19 @@ class BoardProvider with ChangeNotifier {
         data: imageFormData,
       );
       print('성공적으로 업로드했습니다');
-      print(response.data['uploadImg']);
+      //print(response.data['uploadImg']);
 
-      /* 게시물 업로드 */
+      /* 이제 게시물 업로드 */
       Response boardResponse;
       Dio boardDio = new Dio();
       boardResponse = await boardDio.post('$_API_PREFIX/create', data: {
-        "userId": 2,
-        "preferId": 2,
-        "clothesId": 1,
-        "content": "성공성공성공",
-        "photoUrl": 'https://puddybuddybucket.s3.amazonaws.com/images/bcf95699-30a0-4f90-949b-a36fe431a3b2_1000000035.jpg'
+        "userId": userId,
+        "preferId": preferId,
+        "clothesId": clothesId,
+        "content": content,
+        "photoUrl": response.data['uploadImg']
       });
-      print(boardResponse.data.toString());
+      //print(boardResponse.data.toString());
 
 
     } catch (e) {
@@ -86,56 +85,14 @@ class BoardProvider with ChangeNotifier {
         print('Unexpected Error: $e');
       }
     }
-
-
-    // print("사진을 서버에 업로드 합니다.");
-    // var dio = new Dio();
-    // try {
-    //   //dio.options.contentType = 'multipart/form-data';
-    //   //dio.options.maxRedirects.isFinite;
-    //
-    //   var boardData = json.encode({
-    //     "userId": 5,
-    //     "preferId": 3,
-    //     "clothesId": 6,
-    //     "content": "와라락",
-    //     'photoUrl': 'https://puddybuddybucket.s3.amazonaws.com/images/906289e0-8002-4005-9233-9d1ca1a28884_1000000034.jpg'
-    //   });
-    //
-    //   //var jsonData = dio.options.contentType.format(boardData);
-    //   //dio.options.headers = {'token': token};
-    //   var response = await dio.patch(
-    //     "http://ec2-13-124-164-167.ap-northeast-2.compute.amazonaws.com/boards/create",
-    //     data: jsonEncode({
-    //       "userId": 5,
-    //       "preferId": 3,
-    //       "clothesId": 6,
-    //       "content": "와라락",
-    //       'photoUrl': 'https://puddybuddybucket.s3.amazonaws.com/images/906289e0-8002-4005-9233-9d1ca1a28884_1000000034.jpg'
-    //     }),
-    //     options: Options(
-    //       headers: {
-    //         'Content-Type': 'application/json', // 컨텐츠 타입을 application/json으로 설정
-    //       },
-    //     ),
-    //   );
-    //   print('성공적으로 업로드했습니다');
-    //   return response.data;
-    // } catch (e) {
-    //   print(e);
-    // }
-
-
-
   }
 
   Future<Map<dynamic, dynamic>> getBoardDetail(int boardId) async{
-    print('hello');
     Response response;
     Dio dio = new Dio();
     response = await dio.get("$_API_PREFIX/$boardId");
     Map<dynamic, dynamic> responseMap = (response.data)['result'];
-    print(responseMap['content']);
+    //print(responseMap['content']);
     return responseMap;
   }
 

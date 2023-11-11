@@ -20,7 +20,6 @@ class _BoardDetailState extends State<BoardDetail> {
     final brd = ModalRoute.of(context)!.settings.arguments as dynamic;
     List<Comment> commentList = commentserver.getCommentList();
     breedTagProvider.fetchBreedTagById(1);
-    boardProvider.getBoardDetail(10);
     //print(brd.content);
 
     return Scaffold(
@@ -52,16 +51,22 @@ class _BoardDetailState extends State<BoardDetail> {
                 ],
               ),
               Image.network(brd['photoUrl']),
-              Text(
-                '${brd['create_date']}',
-                style: TextStyle(fontSize: 16),
+              Container(
+                padding: EdgeInsets.all(3),
+                child: Text(
+                  '${brd['create_date']}',
+                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                ),
               ),
-              Text(
-                '${brd['content']}',
-                style: TextStyle(fontSize: 16),
+              Container(
+                padding: EdgeInsets.all(3),
+                child: Text(
+                  '${brd['content']}',
+                  style: TextStyle(fontSize: 16),
+                ),
               ),
               SizedBox(
-                height: 10,
+                height: 5,
               )
             ]),
           ),

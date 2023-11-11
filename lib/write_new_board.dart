@@ -22,6 +22,7 @@ class WriteNewBoard extends StatefulWidget {
 class _WriteNewBoardState extends State<WriteNewBoard> {
   @override
   Widget build(BuildContext context) {
+    TextEditingController _reviewController = TextEditingController();
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xFFA8ABFF),
@@ -121,6 +122,7 @@ class _WriteNewBoardState extends State<WriteNewBoard> {
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.black, width: 1)),
                 child: TextFormField(
+                  controller: _reviewController, // 컨트롤러 할당
                   decoration: const InputDecoration(
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.only(left: 10),
@@ -182,7 +184,7 @@ class _WriteNewBoardState extends State<WriteNewBoard> {
                   height: 40,
                   child: ElevatedButton(
                     onPressed: () {
-                      boardProvider.createBoard(showImage);
+                      boardProvider.createBoard(showImage, 1, 1, 1, _reviewController.text);
                       //uploadBoard();
                     },
                     child: Text('업로드'),
