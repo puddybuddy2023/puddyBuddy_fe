@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 
 const _API_PREFIX = 'http://ec2-13-124-164-167.ap-northeast-2.compute.amazonaws.com/comments';
 
-class CommentServer with ChangeNotifier{
+class CommentProvider with ChangeNotifier{
 
   /*댓글 전체 가져오기*/
   final List<Comment> _commentList = List.empty(growable: true);
@@ -28,7 +28,16 @@ class CommentServer with ChangeNotifier{
     notifyListeners(); // 데이터가 업데이트되었음을 리스너에게 알린다.
   }
 
-  Future<void> createComments() async{
+  Future<void> createComments(int boardId, int userId, String content) async{
+    Response response;
+    Dio dio = new Dio();
+    response = await dio.post("$_API_PREFIX/create", data: {
+      "boardId": boardId,
+      "userId": userId,
+      "content": content,
+    });
+    //Map<dynamic, dynamic> responseMap = (response.data)['result'][0];
+    print((response.data));
 
   }
 
@@ -38,4 +47,4 @@ class CommentServer with ChangeNotifier{
 
 }
 
-CommentServer commentserver = CommentServer();
+CommentProvider commentProvider = CommentProvider();

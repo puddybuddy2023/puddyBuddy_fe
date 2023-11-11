@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import '../models/board_model.dart';
-import '../models/prefer_model.dart';
 import '../models/comments_model.dart';
 import 'package:mungshinsa/providers/board_provider.dart';
 import 'package:mungshinsa/providers/prefer_provider.dart';
@@ -15,17 +13,21 @@ class BoardDetail extends StatefulWidget {
 }
 
 class _BoardDetailState extends State<BoardDetail> {
+  TextEditingController _commnetController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final brd = ModalRoute.of(context)!.settings.arguments as dynamic;
-    List<Comment> commentList = commentserver.getCommentList();
+    List<Comment> commentList = commentProvider.getCommentList();
     breedTagProvider.fetchBreedTagById(1);
     //print(brd.content);
 
     return Scaffold(
+      backgroundColor: Color(0xFFE8EDF3),
       appBar: AppBar(
-        backgroundColor: Color(0xFFA8ABFF),
-      ),
+          elevation: 0,
+          backgroundColor: Colors.white,
+          iconTheme: IconThemeData(color: Colors.black)),
       body: ListView(
         scrollDirection: Axis.vertical,
         children: [
@@ -59,7 +61,7 @@ class _BoardDetailState extends State<BoardDetail> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.all(3),
+                padding: EdgeInsets.only(left: 3),
                 child: Text(
                   '${brd['content']}',
                   style: TextStyle(fontSize: 16),
@@ -73,7 +75,6 @@ class _BoardDetailState extends State<BoardDetail> {
           Card(
             color: Colors.black,
             child: Container(
-              height: 50,
               child: FutureBuilder(
                 future: preferProvider.fetchPreferById(brd['userId']),
                 builder: (context, snapshot) {
@@ -96,7 +97,7 @@ class _BoardDetailState extends State<BoardDetail> {
                                 ' / ' +
                                 responseMap['back'].toString() +
                                 ' (가슴둘레 / 등길이)',
-                            style: TextStyle(color: Colors.white, fontSize: 16),
+                            style: TextStyle(color: Colors.white, fontSize: 15),
                           ),
                         ],
                       ),
@@ -126,6 +127,33 @@ class _BoardDetailState extends State<BoardDetail> {
             color: Colors.white,
             child: Column(
               children: [
+                Container(
+                  margin: EdgeInsets.all(10),
+                  height: 50,
+                  child: TextFormField(
+                    controller: _commnetController, // 컨트롤러 할당
+                    decoration: InputDecoration(
+                        enabledBorder: const OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            color: Colors.grey,
+                          ),
+                        ),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            commentProvider.createComments(brd['boardId'], brd['userId'], _commnetController.text);
+                          },
+                          icon: Icon(Icons.send, color: Color(0xFFA8ABFF),),
+                        ),
+                        contentPadding: EdgeInsets.only(left: 10),
+                        hintText: '댓글을 남겨주세요'),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return '댓글을 입력해주세요';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
                 ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
@@ -145,7 +173,9 @@ class _BoardDetailState extends State<BoardDetail> {
                               children: [
                                 Text(
                                   '사용자${commentList[i].userId}',
-                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600),
                                 ),
                                 Text(
                                   commentList[i].content,
