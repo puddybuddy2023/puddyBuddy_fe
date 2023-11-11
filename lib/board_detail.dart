@@ -18,7 +18,7 @@ class _BoardDetailState extends State<BoardDetail> {
   @override
   Widget build(BuildContext context) {
     final brd = ModalRoute.of(context)!.settings.arguments as dynamic;
-    List<Comment> commentList = commentProvider.getCommentList();
+    List<dynamic> commentList = commentProvider.getCommentList(brd['boardId']);
     breedTagProvider.fetchBreedTagById(1);
     //print(brd.content);
 
@@ -140,7 +140,9 @@ class _BoardDetailState extends State<BoardDetail> {
                         ),
                         suffixIcon: IconButton(
                           onPressed: () {
-                            commentProvider.createComments(brd['boardId'], brd['userId'], _commnetController.text);
+                            setState(() {
+                              commentProvider.createComments(brd['boardId'], brd['userId'], _commnetController.text);
+                            });
                           },
                           icon: Icon(Icons.send, color: Color(0xFFA8ABFF),),
                         ),

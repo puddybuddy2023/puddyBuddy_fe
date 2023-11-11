@@ -184,7 +184,7 @@ class _WriteNewBoardState extends State<WriteNewBoard> {
                   height: 40,
                   child: ElevatedButton(
                     onPressed: () {
-                      boardProvider.createBoard(showImage, 1, 1, 1, _reviewController.text);
+                      boardProvider.createBoard(showImage, 2, 2, 2, _reviewController.text);
                       //uploadBoard();
                     },
                     child: Text('업로드'),
