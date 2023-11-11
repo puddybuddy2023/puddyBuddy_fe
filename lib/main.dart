@@ -9,7 +9,8 @@ import 'splash_screen.dart';
 import 'log_in.dart';
 import 'boards.dart';
 import 'store.dart';
-import 'my_page.dart';
+import 'my_page/my_page.dart';
+import 'my_page/create_prefer.dart';
 import 'write_new_board.dart';
 
 void main() {
@@ -34,7 +35,8 @@ class MyApp extends StatelessWidget {
         '/splash': (context) => SplashScreen(),
         '/login' : (context) => LogIn(),
         '/index' : (context) => MyHomePage(),
-        '/board_detail': (context) => BoardDetail()
+        '/board_detail': (context) => BoardDetail(),
+        '/createPrefer': (context) => CreatePrefer()
       },
       //initialRoute: '/login',
     );
@@ -74,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: _widgetOptions[_currentIndex],
       appBar: AppBar(
         backgroundColor: Colors.white,
-        elevation: 2,
+        elevation: 0,
         title: Center(
           child: const Text(
             'PuddyBuddy',

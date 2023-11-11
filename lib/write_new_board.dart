@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
 import "../providers/board_provider.dart";
-import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 final ImagePicker picker = ImagePicker();
@@ -26,6 +25,7 @@ class _WriteNewBoardState extends State<WriteNewBoard> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xFFA8ABFF),
+          elevation: 0,
         ),
         body: SingleChildScrollView(
           child: Column(

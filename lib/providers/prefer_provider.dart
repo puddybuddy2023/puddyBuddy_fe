@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import '../models/prefer_model.dart';
 import 'package:dio/dio.dart';
+import '../models/prefer_model.dart';
+
 
 const _API_PREFIX = 'http://ec2-13-124-164-167.ap-northeast-2.compute.amazonaws.com/prefers';
 
@@ -11,9 +11,9 @@ class PreferProvider with ChangeNotifier {
     Response response;
     Dio dio = new Dio();
     response = await dio.get("$_API_PREFIX/$uid");
-    Map<dynamic, dynamic> responseMap = (response.data)['result'][0];
+    Map<dynamic, dynamic> result = (response.data)['result'][0];
     //print(_responseMap['name']);
-    return responseMap;
+    return result;
   }
 
   Future<void> createPrefer(int uid) async{

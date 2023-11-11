@@ -106,7 +106,6 @@ flutter:
     - family: Pretendard
       fonts:
         - asset: assets/fonts/Inter-Black.otf
-          weight: 900
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
