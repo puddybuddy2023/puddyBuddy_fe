@@ -14,7 +14,13 @@ class BoardDetail extends StatefulWidget {
 }
 
 class _BoardDetailState extends State<BoardDetail> {
-  TextEditingController _commnetController = TextEditingController();
+  final TextEditingController _commentController = TextEditingController();
+
+  void dispose() {
+    // 페이지가 dispose 될 때 컨트롤러를 정리
+    _commentController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +33,12 @@ class _BoardDetailState extends State<BoardDetail> {
       appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.white,
+          shape: Border(
+            bottom: BorderSide(
+              color: Colors.grey,
+              width: 0.5,
+            ),
+          ),
           iconTheme: IconThemeData(color: Colors.black)),
       body: ListView(
         scrollDirection: Axis.vertical,
@@ -123,6 +135,7 @@ class _BoardDetailState extends State<BoardDetail> {
               ),
             ),
           ),
+          /* 댓글 영역 */
           Card(
             color: Colors.white,
             child: Column(
@@ -131,7 +144,7 @@ class _BoardDetailState extends State<BoardDetail> {
                   margin: EdgeInsets.all(10),
                   height: 50,
                   child: TextFormField(
-                    controller: _commnetController, // 컨트롤러 할당
+                    controller: _commentController, // 컨트롤러 할당
                     decoration: InputDecoration(
                         enabledBorder: const OutlineInputBorder(
                           borderSide: const BorderSide(
@@ -140,10 +153,9 @@ class _BoardDetailState extends State<BoardDetail> {
                         ),
                         suffixIcon: IconButton(
                           onPressed: () {
-                            setState(() {
-                              commentProvider.createComments(brd['boardId'],
-                                  brd['userId'], _commnetController.text);
-                            });
+                              commentProvider.createComments(brd['boardId'], brd['userId'], _commentController.text);
+                              FocusManager.instance.primaryFocus?.unfocus();
+                              _commentController.clear();
                           },
                           icon: Icon(
                             Icons.send,

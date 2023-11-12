@@ -7,13 +7,14 @@ import 'splash_screen.dart';
 import 'log_in.dart';
 import 'boards.dart';
 import 'package:mungshinsa/board_detail.dart';
-import 'store.dart';
+import 'clothes.dart';
 import 'my_page/my_page.dart';
 import 'my_page/create_prefer.dart';
 import 'write_new_board.dart';
 
 import 'package:mungshinsa/providers/board_provider.dart';
 import 'providers/comments_provider.dart';
+import 'providers/clothes_provider.dart';
 
 void main() {
   runApp(
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => BoardProvider()),
         ChangeNotifierProvider(create: (_) => CommentProvider()),
+        ChangeNotifierProvider(create: (_) => ClothesProvider()),
       ],
       child: MaterialApp(
         title: 'PuddyBuddy',
@@ -45,7 +47,7 @@ class MyApp extends StatelessWidget {
           '/board_detail': (context) => BoardDetail(),
           '/createPrefer': (context) => CreatePrefer()
         },
-        //initialRoute: '/login',
+        initialRoute: '/login',
       ),
     );
   }
@@ -63,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final List<Widget> _widgetOptions = <Widget>[
     FeedView(),
-    Shop(),
+    Store(),
     MyPage()
   ];
 
@@ -79,20 +81,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       extendBody: true, // extendBody를 true로 해야 하단바 뒤로도 내용이 보임
       body: _widgetOptions[_currentIndex],
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: Center(
-          child: const Text(
-            'PuddyBuddy',
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: 23,
-                fontWeight: FontWeight.w900,
-                fontStyle: FontStyle.italic),
-          ),
-        ),
-      ),
       bottomNavigationBar: Row(
         children: [
           Flexible(

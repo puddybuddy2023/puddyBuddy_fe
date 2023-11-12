@@ -47,7 +47,7 @@ class BoardProvider with ChangeNotifier {
 
     print("사진을 서버에 업로드 합니다.");
     var dio = Dio();
-    dio.options.contentType = Headers.formUrlEncodedContentType;
+    //dio.options.contentType = Headers.formUrlEncodedContentType;
 
     try {
       dio.options.contentType = 'multipart/form-data';
@@ -59,7 +59,7 @@ class BoardProvider with ChangeNotifier {
         data: imageFormData,
       );
       print('성공적으로 업로드했습니다');
-      //print(response.data['uploadImg']);
+      print(response.data['uploadImg']);
 
       /* 이제 게시물 업로드 */
       Response boardResponse;
@@ -78,6 +78,7 @@ class BoardProvider with ChangeNotifier {
       if (e is DioError) {
         print('DioError: ${e.response?.statusCode}');
         print('Response Data: ${e.response?.data}');
+        print('Error: ${e.error}'); // 추가된 부분
       } else {
         print('Unexpected Error: $e');
       }
@@ -94,11 +95,13 @@ class BoardProvider with ChangeNotifier {
   }
 
 
-  Future<void> deleteBoard() async {
+  Future<void> deleteBoard(int boardId) async {
     Response response;
     Dio dio = new Dio();
+    response = await dio.get("$_API_PREFIX/delete/$boardId");
+    //Map<dynamic, dynamic> responseMap = (response.data)['result'];
+    print(response);
   }
-
 }
 
 BoardProvider boardProvider = BoardProvider();

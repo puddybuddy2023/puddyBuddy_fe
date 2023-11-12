@@ -13,6 +13,26 @@ class _FeedViewState extends State<FeedView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        shape: Border(
+          bottom: BorderSide(
+            color: Colors.grey,
+            width: 0.5,
+          ),
+        ),
+        title: Center(
+          child: const Text(
+            'PuddyBuddy',
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 23,
+                fontWeight: FontWeight.w900,
+                fontStyle: FontStyle.italic),
+          ),
+        ),
+      ),
       body: Consumer<BoardProvider>(
         builder: (context, boardProvider, child) {
           final boardList = boardProvider.getBoardList();

@@ -17,6 +17,35 @@ class _MyPageState extends State<MyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        elevation: 0,
+        shape: Border(
+          bottom: BorderSide(
+            color: Colors.grey,
+            width: 0.5,
+          ),
+        ),
+        title: const Text(
+          'PuddyBuddy',
+          style: TextStyle(
+              color: Colors.black,
+              fontSize: 23,
+              fontWeight: FontWeight.w900,
+              fontStyle: FontStyle.italic),
+        ),
+        actions: [
+          // Add your icon button here
+          IconButton(
+            icon: Icon(Icons.settings, color: Colors.black87,),
+            onPressed: () {
+              // Add the action you want when the icon is pressed
+              print('Settings icon pressed!');
+            },
+          ),
+        ],
+      ),
       body: ListView(
         children: [
           Row(

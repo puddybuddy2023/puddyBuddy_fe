@@ -12,7 +12,14 @@ class _LogInState extends State<LogIn> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Color(0xFFA8ABFF),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xFF858AFF), Color(0xFF9492FF), Color(0xFFBFA8FF)],
+          ),
+        ),
+        //color: Color(0xFFA8ABFF),
         child: Column(
           children: [
             SizedBox(
@@ -23,7 +30,7 @@ class _LogInState extends State<LogIn> {
               style: TextStyle(
                   fontSize: 40,
                   fontWeight: FontWeight.w900,
-                  fontFamily: 'Inter',
+                  //fontFamily: 'Inter',
                   fontStyle: FontStyle.italic),
             ),
             SizedBox(
@@ -48,7 +55,7 @@ class _LogInState extends State<LogIn> {
                       borderRadius: BorderRadius.circular(20))),
             ),
             SizedBox(
-              height: 50,
+              height: 30,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -58,7 +65,7 @@ class _LogInState extends State<LogIn> {
                     'assets/images/splash_img.png',
                     // adjust the width and alignment as needed
                   ),
-                  height: 150,
+                  height: 170,
                 ),
               ],
             ),

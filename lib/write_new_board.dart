@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import 'package:dio/dio.dart';
 import "../providers/board_provider.dart";
-import 'dart:convert';
+import 'providers/prefer_provider.dart';
 
 final ImagePicker picker = ImagePicker();
 // List<XFile?> multiImage = []; // 갤러리에서 여러 장의 사진을 선택해서 저장할 변수
@@ -24,7 +23,8 @@ class _WriteNewBoardState extends State<WriteNewBoard> {
     TextEditingController _reviewController = TextEditingController();
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xFFA8ABFF),
+          backgroundColor: Colors.white,
+          iconTheme: IconThemeData(color: Colors.black),
           elevation: 0,
         ),
         body: SingleChildScrollView(
@@ -135,56 +135,65 @@ class _WriteNewBoardState extends State<WriteNewBoard> {
                   },
                 ),
               ),
-              Container(
-                margin: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black, width: 0.5)),
-                child: DropdownButtonFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: '누구의 사진인가요?',
-                  ),
-                  //value: studentResult.additionalPoint,
-                  items: List.generate(5, (i) {
-                    if (i == 0) {
-                      return DropdownMenuItem(
-                          value: i, child: const Text('강아지를 선택해주세요'));
+              FutureBuilder(
+                  future: preferProvider.fetchPreferById(1),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      Map<dynamic, dynamic> prefer = snapshot.data!;
+                      return Container(
+                        margin: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            border:
+                                Border.all(color: Colors.black, width: 0.5)),
+                        child: DropdownButtonFormField(
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: '누구의 사진인가요?',
+                          ),
+                          //value: studentResult.additionalPoint,
+                          items: List.generate(2, (i) {
+                            if (i == 0) {
+                              return DropdownMenuItem(
+                                  value: i, child: const Text('강아지를 선택해주세요'));
+                            }
+                            return DropdownMenuItem(
+                                value: i, child: Text(prefer['name']));
+                          }),
+                          onChanged: (value) {
+                            setState(() {
+                              //studentResult.additionalPoint = value!;
+                            });
+                          },
+                          validator: (value) {
+                            if (value == 0) {
+                              return '강아지를 선택해주세요';
+                            }
+                            return null;
+                          },
+                        ),
+                      );
+                    } else {
+                      return LinearProgressIndicator();
                     }
-                    return DropdownMenuItem(
-                        value: i, child: Text('강아지${i - 1}'));
                   }),
-                  onChanged: (value) {
-                    setState(() {
-                      //studentResult.additionalPoint = value!;
-                    });
-                  },
-                  validator: (value) {
-                    if (value == 0) {
-                      return '강아지를 선택해주세요';
-                    }
-                    return null;
-                  },
-                ),
-              ),
               Container(
                   margin: EdgeInsets.all(10),
                   width: double.infinity,
-                  height: 50,
+                  height:70,
                   child: ElevatedButton(
-                    onPressed: () {
-                    },
+                    onPressed: () {},
                     child: Text('착용 제품 선택'),
-                    style:
-                    ElevatedButton.styleFrom(backgroundColor: Color(0xFFA8ABFF)),
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFFA8ABFF)),
                   )),
-
               Container(
                   margin: EdgeInsets.all(10),
                   width: double.infinity,
                   height: 40,
                   child: ElevatedButton(
                     onPressed: () {
-                      boardProvider.createBoard(showImage, 2, 2, 2, _reviewController.text);
+                      boardProvider.createBoard(
+                          showImage, 2, 2, 2, _reviewController.text);
                       //uploadBoard();
                     },
                     child: Text('업로드'),
@@ -193,6 +202,8 @@ class _WriteNewBoardState extends State<WriteNewBoard> {
                   )),
             ],
           ),
-        ));
+        )
+
+    );
   }
 }
