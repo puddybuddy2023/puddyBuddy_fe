@@ -36,9 +36,6 @@ class _CreatePreferState extends State<CreatePrefer> {
                 child: Column(
                   children: [
                     imageProfile(),
-                    SizedBox(
-                      height: 20,
-                    ),
                     SizedBox(height: 60,),
                     Container(
                       child: Column(

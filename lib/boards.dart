@@ -37,18 +37,30 @@ class _FeedViewState extends State<FeedView> {
         builder: (context, boardProvider, child) {
           final boardList = boardProvider.getBoardList();
           return GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 1 / 1.2,
+            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: MediaQuery.of(context).size.width / 2, // 각 그리드 항목의 최대 가로 크기
+              mainAxisSpacing: 0.5, // 세로 간격
+              crossAxisSpacing: 0.5, // 가로 간격
+              childAspectRatio: 1 / 1.1,
             ),
             itemBuilder: (c, i) {
-              return InkWell( // container에서 gesture를 쓰기 위해
-                onTap: (){Navigator.pushNamed(
-                    context, '/board_detail', arguments: boardList[i]);},
+              return InkWell(
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/board_detail',
+                    arguments: boardList[i],
+                  );
+                },
                 child: Container(
                   padding: EdgeInsets.all(1),
                   margin: EdgeInsets.all(1),
-                  child: Image.network(boardList[i]['photoUrl']),
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: Image.network(boardList[i]['photoUrl']).image,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
               );
             },

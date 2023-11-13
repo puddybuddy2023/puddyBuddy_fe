@@ -23,39 +23,59 @@ class _LogInState extends State<LogIn> {
         child: Column(
           children: [
             SizedBox(
-              height: 210,
+              height: 220,
             ),
-            Text(
-              'Puddy\nBuddy',
-              style: TextStyle(
-                  fontSize: 40,
-                  fontWeight: FontWeight.w900,
-                  //fontFamily: 'Inter',
-                  fontStyle: FontStyle.italic),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image(
+                  image: AssetImage(
+                    'assets/images/title.png',
+                    // adjust the width and alignment as needed
+                  ),
+                  height: 100,
+                ),
+              ],
             ),
             SizedBox(
               height: 30,
             ),
-            ElevatedButton(
-              onPressed: () {},
-              child: Text('카카오로 로그인', style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black),),
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(200, 40),
-                backgroundColor: Color(0xFFF3C15B),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20))),
-            ),
-            ElevatedButton(
-              onPressed: () {},
-              child: Text('로그아웃', style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black),),
-              style: ElevatedButton.styleFrom(
+            Container(
+              width: 220,
+              child: ElevatedButton(
+                onPressed: () {},
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image(
+                      image: AssetImage(
+                        'assets/images/kakao.png',
+                        // adjust the width and alignment as needed
+                      ),
+                      height: 20,
+                    ),
+                    SizedBox(width: 5,),
+                    Text('카카오로 로그인', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black),),
+                  ],
+                ),
+                style: ElevatedButton.styleFrom(
                   minimumSize: Size(200, 40),
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20))),
+                  backgroundColor: Color(0xFFF3C15B),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20))),
+              ),
             ),
+            // ElevatedButton(
+            //   onPressed: () {},
+            //   child: Text('로그아웃', style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black),),
+            //   style: ElevatedButton.styleFrom(
+            //       minimumSize: Size(200, 40),
+            //       backgroundColor: Colors.white,
+            //       shape: RoundedRectangleBorder(
+            //           borderRadius: BorderRadius.circular(20))),
+            // ),
             SizedBox(
-              height: 30,
+              height: 60,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -65,7 +85,7 @@ class _LogInState extends State<LogIn> {
                     'assets/images/splash_img.png',
                     // adjust the width and alignment as needed
                   ),
-                  height: 170,
+                  height: 200,
                 ),
               ],
             ),

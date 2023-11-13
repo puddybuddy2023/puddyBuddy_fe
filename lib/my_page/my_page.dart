@@ -125,7 +125,7 @@ class _MyPageState extends State<MyPage> {
                       }),
                 );
               } else {
-                return const CircularProgressIndicator();
+                return const LinearProgressIndicator();
               }
             },
           ),

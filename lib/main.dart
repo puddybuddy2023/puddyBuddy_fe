@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
           '/board_detail': (context) => BoardDetail(),
           '/createPrefer': (context) => CreatePrefer()
         },
-        initialRoute: '/login',
+        //initialRoute: '/login',
       ),
     );
   }
@@ -86,11 +86,14 @@ class _MyHomePageState extends State<MyHomePage> {
           Flexible(
             child: DotNavigationBar(
               marginR: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-              paddingR: EdgeInsets.only(bottom: 5, top: 10),
+              paddingR: EdgeInsets.only(bottom: 5, top: 5),
               itemPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
               boxShadow: [
                 // 하단바 그림자
-                BoxShadow(color: Colors.black12, spreadRadius: 1, blurRadius: 5)
+                BoxShadow(color: Colors.black26.withOpacity(0.5),
+                  spreadRadius: 0,
+                  blurRadius: 2,
+                  offset: Offset(0, 2),)
               ],
               dotIndicatorColor: Colors.transparent,
               // 선택된 아이템을 가리키는 점이 보이지 않길 원하면 투명 상태로 설정해야 함
@@ -113,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 DotNavigationBarItem(
                   icon: Icon(
-                    Icons.shopping_bag,
+                    Icons.shopping_bag_rounded,
                     size: 35,
                   ),
                 ),
