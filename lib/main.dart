@@ -7,7 +7,8 @@ import 'splash_screen.dart';
 import 'log_in.dart';
 import 'boards.dart';
 import 'package:mungshinsa/board_detail.dart';
-import 'clothes.dart';
+import 'store_page/clothes.dart';
+import 'store_page/clothes_detail.dart';
 import 'my_page/my_page.dart';
 import 'my_page/create_prefer.dart';
 import 'write_new_board.dart';
@@ -39,28 +40,29 @@ class MyApp extends StatelessWidget {
             primaryColor: Colors.blue,
             primarySwatch: Colors.indigo,
             fontFamily: 'Pretendard'),
-        home: MyHomePage(),
+        home: IndexScreen(),
         routes: {
           '/splash': (context) => SplashScreen(),
           '/login' : (context) => LogIn(),
-          '/index' : (context) => MyHomePage(),
+          '/index' : (context) => IndexScreen(),
           '/board_detail': (context) => BoardDetail(),
+          '/clothesDetail': (context) => ClothesDetail(),
           '/createPrefer': (context) => CreatePrefer()
         },
-        //initialRoute: '/login',
+        initialRoute: '/splash',
       ),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({super.key});
+class IndexScreen extends StatefulWidget {
+  IndexScreen({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<IndexScreen> createState() => _IndexScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _IndexScreenState extends State<IndexScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _widgetOptions = <Widget>[
@@ -110,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 DotNavigationBarItem(
                   // 하단바에 들어갈 아이템들
                   icon: Icon(
-                    Icons.home,
+                    Icons.window,
                     size: 35,
                   ),
                 ),

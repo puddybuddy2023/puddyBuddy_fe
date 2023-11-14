@@ -17,6 +17,7 @@ class _MyPageState extends State<MyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.white,
@@ -24,7 +25,7 @@ class _MyPageState extends State<MyPage> {
         shape: Border(
           bottom: BorderSide(
             color: Colors.grey,
-            width: 0.5,
+            width: 0.2,
           ),
         ),
         title: const Text(
@@ -92,9 +93,9 @@ class _MyPageState extends State<MyPage> {
                                 boxShadow: [
                                   BoxShadow(
                                       color: Colors.black.withOpacity(0.1),
-                                      blurRadius: 6,
+                                      blurRadius: 3,
                                       spreadRadius: 3,
-                                      offset: const Offset(0, 0))
+                                      offset: const Offset(0, 1))
                                 ]),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -140,7 +141,7 @@ class _MyPageState extends State<MyPage> {
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: i == currentPage
-                          ? Colors.black
+                          ? Color(0xFFA6A6A6FF)
                           : Colors.black.withOpacity(.2)),
                 )
             ],
@@ -154,7 +155,7 @@ class _MyPageState extends State<MyPage> {
               physics: const NeverScrollableScrollPhysics(),
               itemCount: 9,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3, childAspectRatio: 1 / 1.2),
+                  crossAxisCount: 3, childAspectRatio: 1 / 1.1),
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {

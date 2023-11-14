@@ -17,21 +17,21 @@ class _SplashScreenState extends State<SplashScreen> {
     return isLogin;
   }
 
-  // void moveScreen() async {
-  //   await checkLogin().then((isLogin){
-  //     if(isLogin){
-  //       Navigator.of(context).pushReplacementNamed('/index');
-  //     } else {
-  //       Navigator.of(context).pushReplacementNamed('/login');
-  //     }
-  //   });
-  // }
+  void moveScreen() async {
+    await checkLogin().then((isLogin){
+      if(isLogin){
+        Navigator.of(context).pushReplacementNamed('/index');
+      } else {
+        Navigator.of(context).pushReplacementNamed('/login');
+      }
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     Timer(Duration(milliseconds: 2000), (){
-      Navigator.of(context).pushReplacementNamed('/index');
+      moveScreen();
     });
   }
 
@@ -39,12 +39,38 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Color(0xFFA8ABFF),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xFF858AFF), Color(0xFF9492FF), Color(0xFFBFA8FF)],
+          ),
+        ),
+        //color: Color(0xFFA8ABFF),
         child: Column(
           children: [
-            SizedBox(height: 250,),
-            Text('Puddy\nBuddy', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),),
-            SizedBox(height: 100,),
+            SizedBox(
+              height: 220,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image(
+                  image: AssetImage(
+                    'assets/images/title.png',
+                    // adjust the width and alignment as needed
+                  ),
+                  height: 100,
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 30,
+            ),
+
+            SizedBox(
+              height: 60,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -53,7 +79,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     'assets/images/splash_img.png',
                     // adjust the width and alignment as needed
                   ),
-                  height: 150,
+                  height: 200,
                 ),
               ],
             ),

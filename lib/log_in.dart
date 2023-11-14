@@ -43,7 +43,7 @@ class _LogInState extends State<LogIn> {
             Container(
               width: 220,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {Navigator.of(context).pushReplacementNamed('/index');},
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
