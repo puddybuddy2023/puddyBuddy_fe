@@ -7,12 +7,11 @@ const _API_PREFIX =
     'http://ec2-13-124-164-167.ap-northeast-2.compute.amazonaws.com/boards';
 
 class BoardProvider with ChangeNotifier {
-
-  /*보드 전체 가져오기*/
   final List<dynamic> _boardList = List.empty(growable: true);
 
+  /* 보드 전체 가져오기 */
   List<dynamic> getBoardList() {
-    _fetchBoards(); // 게시물 목록을 가져온다.
+    _fetchBoards(); // 게시물을 가져온다.
     return _boardList;
   }
 
@@ -26,7 +25,6 @@ class BoardProvider with ChangeNotifier {
     //             Board.fromJson(json)) // Map에서 각 JSON 객체를 Board 모델로 mapping
     //         .toList(); // 리스트로 변환
     // print(jsonDecode(response.body)["result"]);
-
     Response response;
     Dio dio = new Dio();
     response = await dio.get("$_API_PREFIX");
@@ -35,15 +33,65 @@ class BoardProvider with ChangeNotifier {
 
     _boardList.clear(); // 이전에 저장된 목록을 비운다.
     _boardList.addAll(result);
-    //print(_boardList);
     notifyListeners(); // 데이터가 업데이트되었음을 리스너에게 알린다.
   }
 
+  /* 사용자 아이디로 보드 가져오기*/
+  List<dynamic> getBoardListByUserId(int userId) {
+    _fetchBoardsByUserId(userId); // 게시물을 가져온다.
+    return _boardList;
+  }
+
+  void _fetchBoardsByUserId(int userId) async {
+    Response response;
+    Dio dio = new Dio();
+    response = await dio.get("$_API_PREFIX", queryParameters: {'user_id': 1});
+    List<dynamic> result = (response.data)['result'];
+    //print((response.data)['result']);
+
+    _boardList.clear(); // 이전에 저장된 목록을 비운다.
+    _boardList.addAll(result);
+    //print(_boardList);
+    notifyListeners();
+  }
+
+  /* 옷 아이디로 보드 가져오기*/
+  List<dynamic> getBoardListByClothesId(int clothesId) {
+    _fetchBoardsByClothesId(clothesId); // 게시물을 가져온다.
+    return _boardList;
+  }
+
+  void _fetchBoardsByClothesId(int clothesId) async {
+    Response response;
+    Dio dio = new Dio();
+    response = await dio.get("$_API_PREFIX", queryParameters: {'clothes_id': 1});
+    List<dynamic> result = (response.data)['result'];
+    //print((response.data)['result']);
+
+    _boardList.clear(); // 이전에 저장된 목록을 비운다.
+    _boardList.addAll(result);
+    //print(_boardList);
+    notifyListeners();
+  }
+
+
+  /* 게시글 상세보기 */
+  Future<Map<dynamic, dynamic>> getBoardDetail(int boardId) async {
+    Response response;
+    Dio dio = new Dio();
+    response = await dio.get("$_API_PREFIX/$boardId");
+    Map<dynamic, dynamic> result = (response.data)['result'];
+    //print(responseMap['content']);
+    return result;
+  }
+
   /* 게시물 업로드 */
-  Future<void> createBoard(XFile? showImage, int userId, int preferId, int clothesId, String content) async {
+  Future<void> createBoard(XFile? showImage, int userId, int preferId,
+      int clothesId, String content) async {
     /* 사진부터 업로드해서 url을 받는다 */
     dynamic sendImage = showImage!.path;
-    var imageFormData = FormData.fromMap({'file': await MultipartFile.fromFile(sendImage)});
+    var imageFormData =
+        FormData.fromMap({'file': await MultipartFile.fromFile(sendImage)});
 
     print("사진을 서버에 업로드 합니다.");
     var dio = Dio();
@@ -72,8 +120,6 @@ class BoardProvider with ChangeNotifier {
         "photoUrl": response.data['uploadImg']
       });
       //print(boardResponse.data.toString());
-
-
     } catch (e) {
       if (e is DioError) {
         print('DioError: ${e.response?.statusCode}');
@@ -85,20 +131,11 @@ class BoardProvider with ChangeNotifier {
     }
   }
 
-  Future<Map<dynamic, dynamic>> getBoardDetail(int boardId) async{
-    Response response;
-    Dio dio = new Dio();
-    response = await dio.get("$_API_PREFIX/$boardId");
-    Map<dynamic, dynamic> responseMap = (response.data)['result'];
-    //print(responseMap['content']);
-    return responseMap;
-  }
-
-
+/* 게시글 삭제 */
   Future<void> deleteBoard(int boardId) async {
     Response response;
     Dio dio = new Dio();
-    response = await dio.get("$_API_PREFIX/delete/$boardId");
+    response = await dio.delete("$_API_PREFIX/delete/$boardId");
     //Map<dynamic, dynamic> responseMap = (response.data)['result'];
     print(response);
   }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:mungshinsa/providers/board_provider.dart';
 import 'package:mungshinsa/providers/prefer_provider.dart';
+import 'package:provider/provider.dart';
 import 'create_prefer.dart';
 
 class MyPage extends StatefulWidget {
@@ -39,10 +41,15 @@ class _MyPageState extends State<MyPage> {
         actions: [
           // Add your icon button here
           IconButton(
-            icon: Icon(Icons.settings, color: Colors.black87,),
+            icon: Icon(
+              Icons.settings,
+              color: Colors.black87,
+            ),
             onPressed: () {
-              // Add the action you want when the icon is pressed
-              print('Settings icon pressed!');
+              Navigator.pushNamed(
+                context,
+                '/settings',
+              );
             },
           ),
         ],
@@ -150,24 +157,36 @@ class _MyPageState extends State<MyPage> {
             height: 15,
           ),
           Container(height: 1, color: Colors.grey),
-          GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: 9,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3, childAspectRatio: 1 / 1.1),
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/board_detail');
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.all(1),
-                    height: 3,
-                    color: Colors.grey,
-                  ),
-                );
-              }),
+          Consumer<BoardProvider>(builder: (context, boardProvider, child) {
+            final boardList = boardProvider.getBoardListByUserId(1);
+            return GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: boardList.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3, childAspectRatio: 1 / 1.2),
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/board_detail',
+                        arguments: boardList[index],
+                      );
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(1),
+                      margin: EdgeInsets.all(1),
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: Image.network(boardList[index]['photoUrl']).image,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  );
+                });
+          }),
         ],
       ),
     );
@@ -213,8 +232,8 @@ Widget buildPreferCard(Map<dynamic, dynamic> result) {
             Text(
               'SIZE',
               style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
+                  fontSize: 17,
+                  fontWeight: FontWeight.w900,
                   fontStyle: FontStyle.italic),
             ),
           ],
@@ -223,7 +242,7 @@ Widget buildPreferCard(Map<dynamic, dynamic> result) {
           children: [
             Text(
               '${result['chest']} / ${result['back']} (가슴둘레 / 등길이)',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
             ),
           ],
         ),
@@ -235,10 +254,34 @@ Widget buildPreferCard(Map<dynamic, dynamic> result) {
             Text(
               'PETSONAL COLOR',
               style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
+                  fontSize: 17,
+                  fontWeight: FontWeight.w900,
                   fontStyle: FontStyle.italic),
             ),
+          ],
+        ),
+        SizedBox(
+          height: 5,
+        ),
+        Row(
+          children: [
+            Container(
+              margin: EdgeInsets.only(right: 7),
+              color: Colors.yellow,
+              height: 25,
+              width: 25,
+            ),
+            Container(
+              margin: EdgeInsets.only(right: 7),
+              color: Colors.yellow,
+              height: 25,
+              width: 25,
+            ),
+            Container(
+              color: Colors.yellow,
+              height: 25,
+              width: 25,
+            )
           ],
         ),
       ],

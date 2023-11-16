@@ -11,6 +11,7 @@ import 'store_page/clothes.dart';
 import 'store_page/clothes_detail.dart';
 import 'my_page/my_page.dart';
 import 'my_page/create_prefer.dart';
+import 'my_page/settings.dart';
 import 'write_new_board.dart';
 
 import 'package:mungshinsa/providers/board_provider.dart';
@@ -47,7 +48,8 @@ class MyApp extends StatelessWidget {
           '/index' : (context) => IndexScreen(),
           '/board_detail': (context) => BoardDetail(),
           '/clothesDetail': (context) => ClothesDetail(),
-          '/createPrefer': (context) => CreatePrefer()
+          '/createPrefer': (context) => CreatePrefer(),
+          '/settings': (context) => Settings(),
         },
         initialRoute: '/splash',
       ),

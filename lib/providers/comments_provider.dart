@@ -42,8 +42,10 @@ class CommentProvider with ChangeNotifier{
 
   }
 
-  Future<void> deleteComments() async{
-
+  Future<void> deleteComments(int commentId) async{
+    Response response;
+    Dio dio = new Dio();
+    response = await dio.delete("$_API_PREFIX/delete/$commentId", queryParameters: {'commentId': commentId});
   }
 
 }

@@ -50,7 +50,7 @@ class _FeedViewState extends State<FeedView> {
               maxCrossAxisExtent: MediaQuery.of(context).size.width / 2, // 각 그리드 항목의 최대 가로 크기
               mainAxisSpacing: 0.5, // 세로 간격
               crossAxisSpacing: 0.5, // 가로 간격
-              childAspectRatio: 1 / 1.1,
+              childAspectRatio: 1 / 1.2,
             ),
             itemBuilder: (c, i) {
               return InkWell(
