@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:dio/dio.dart';
 
-const _API_PREFIX = 'http://ec2-13-124-164-167.ap-northeast-2.compute.amazonaws.com/clothes';
+const _API_PREFIX =
+    'http://ec2-13-124-164-167.ap-northeast-2.compute.amazonaws.com/clothes';
 
 class ClothesProvider with ChangeNotifier {
   final List<dynamic> _clothesList = List.empty(growable: true);
@@ -26,15 +27,15 @@ class ClothesProvider with ChangeNotifier {
   }
 
   /* 옷 id로 옷 정보 가져오기 */
-  Future<Map<dynamic, dynamic>> getClothesByClothesId(int clothesId) async{
+  Future<Map<dynamic, dynamic>> getClothesByClothesId(int clothesId) async {
     Response response;
     Dio dio = new Dio();
-    response = await dio.get("$_API_PREFIX/search", queryParameters: {'sizeClothes_id': clothesId});
+    response = await dio.get("$_API_PREFIX/search",
+        queryParameters: {'sizeClothes_id': clothesId});
     Map<dynamic, dynamic> result = (response.data)['result'];
     print(result);
     return result;
   }
-
 }
 
 ClothesProvider clothesProvider = ClothesProvider();

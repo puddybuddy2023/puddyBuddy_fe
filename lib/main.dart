@@ -17,6 +17,7 @@ import 'write_new_board.dart';
 import 'package:mungshinsa/providers/board_provider.dart';
 import 'providers/comments_provider.dart';
 import 'providers/clothes_provider.dart';
+import 'package:mungshinsa/providers/prefer_provider.dart';
 
 void main() {
   runApp(
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => BoardProvider()),
         ChangeNotifierProvider(create: (_) => CommentProvider()),
         ChangeNotifierProvider(create: (_) => ClothesProvider()),
+        ChangeNotifierProvider(create: (_) => PreferProvider()),
       ],
       child: MaterialApp(
         title: 'PuddyBuddy',
@@ -44,8 +46,8 @@ class MyApp extends StatelessWidget {
         home: IndexScreen(),
         routes: {
           '/splash': (context) => SplashScreen(),
-          '/login' : (context) => LogIn(),
-          '/index' : (context) => IndexScreen(),
+          '/login': (context) => LogIn(),
+          '/index': (context) => IndexScreen(),
           '/board_detail': (context) => BoardDetail(),
           '/clothesDetail': (context) => ClothesDetail(),
           '/createPrefer': (context) => CreatePrefer(),
@@ -67,11 +69,7 @@ class IndexScreen extends StatefulWidget {
 class _IndexScreenState extends State<IndexScreen> {
   int _currentIndex = 0;
 
-  final List<Widget> _widgetOptions = <Widget>[
-    FeedView(),
-    Store(),
-    MyPage()
-  ];
+  final List<Widget> _widgetOptions = <Widget>[FeedView(), Store(), MyPage()];
 
   void changePage(int index) {
     // 하단바의 아이템을 클릭할 때 실행되는 함수
@@ -94,10 +92,12 @@ class _IndexScreenState extends State<IndexScreen> {
               itemPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
               boxShadow: [
                 // 하단바 그림자
-                BoxShadow(color: Colors.black26.withOpacity(0.5),
+                BoxShadow(
+                  color: Colors.black12.withOpacity(0.5),
                   spreadRadius: 0,
                   blurRadius: 2,
-                  offset: Offset(0, 2),)
+                  offset: Offset(0, 2),
+                )
               ],
               dotIndicatorColor: Colors.transparent,
               // 선택된 아이템을 가리키는 점이 보이지 않길 원하면 투명 상태로 설정해야 함

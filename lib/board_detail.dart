@@ -161,7 +161,7 @@ class _BoardDetailState extends State<BoardDetail> {
             },
             child: Card(
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(7.0), // 모서리를 더 둥글게 조정
+                borderRadius: BorderRadius.circular(7.0),
               ),
               color: Color(0xFFA8ABFF),
               child: Container(
