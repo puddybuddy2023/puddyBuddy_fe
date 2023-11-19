@@ -75,7 +75,7 @@ class _BoardDetailState extends State<BoardDetail> {
                 ],
               ),
               AspectRatio(
-                aspectRatio: 1.0 / 1.2,
+                aspectRatio: 1.0 / 1,
                 child: Container(
                     decoration: BoxDecoration(
                         image: DecorationImage(

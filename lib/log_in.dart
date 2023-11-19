@@ -43,7 +43,9 @@ class _LogInState extends State<LogIn> {
             Container(
               width: 220,
               child: ElevatedButton(
-                onPressed: () {Navigator.of(context).pushReplacementNamed('/index');},
+                onPressed: () {
+                  Navigator.of(context).pushReplacementNamed('/index');
+                },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -54,13 +56,21 @@ class _LogInState extends State<LogIn> {
                       ),
                       height: 20,
                     ),
-                    SizedBox(width: 5,),
-                    Text('카카오로 로그인', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black),),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      '카카오로 로그인',
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black),
+                    ),
                   ],
                 ),
                 style: ElevatedButton.styleFrom(
-                  minimumSize: Size(200, 40),
-                  backgroundColor: Color(0xFFF3C15B),
+                    minimumSize: Size(200, 40),
+                    backgroundColor: Color(0xFFF3C15B),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20))),
               ),

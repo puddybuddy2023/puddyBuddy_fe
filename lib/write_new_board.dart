@@ -179,7 +179,7 @@ class _WriteNewBoardState extends State<WriteNewBoard> {
               Container(
                   margin: EdgeInsets.all(10),
                   width: double.infinity,
-                  height:70,
+                  height: 70,
                   child: ElevatedButton(
                     onPressed: () {},
                     child: Text('착용 제품 선택'),
@@ -194,7 +194,7 @@ class _WriteNewBoardState extends State<WriteNewBoard> {
                     onPressed: () {
                       boardProvider.createBoard(
                           showImage, 2, 2, 2, _reviewController.text);
-                      //uploadBoard();
+                      Navigator.pop(context); // 현재 페이지 닫기
                     },
                     child: Text('업로드'),
                     style:
@@ -202,8 +202,6 @@ class _WriteNewBoardState extends State<WriteNewBoard> {
                   )),
             ],
           ),
-        )
-
-    );
+        ));
   }
 }

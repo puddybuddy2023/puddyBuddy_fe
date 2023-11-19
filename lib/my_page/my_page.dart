@@ -164,7 +164,7 @@ class _MyPageState extends State<MyPage> {
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: boardList.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3, childAspectRatio: 1 / 1.2),
+                    crossAxisCount: 3, childAspectRatio: 1 / 1),
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: () {
@@ -208,82 +208,135 @@ Widget buildPreferCard(Map<dynamic, dynamic> result) {
               spreadRadius: 3,
               offset: const Offset(0, 0))
         ]),
-    child: Column(
+    child: Row(
       children: [
-        Row(
+        Column(
           children: [
             Container(
-              height: 40,
-              width: 40,
-              margin: const EdgeInsets.only(right: 5),
-              decoration: const BoxDecoration(
-                  color: Colors.grey, shape: BoxShape.circle),
+              margin: EdgeInsets.only(top: 15),
+              height: 90,
+              width: 90,
+              decoration: BoxDecoration(
+                color: Colors.grey,
+                borderRadius: BorderRadius.circular(15),
+              ),
+            ),
+            SizedBox(
+              height: 5,
             ),
             Text(
               result['name'],
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
             ),
           ],
         ),
-        const SizedBox(
-          height: 10,
-        ),
-        const Row(
-          children: [
-            Text(
-              'SIZE',
-              style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w900,
-                  fontStyle: FontStyle.italic),
-            ),
-          ],
-        ),
-        Row(
-          children: [
-            Text(
-              '${result['chest']} / ${result['back']} (가슴둘레 / 등길이)',
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        const Row(
-          children: [
-            Text(
-              'PETSONAL COLOR',
-              style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w900,
-                  fontStyle: FontStyle.italic),
-            ),
-          ],
-        ),
-        SizedBox(
-          height: 5,
-        ),
-        Row(
-          children: [
-            Container(
-              margin: EdgeInsets.only(right: 7),
-              color: Colors.yellow,
-              height: 25,
-              width: 25,
-            ),
-            Container(
-              margin: EdgeInsets.only(right: 7),
-              color: Colors.yellow,
-              height: 25,
-              width: 25,
-            ),
-            Container(
-              color: Colors.yellow,
-              height: 25,
-              width: 25,
-            )
-          ],
+        Container(
+          margin: EdgeInsets.only(left: 20, top: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    'SIZE',
+                    style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w900,
+                        fontStyle: FontStyle.italic),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(5),
+                    height: 23,
+                    width: 60,
+                    child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.black,
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(15), // 모서리를 둥글게 조정
+                          ),
+                          padding: EdgeInsets.zero,
+                          minimumSize: Size(60, 23),
+                        ),
+                        child: Text(
+                          '측정하기',
+                          style: TextStyle(color: Colors.white),
+                        )),
+                  ),
+                ],
+              ),
+              Text(
+                '${result['chest']} / ${result['back']} (가슴둘레 / 등길이)',
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  Text(
+                    'PETSONAL COLOR',
+                    style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w900,
+                        fontStyle: FontStyle.italic),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(5),
+                    height: 23,
+                    width: 50,
+                    child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.black,
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(15), // 모서리를 둥글게 조정
+                          ),
+                          padding: EdgeInsets.zero,
+                          minimumSize: Size(50, 23),
+                        ),
+                        child: Text(
+                          '테스트',
+                          style: TextStyle(color: Colors.white),
+                        )),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Row(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(right: 7),
+                    color: Colors.grey,
+                    height: 35,
+                    width: 35,
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(right: 7),
+                    color: Colors.grey,
+                    height: 35,
+                    width: 35,
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(right: 7),
+                    color: Colors.grey,
+                    height: 35,
+                    width: 35,
+                  ),
+                  Container(
+                    color: Colors.grey,
+                    height: 35,
+                    width: 35,
+                  )
+                ],
+              ),
+            ],
+          ),
         ),
       ],
     ),

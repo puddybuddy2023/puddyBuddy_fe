@@ -10,18 +10,18 @@ class PreferProvider with ChangeNotifier {
     Response response;
     Dio dio = new Dio();
     response = await dio.get("$_API_PREFIX/$uid");
-    Map<dynamic, dynamic> result = (response.data)['result'];
+    Map<dynamic, dynamic> result = (response.data)['result'][0];
     print(result);
     return result;
   }
 
   final List<dynamic> _preferList = List.empty(growable: true);
-  List<dynamic> getPreferList(int userId) {
-    _fetchPrefers(userId);
+  List<dynamic> getPreferListByUserId(int userId) {
+    _fetchPrefersByUserId(userId);
     return _preferList;
   }
 
-  Future<void> _fetchPrefers(int userId) async {
+  Future<void> _fetchPrefersByUserId(int userId) async {
     Response response;
     Dio dio = new Dio();
     response = await dio.get('$_API_PREFIX/$userId');
@@ -32,6 +32,7 @@ class PreferProvider with ChangeNotifier {
     notifyListeners(); // 데이터가 업데이트되었음을 리스너에게 알린다.
   }
 
+  /* 선호조건 생성 */
   Future<void> createPrefer(int uid) async {
     Response response;
     Dio dio = new Dio();
