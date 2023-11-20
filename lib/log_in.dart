@@ -90,7 +90,7 @@ class _LogInState extends State<LogIn> {
                       await UserApi.instance.loginWithKakaoTalk();
                       print('카카오톡으로 로그인 성공');
                       _get_user_info();
-                      Navigator.of(context).pushReplacementNamed('/index');
+                      Navigator.of(context).pushReplacementNamed('/nickname');
                     } catch (error) {
                       print('카카오톡으로 로그인 실패 $error');
                       // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인
@@ -98,7 +98,7 @@ class _LogInState extends State<LogIn> {
                         await UserApi.instance.loginWithKakaoAccount();
                         print('카카오계정으로 로그인 성공');
                         _get_user_info();
-                        Navigator.of(context).pushReplacementNamed('/index');
+                        Navigator.of(context).pushReplacementNamed('/nickname');
                       } catch (error) {
                         print('카카오계정으로 로그인 실패 $error');
                       }
@@ -108,7 +108,7 @@ class _LogInState extends State<LogIn> {
                       await UserApi.instance.loginWithKakaoAccount();
                       print('카카오계정으로 로그인 성공');
                       _get_user_info();
-                      Navigator.of(context).pushReplacementNamed('/index');
+                      Navigator.of(context).pushReplacementNamed('/nickname');
                     } catch (error) {
                       print('카카오계정으로 로그인 실패 $error');
                     }

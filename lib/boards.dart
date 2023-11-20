@@ -31,19 +31,6 @@ class _FeedViewState extends State<FeedView> {
               fontWeight: FontWeight.w900,
               fontStyle: FontStyle.italic),
         ),
-        actions: [
-          // Add your icon button here
-          IconButton(
-            icon: Icon(
-              Icons.settings,
-              color: Colors.black87,
-            ),
-            onPressed: () {
-              // Add the action you want when the icon is pressed
-              print('Settings icon pressed!');
-            },
-          ),
-        ],
       ),
       body: Consumer<BoardProvider>(builder: (context, boardProvider, child) {
         final boardList = boardProvider.getBoardList();
