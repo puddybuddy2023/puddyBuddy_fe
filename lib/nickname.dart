@@ -33,18 +33,20 @@ class _NicknameState extends State<Nickname> {
               height: 280,
             ),
             Container(
-              margin: EdgeInsets.only(left: 40, right: 40, bottom: 10),
+              margin: EdgeInsets.only(left: 40, right: 40, bottom: 30),
               height: 40,
               child: TextFormField(
                 controller: _nicknameController, // 컨트롤러 할당
                 decoration: InputDecoration(
-                    enabledBorder: const OutlineInputBorder(
-                      borderSide: const BorderSide(
-                        color: Colors.black,
-                      ),
+                  border: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.black, // 밑줄 색상
+                      width: 10.0, // 밑줄 두께
                     ),
-                    contentPadding: EdgeInsets.only(left: 10),
-                    hintText: '사용할 닉네임을 입력해주세요'),
+                  ),
+                  contentPadding: EdgeInsets.only(left: 10),
+                  hintText: '사용할 닉네임을 입력해주세요',
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return '닉네임을 입력해주세요';
@@ -53,30 +55,45 @@ class _NicknameState extends State<Nickname> {
                 },
               ),
             ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white, // 버튼의 배경색을 검정으로
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20), // 모서리를 둥글게
-                ),
+            Expanded(
+              child: Stack(
+                alignment: AlignmentDirectional.topCenter,
+                clipBehavior: Clip.none,
+                children: [
+                  Positioned(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(105, 47),
+                        primary: Colors.white, // 버튼의 배경색을 검정으로
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40), // 모서리를 둥글게
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pushReplacementNamed('/index');
+                      },
+                      child: Text(
+                        '입력',
+                        style: TextStyle(
+                            color: Colors.black87, // 텍스트 색상을 흰색으로 설정
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    right: -23,
+                    top: 23,
+                    child: Image(
+                      image: AssetImage(
+                        'assets/images/dog_pushing_button.png',
+                        // adjust the width and alignment as needed
+                      ),
+                      height: 180,
+                    ),
+                  ),
+                ],
               ),
-              onPressed: () {
-                Navigator.of(context).pushReplacementNamed('/index');
-              },
-              child: Text(
-                '입력',
-                style: TextStyle(
-                    color: Colors.black, // 텍스트 색상을 흰색으로 설정
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600),
-              ),
-            ),
-            Image(
-              image: AssetImage(
-                'assets/images/dog_pushing_button.png',
-                // adjust the width and alignment as needed
-              ),
-              height: 150,
             ),
           ],
         ),

@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
             primaryColor: Colors.blue,
             primarySwatch: Colors.indigo,
-            fontFamily: 'Pretendard'),
+            fontFamily: 'NanumBarunGothic'),
         home: IndexScreen(),
         routes: {
           '/splash': (context) => SplashScreen(),
