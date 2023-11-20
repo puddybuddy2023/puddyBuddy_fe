@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:provider/provider.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 
@@ -20,6 +21,7 @@ import 'providers/clothes_provider.dart';
 import 'package:mungshinsa/providers/prefer_provider.dart';
 
 void main() {
+  KakaoSdk.init(nativeAppKey: 'f636a4a6298ad948a6fb3dd100d602ce');
   runApp(
     const MyApp(),
   );

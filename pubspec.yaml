@@ -43,6 +43,7 @@ dependencies:
   convert: ^3.1.1
   shared_preferences: ^2.2.2
   url_launcher: ^6.2.1
+  kakao_flutter_sdk_user: ^1.7.0
 
 
 
@@ -57,7 +58,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-  kakao_flutter_sdk_user: ^1.2.1
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

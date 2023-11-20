@@ -18,8 +18,8 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void moveScreen() async {
-    await checkLogin().then((isLogin){
-      if(isLogin){
+    await checkLogin().then((isLogin) {
+      if (isLogin) {
         Navigator.of(context).pushReplacementNamed('/index');
       } else {
         Navigator.of(context).pushReplacementNamed('/login');
@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(milliseconds: 2000), (){
+    Timer(Duration(milliseconds: 2000), () {
       moveScreen();
     });
   }
@@ -67,7 +67,6 @@ class _SplashScreenState extends State<SplashScreen> {
             SizedBox(
               height: 30,
             ),
-
             SizedBox(
               height: 60,
             ),
