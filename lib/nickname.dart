@@ -47,7 +47,7 @@ class _NicknameState extends State<Nickname> {
                     hintText: '사용할 닉네임을 입력해주세요'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return '댓글을 입력해주세요';
+                    return '닉네임을 입력해주세요';
                   }
                   return null;
                 },
@@ -55,21 +55,20 @@ class _NicknameState extends State<Nickname> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Colors.black, // 버튼의 배경색을 검정으로 설정
+                primary: Colors.white, // 버튼의 배경색을 검정으로
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20), // 모서리를 둥글게 만듦
+                  borderRadius: BorderRadius.circular(20), // 모서리를 둥글게
                 ),
               ),
               onPressed: () {
-                // 버튼을 눌렀을 때 수행되는 동작
-                // 여기에 사용자 입력을 처리하거나 다른 작업을 추가할 수 있습니다.
+                Navigator.of(context).pushReplacementNamed('/index');
               },
               child: Text(
                 '입력',
                 style: TextStyle(
-                  color: Colors.white, // 텍스트 색상을 흰색으로 설정
-                  fontSize: 18,
-                ),
+                    color: Colors.black, // 텍스트 색상을 흰색으로 설정
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600),
               ),
             ),
             Image(

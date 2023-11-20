@@ -29,6 +29,7 @@ class _StoreState extends State<Store> {
           'PuddyBuddy',
           style: TextStyle(
               color: Colors.black,
+              fontFamily: 'Inter',
               fontSize: 23,
               fontWeight: FontWeight.w900,
               fontStyle: FontStyle.italic),

@@ -27,13 +27,14 @@ class _MyPageState extends State<MyPage> {
         shape: Border(
           bottom: BorderSide(
             color: Colors.grey,
-            width: 0.2,
+            width: 0.5,
           ),
         ),
         title: const Text(
           'PuddyBuddy',
           style: TextStyle(
               color: Colors.black,
+              fontFamily: 'Inter',
               fontSize: 23,
               fontWeight: FontWeight.w900,
               fontStyle: FontStyle.italic),

@@ -20,7 +20,7 @@ class _FeedViewState extends State<FeedView> {
         shape: Border(
           bottom: BorderSide(
             color: Colors.grey,
-            width: 0.2,
+            width: 0.5,
           ),
         ),
         title: const Text(
@@ -29,7 +29,8 @@ class _FeedViewState extends State<FeedView> {
               color: Colors.black,
               fontSize: 23,
               fontWeight: FontWeight.w900,
-              fontStyle: FontStyle.italic),
+              fontStyle: FontStyle.italic,
+              fontFamily: 'Inter'),
         ),
       ),
       body: Consumer<BoardProvider>(builder: (context, boardProvider, child) {
