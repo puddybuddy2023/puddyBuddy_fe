@@ -135,47 +135,47 @@ class _WriteNewBoardState extends State<WriteNewBoard> {
                   },
                 ),
               ),
-              FutureBuilder(
-                  future: preferProvider.fetchPreferById(1),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      Map<dynamic, dynamic> prefer = snapshot.data!;
-                      return Container(
-                        margin: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            border:
-                                Border.all(color: Colors.black, width: 0.5)),
-                        child: DropdownButtonFormField(
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: '누구의 사진인가요?',
-                          ),
-                          //value: studentResult.additionalPoint,
-                          items: List.generate(2, (i) {
-                            if (i == 0) {
-                              return DropdownMenuItem(
-                                  value: i, child: const Text('강아지를 선택해주세요'));
-                            }
-                            return DropdownMenuItem(
-                                value: i, child: Text(prefer['name']));
-                          }),
-                          onChanged: (value) {
-                            setState(() {
-                              //studentResult.additionalPoint = value!;
-                            });
-                          },
-                          validator: (value) {
-                            if (value == 0) {
-                              return '강아지를 선택해주세요';
-                            }
-                            return null;
-                          },
-                        ),
-                      );
-                    } else {
-                      return LinearProgressIndicator();
-                    }
-                  }),
+              // FutureBuilder(
+              //     future: preferProvider.fetchPreferById(1),
+              //     builder: (context, snapshot) {
+              //       if (snapshot.hasData) {
+              //         Map<dynamic, dynamic> prefer = snapshot.data!;
+              //         return Container(
+              //           margin: EdgeInsets.all(10),
+              //           decoration: BoxDecoration(
+              //               border:
+              //                   Border.all(color: Colors.black, width: 0.5)),
+              //           child: DropdownButtonFormField(
+              //             decoration: const InputDecoration(
+              //               border: OutlineInputBorder(),
+              //               hintText: '누구의 사진인가요?',
+              //             ),
+              //             //value: studentResult.additionalPoint,
+              //             items: List.generate(2, (i) {
+              //               if (i == 0) {
+              //                 return DropdownMenuItem(
+              //                     value: i, child: const Text('강아지를 선택해주세요'));
+              //               }
+              //               return DropdownMenuItem(
+              //                   value: i, child: Text(prefer['name']));
+              //             }),
+              //             onChanged: (value) {
+              //               setState(() {
+              //                 //studentResult.additionalPoint = value!;
+              //               });
+              //             },
+              //             validator: (value) {
+              //               if (value == 0) {
+              //                 return '강아지를 선택해주세요';
+              //               }
+              //               return null;
+              //             },
+              //           ),
+              //         );
+              //       } else {
+              //         return LinearProgressIndicator();
+              //       }
+              //     }),
               Container(
                   margin: EdgeInsets.all(10),
                   width: double.infinity,

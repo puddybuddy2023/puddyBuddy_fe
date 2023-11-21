@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
           '/createPrefer': (context) => CreatePrefer(),
           '/settings': (context) => Settings(),
         },
-        initialRoute: '/splash',
+        initialRoute: '/index',
       ),
     );
   }

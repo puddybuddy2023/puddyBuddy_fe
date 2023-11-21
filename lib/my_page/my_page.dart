@@ -27,7 +27,7 @@ class _MyPageState extends State<MyPage> {
         shape: Border(
           bottom: BorderSide(
             color: Colors.grey,
-            width: 0.5,
+            width: 0.2,
           ),
         ),
         title: const Text(
@@ -57,102 +57,119 @@ class _MyPageState extends State<MyPage> {
       ),
       body: ListView(
         children: [
-          Row(
-            children: [
-              Container(
-                height: 40,
-                width: 40,
-                margin: const EdgeInsets.all(10.0),
-                decoration: const BoxDecoration(
-                    color: Colors.grey, shape: BoxShape.circle),
-              ),
-              const Text(
-                '유저 아이디',
-                style: TextStyle(fontSize: 16),
-              )
-            ],
+          Container(
+            margin: EdgeInsets.only(left: 10, top: 10, bottom: 5),
+            child: Row(
+              children: [
+                CircleAvatar(
+                  radius: 20,
+                  backgroundColor: Color(0xFFA8ABFF),
+                  backgroundImage: AssetImage('assets/images/dog_profile.png'),
+                ),
+                SizedBox(
+                  width: 7,
+                ),
+                const Text(
+                  'userid',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
           ),
           FutureBuilder(
             future: preferProvider.fetchPreferById(1),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                Map<dynamic, dynamic> result = snapshot.data!;
-                return Container(
-                  // 카드 슬라이더
-                  height: 200,
-                  child: PageView.builder(
-                      controller: controller,
-                      itemCount: 2,
-                      onPageChanged: (page) {
-                        setState(() {
-                          currentPage = page;
-                        });
-                      },
-                      itemBuilder: (context, index) {
-                        if (index == 1) {
-                          // 마지막 페이지일 때
-                          return Container(
-                            padding: const EdgeInsets.fromLTRB(20, 15, 15, 15),
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 5),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Color(0xFFA6A6A6FF),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.black.withOpacity(0.1),
-                                      blurRadius: 3,
-                                      spreadRadius: 3,
-                                      offset: const Offset(0, 1))
-                                ]),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
+                List<dynamic> result = snapshot.data!;
+                return Column(
+                  children: [
+                    Container(
+                      // 카드 슬라이더
+                      height: 200,
+                      child: PageView.builder(
+                          controller: controller,
+                          itemCount: result.length + 1,
+                          onPageChanged: (page) {
+                            setState(() {
+                              currentPage = page;
+                            });
+                          },
+                          itemBuilder: (context, index) {
+                            if (index == result.length) {
+                              // 마지막 페이지일 때
+                              return Container(
+                                padding:
+                                    const EdgeInsets.fromLTRB(20, 15, 15, 15),
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 15, vertical: 5),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    color: Color(0xFFA6A6A6FF),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.black.withOpacity(0.1),
+                                          blurRadius: 3,
+                                          spreadRadius: 3,
+                                          offset: const Offset(0, 1))
+                                    ]),
+                                child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    FloatingActionButton(
-                                      mini: true,
-                                      backgroundColor: Colors.black,
-                                      onPressed: () {
-                                        Navigator.pushNamed(
-                                            context, '/createPrefer');
-                                      },
-                                      child: Icon(
-                                        Icons.add,
-                                        size: 20,
-                                      ),
-                                    )
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        FloatingActionButton(
+                                          mini: true,
+                                          backgroundColor: Colors.black,
+                                          onPressed: () {
+                                            Navigator.pushNamed(
+                                                context, '/createPrefer');
+                                          },
+                                          child: Icon(
+                                            Icons.add,
+                                            size: 20,
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ],
                                 ),
-                              ],
-                            ),
-                          ); // 일반 카드를 반환하 // 추가 버튼을 반환하는 함수 호출
-                        } else {
-                          return buildPreferCard(result); // 선호조건 카드를 반환하는 함수 호출
-                        }
-                      }),
+                              ); // 일반 카드를 반환하 // 추가 버튼을 반환하는 함수 호출
+                            } else {
+                              print(result[index]);
+                              return buildPreferCard(
+                                  result[index]); // 선호조건 카드를 반환하는 함수 호출
+                            }
+                          }),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        for (num i = 0; i < result.length + 1; i++)
+                          Container(
+                            margin: const EdgeInsets.all(3),
+                            width: 10,
+                            height: 10,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: i == currentPage
+                                    ? Color(0xFFA6A6A6FF)
+                                    : Colors.black.withOpacity(.2)),
+                          )
+                      ],
+                    ),
+                  ],
                 );
               } else {
-                return const LinearProgressIndicator();
+                return Container(
+                  height: 210,
+                );
               }
             },
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              for (num i = 0; i < 2; i++)
-                Container(
-                  margin: const EdgeInsets.all(3),
-                  width: 10,
-                  height: 10,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: i == currentPage
-                          ? Color(0xFFA6A6A6FF)
-                          : Colors.black.withOpacity(.2)),
-                )
-            ],
           ),
           const SizedBox(
             height: 15,
@@ -197,7 +214,7 @@ class _MyPageState extends State<MyPage> {
 
 Widget buildPreferCard(Map<dynamic, dynamic> result) {
   return Container(
-    padding: const EdgeInsets.fromLTRB(20, 15, 15, 15),
+    padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
     margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
     decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
@@ -215,18 +232,22 @@ Widget buildPreferCard(Map<dynamic, dynamic> result) {
           children: [
             Container(
               margin: EdgeInsets.only(top: 15),
-              height: 90,
-              width: 90,
+              height: 100,
+              width: 100,
               decoration: BoxDecoration(
-                color: Colors.grey,
                 borderRadius: BorderRadius.circular(15),
+                color: Colors.white,
+                image: DecorationImage(
+                  image: AssetImage('assets/images/dog_profile.png'),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             SizedBox(
               height: 5,
             ),
             Text(
-              result['name'],
+              result['name'] + '(${result['breedTagName']})',
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
             ),
           ],
@@ -239,9 +260,10 @@ Widget buildPreferCard(Map<dynamic, dynamic> result) {
               Row(
                 children: [
                   Text(
-                    'SIZE',
+                    'size',
                     style: TextStyle(
-                        fontSize: 17,
+                        fontSize: 20,
+                        fontFamily: 'Inter',
                         fontWeight: FontWeight.w900,
                         fontStyle: FontStyle.italic),
                   ),
@@ -269,8 +291,10 @@ Widget buildPreferCard(Map<dynamic, dynamic> result) {
               ),
               Text(
                 '${result['chest']} / ${result['back']} (가슴둘레 / 등길이)',
-                style:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                ),
               ),
               SizedBox(
                 height: 10,
@@ -278,9 +302,10 @@ Widget buildPreferCard(Map<dynamic, dynamic> result) {
               Row(
                 children: [
                   Text(
-                    'PETSONAL COLOR',
+                    'petsonal color',
                     style: TextStyle(
-                        fontSize: 17,
+                        fontSize: 20,
+                        fontFamily: 'Inter',
                         fontWeight: FontWeight.w900,
                         fontStyle: FontStyle.italic),
                   ),

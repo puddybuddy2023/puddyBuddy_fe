@@ -107,53 +107,53 @@ class _BoardDetailState extends State<BoardDetail> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(7.0), // 모서리를 더 둥글게 조정
             ),
-            child: FutureBuilder(
-              future: preferProvider.fetchPreferById(board['userId']),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  Map<dynamic, dynamic> responseMap = snapshot.data!;
-                  return Container(
-                    padding:
-                        EdgeInsets.only(left: 10, right: 10, top: 7, bottom: 7),
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 23,
-                          backgroundColor: Color(0xFFA8ABFF),
-                          backgroundImage:
-                              AssetImage('assets/images/dog_profile.png'),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              responseMap['name'],
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            Text(
-                              responseMap['chest'].toString() +
-                                  ' / ' +
-                                  responseMap['back'].toString() +
-                                  ' (가슴둘레 / 등길이)',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 15),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  );
-                } else {
-                  return CircularProgressIndicator();
-                }
-              },
-            ),
+            // child: FutureBuilder(
+            //   future: preferProvider.fetchPreferById(board['userId']),
+            //   builder: (context, snapshot) {
+            //     if (snapshot.hasData) {
+            //       Map<dynamic, dynamic> responseMap = snapshot.data!;
+            //       return Container(
+            //         padding:
+            //             EdgeInsets.only(left: 10, right: 10, top: 7, bottom: 7),
+            //         child: Row(
+            //           children: [
+            //             CircleAvatar(
+            //               radius: 23,
+            //               backgroundColor: Color(0xFFA8ABFF),
+            //               backgroundImage:
+            //                   AssetImage('assets/images/dog_profile.png'),
+            //             ),
+            //             SizedBox(
+            //               width: 10,
+            //             ),
+            //             Column(
+            //               crossAxisAlignment: CrossAxisAlignment.start,
+            //               children: [
+            //                 Text(
+            //                   responseMap['name'],
+            //                   style: TextStyle(
+            //                       color: Colors.white,
+            //                       fontSize: 16,
+            //                       fontWeight: FontWeight.w600),
+            //                 ),
+            //                 Text(
+            //                   responseMap['chest'].toString() +
+            //                       ' / ' +
+            //                       responseMap['back'].toString() +
+            //                       ' (가슴둘레 / 등길이)',
+            //                   style:
+            //                       TextStyle(color: Colors.white, fontSize: 15),
+            //                 ),
+            //               ],
+            //             ),
+            //           ],
+            //         ),
+            //       );
+            //     } else {
+            //       return CircularProgressIndicator();
+            //     }
+            //   },
+            // ),
           ),
           InkWell(
             onTap: () {
