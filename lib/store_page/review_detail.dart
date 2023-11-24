@@ -107,53 +107,6 @@ class _BoardDetailState extends State<ReviewDetail> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(7.0), // 모서리를 더 둥글게 조정
             ),
-            // child: FutureBuilder(
-            //   future: preferProvider.fetchPreferById(board['userId']),
-            //   builder: (context, snapshot) {
-            //     if (snapshot.hasData) {
-            //       Map<dynamic, dynamic> responseMap = snapshot.data!;
-            //       return Container(
-            //         padding:
-            //             EdgeInsets.only(left: 10, right: 10, top: 7, bottom: 7),
-            //         child: Row(
-            //           children: [
-            //             CircleAvatar(
-            //               radius: 23,
-            //               backgroundColor: Color(0xFFA8ABFF),
-            //               backgroundImage:
-            //                   AssetImage('assets/images/dog_profile.png'),
-            //             ),
-            //             SizedBox(
-            //               width: 10,
-            //             ),
-            //             Column(
-            //               crossAxisAlignment: CrossAxisAlignment.start,
-            //               children: [
-            //                 Text(
-            //                   responseMap['name'],
-            //                   style: TextStyle(
-            //                       color: Colors.white,
-            //                       fontSize: 16,
-            //                       fontWeight: FontWeight.w600),
-            //                 ),
-            //                 Text(
-            //                   responseMap['chest'].toString() +
-            //                       ' / ' +
-            //                       responseMap['back'].toString() +
-            //                       ' (가슴둘레 / 등길이)',
-            //                   style:
-            //                       TextStyle(color: Colors.white, fontSize: 15),
-            //                 ),
-            //               ],
-            //             ),
-            //           ],
-            //         ),
-            //       );
-            //     } else {
-            //       return CircularProgressIndicator();
-            //     }
-            //   },
-            // ),
           ),
           FutureBuilder(
               future: clothesProvider.getClothesByClothesId(board['clothesId']),
@@ -231,9 +184,7 @@ class _BoardDetailState extends State<ReviewDetail> {
                   );
                 }
               }),
-          CommentsPanel(
-              commentProvider: commentProvider,
-              board: board), // comments section
+          CommentsPanel(board: board), // comments section
         ],
       ),
     );
@@ -328,12 +279,9 @@ class ClothesPanel extends StatelessWidget {
 
 /* 댓글 영역 */
 class CommentsPanel extends StatefulWidget {
-  final CommentProvider commentProvider;
   final dynamic board;
 
-  const CommentsPanel(
-      {Key? key, required this.commentProvider, required this.board})
-      : super(key: key);
+  const CommentsPanel({Key? key, required this.board}) : super(key: key);
 
   @override
   State<CommentsPanel> createState() => _CommentsPanelState();
@@ -392,7 +340,8 @@ class _CommentsPanelState extends State<CommentsPanel> {
           ),
           Consumer<CommentProvider>(builder: (context, commentProvider, child) {
             final commentList =
-                commentProvider.getCommentList(widget.board['boardId']);
+                commentProvider2.getCommentList(widget.board['boardId']);
+            //print(commentList);
             return ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),

@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import '../models/comments_model.dart';
 import 'package:dio/dio.dart';
 
-const _API_PREFIX = 'http://ec2-13-124-164-167.ap-northeast-2.compute.amazonaws.com/comments';
+const _API_PREFIX =
+    'http://ec2-13-124-164-167.ap-northeast-2.compute.amazonaws.com/comments';
 
-class CommentProvider with ChangeNotifier{
-
+class CommentProvider with ChangeNotifier {
   /*댓글 전체 가져오기*/
   final List<dynamic> _commentList = List.empty(growable: true);
-  List<dynamic> getCommentList(int boardId){
+  List<dynamic> getCommentList(int boardId) {
     _fetchComments(boardId);
     return _commentList;
   }
-  Future<void> _fetchComments(int boardId) async{
+
+  Future<void> _fetchComments(int boardId) async {
     Response response;
     Dio dio = new Dio();
     response = await dio.get('$_API_PREFIX/$boardId');
@@ -29,7 +30,7 @@ class CommentProvider with ChangeNotifier{
     notifyListeners(); // 데이터가 업데이트되었음을 리스너에게 알린다.
   }
 
-  Future<void> createComments(int boardId, int userId, String content) async{
+  Future<void> createComments(int boardId, int userId, String content) async {
     Response response;
     Dio dio = new Dio();
     response = await dio.post("$_API_PREFIX/create", data: {
@@ -39,15 +40,15 @@ class CommentProvider with ChangeNotifier{
     });
     //Map<dynamic, dynamic> responseMap = (response.data)['result'][0];
     print((response.data));
-
   }
 
-  Future<void> deleteComments(int commentId) async{
+  Future<void> deleteComments(int commentId) async {
     Response response;
     Dio dio = new Dio();
-    response = await dio.delete("$_API_PREFIX/delete/$commentId", queryParameters: {'commentId': commentId});
+    response = await dio.delete("$_API_PREFIX/delete/$commentId",
+        queryParameters: {'commentId': commentId});
   }
-
 }
 
 CommentProvider commentProvider = CommentProvider();
+CommentProvider commentProvider2 = CommentProvider();
