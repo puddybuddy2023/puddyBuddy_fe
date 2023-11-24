@@ -13,13 +13,21 @@ class Settings extends StatelessWidget {
           shape: Border(
             bottom: BorderSide(
               color: Colors.grey,
-              width: 0.5,
+              width: 0.2,
             ),
           ),
           iconTheme: IconThemeData(color: Colors.black)),
-      body: Column(
+      body: ListView(
         children: [
-          Text('로그아웃')
+          ListTile(
+              minVerticalPadding: 0,
+              title: Text(
+                '로그아웃',
+              )),
+          ListTile(
+              title: Text(
+            '회원 탈퇴',
+          )),
         ],
       ),
     );

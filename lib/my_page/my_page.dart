@@ -24,7 +24,7 @@ class _MyPageState extends State<MyPage> {
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
-        shape: Border(
+        shape: const Border(
           bottom: BorderSide(
             color: Colors.grey,
             width: 0.2,
@@ -42,7 +42,7 @@ class _MyPageState extends State<MyPage> {
         actions: [
           // Add your icon button here
           IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.settings,
               color: Colors.black87,
             ),
@@ -58,18 +58,18 @@ class _MyPageState extends State<MyPage> {
       body: ListView(
         children: [
           Container(
-            margin: EdgeInsets.only(left: 10, top: 10, bottom: 5),
-            child: Row(
+            margin: const EdgeInsets.only(left: 10, top: 10, bottom: 5),
+            child: const Row(
               children: [
                 CircleAvatar(
                   radius: 20,
                   backgroundColor: Color(0xFFA8ABFF),
-                  backgroundImage: AssetImage('assets/images/dog_profile.png'),
+                  backgroundImage: AssetImage('assets/images/user_profile.png'),
                 ),
                 SizedBox(
                   width: 7,
                 ),
-                const Text(
+                Text(
                   'userid',
                   style: TextStyle(
                     fontSize: 16,
@@ -104,7 +104,7 @@ class _MyPageState extends State<MyPage> {
                                 horizontal: 15, vertical: 5),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
-                                color: Color(0xFFA6A6A6FF),
+                                color: const Color(0xFFA6A6A6FF),
                                 boxShadow: [
                                   BoxShadow(
                                       color: Colors.black.withOpacity(0.1),
@@ -126,7 +126,7 @@ class _MyPageState extends State<MyPage> {
                                         Navigator.pushNamed(
                                             context, '/createPrefer');
                                       },
-                                      child: Icon(
+                                      child: const Icon(
                                         Icons.add,
                                         size: 20,
                                       ),
@@ -153,7 +153,7 @@ class _MyPageState extends State<MyPage> {
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: i == currentPage
-                                ? Color(0xFFA6A6A6FF)
+                                ? const Color(0xFFA6A6A6FF)
                                 : Colors.black.withOpacity(.2)),
                       )
                   ],
@@ -183,8 +183,8 @@ class _MyPageState extends State<MyPage> {
                       );
                     },
                     child: Container(
-                      padding: EdgeInsets.all(1),
-                      margin: EdgeInsets.all(1),
+                      padding: const EdgeInsets.all(1),
+                      margin: const EdgeInsets.all(1),
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image:
@@ -221,35 +221,44 @@ Widget buildPreferCard(Map<dynamic, dynamic> result) {
         Column(
           children: [
             Container(
-              margin: EdgeInsets.only(top: 10),
+              margin: const EdgeInsets.only(top: 10),
               height: 100,
               width: 100,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 color: Colors.white,
-                image: DecorationImage(
+                image: const DecorationImage(
                   image: AssetImage('assets/images/dog_profile.png'),
                   fit: BoxFit.cover,
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             Text(
-              result['name'] + '\n(${result['breedTagName']})',
+              result['name'],
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              result['breedTagName'],
+              style: const TextStyle(
+                  color: Colors.black54,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700),
+              textAlign: TextAlign.center,
             ),
           ],
         ),
         Container(
-          margin: EdgeInsets.only(left: 20, top: 10),
+          margin: const EdgeInsets.only(left: 20, top: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
-                  Text(
+                  const Text(
                     'size',
                     style: TextStyle(
                         fontSize: 20,
@@ -258,7 +267,7 @@ Widget buildPreferCard(Map<dynamic, dynamic> result) {
                         fontStyle: FontStyle.italic),
                   ),
                   Container(
-                    margin: EdgeInsets.all(5),
+                    margin: const EdgeInsets.all(5),
                     height: 23,
                     width: 60,
                     child: ElevatedButton(
@@ -270,9 +279,9 @@ Widget buildPreferCard(Map<dynamic, dynamic> result) {
                                 BorderRadius.circular(15), // 모서리를 둥글게 조정
                           ),
                           padding: EdgeInsets.zero,
-                          minimumSize: Size(60, 23),
+                          minimumSize: const Size(60, 23),
                         ),
-                        child: Text(
+                        child: const Text(
                           '측정하기',
                           style: TextStyle(color: Colors.white),
                         )),
@@ -286,12 +295,12 @@ Widget buildPreferCard(Map<dynamic, dynamic> result) {
                   fontWeight: FontWeight.w400,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Row(
                 children: [
-                  Text(
+                  const Text(
                     'petsonal color',
                     style: TextStyle(
                         fontSize: 20,
@@ -300,7 +309,7 @@ Widget buildPreferCard(Map<dynamic, dynamic> result) {
                         fontStyle: FontStyle.italic),
                   ),
                   Container(
-                    margin: EdgeInsets.all(5),
+                    margin: const EdgeInsets.all(5),
                     height: 23,
                     width: 50,
                     child: ElevatedButton(
@@ -312,34 +321,34 @@ Widget buildPreferCard(Map<dynamic, dynamic> result) {
                                 BorderRadius.circular(15), // 모서리를 둥글게 조정
                           ),
                           padding: EdgeInsets.zero,
-                          minimumSize: Size(50, 23),
+                          minimumSize: const Size(50, 23),
                         ),
-                        child: Text(
+                        child: const Text(
                           '테스트',
                           style: TextStyle(color: Colors.white),
                         )),
                   )
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
               Row(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(right: 7),
+                    margin: const EdgeInsets.only(right: 7),
                     color: Colors.grey,
                     height: 35,
                     width: 35,
                   ),
                   Container(
-                    margin: EdgeInsets.only(right: 7),
+                    margin: const EdgeInsets.only(right: 7),
                     color: Colors.grey,
                     height: 35,
                     width: 35,
                   ),
                   Container(
-                    margin: EdgeInsets.only(right: 7),
+                    margin: const EdgeInsets.only(right: 7),
                     color: Colors.grey,
                     height: 35,
                     width: 35,

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:mungshinsa/providers/prefer_provider.dart';
+import 'package:mungshinsa/providers/breed_tags_provider.dart';
 
 class CreatePrefer extends StatefulWidget {
   const CreatePrefer({super.key});
@@ -16,13 +17,15 @@ class _CreatePreferState extends State<CreatePrefer> {
   XFile? _imageFile;
   final ImagePicker _picker = ImagePicker();
   TextEditingController _nameController = TextEditingController();
-  TextEditingController _breedController = TextEditingController();
+  late int selectedBreedTag;
+  //TextEditingController _breedController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+          centerTitle: true,
           title: Text(
             '반려견 등록',
             style: TextStyle(color: Colors.black),
@@ -66,27 +69,55 @@ class _CreatePreferState extends State<CreatePrefer> {
                             },
                           ),
                           SizedBox(
-                            height: 30,
+                            height: 40,
                           ),
                           Text(
                             '종',
                             style: TextStyle(fontSize: 16),
                           ),
-                          TextFormField(
-                            controller: _breedController, // 컨트롤러 할당
-                            decoration: const InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
-                              ),
-                              //contentPadding: EdgeInsets.only(left: 10),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return '종을 입력해주세요';
-                              }
-                              return null;
-                            },
+                          SizedBox(
+                            height: 10,
                           ),
+                          FutureBuilder(
+                              future: breedTagProvider.getBreedTags(),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  List<dynamic> breedTags = snapshot.data!;
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Colors.black, width: 0.5)),
+                                    child: DropdownButtonFormField(
+                                      decoration: const InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        hintText: '종을 선택해주세요',
+                                      ),
+                                      //value: studentResult.additionalPoint,
+                                      items: List.generate(breedTags.length,
+                                          (index) {
+                                        return DropdownMenuItem(
+                                            value: index,
+                                            child: Text(breedTags[index]
+                                                ['breedTagName']));
+                                      }),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          selectedBreedTag = value! + 1;
+                                          print(selectedBreedTag);
+                                        });
+                                      },
+                                      validator: (value) {
+                                        if (value == 0) {
+                                          return '종을 선택해주세요';
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                  );
+                                } else {
+                                  return LinearProgressIndicator();
+                                }
+                              }),
                         ],
                       ),
                     ),
@@ -97,12 +128,14 @@ class _CreatePreferState extends State<CreatePrefer> {
                 ),
               ),
             ),
+            //Spacer(),
             Container(
                 width: double.infinity,
                 height: 40,
                 child: ElevatedButton(
                   onPressed: () async {
-                    await preferProvider.createPrefer(1);
+                    await preferProvider.createPrefer(
+                        1, _nameController.text, selectedBreedTag);
                     Navigator.pop(context);
                     // setState(() {
                     //   // 데이터가 변경되었음을 알려서 페이지를 다시 그림
@@ -122,6 +155,7 @@ class _CreatePreferState extends State<CreatePrefer> {
   Widget imageProfile() {
     return Center(
       child: Stack(
+        clipBehavior: Clip.none,
         children: <Widget>[
           Container(
             margin: EdgeInsets.only(top: 15),
@@ -139,55 +173,38 @@ class _CreatePreferState extends State<CreatePrefer> {
               ),
             ),
           ),
-          // CircleAvatar(
-          //   radius: 60,
-          //   backgroundColor: Color(0xFFA8ABFF),
-          //   backgroundImage: _imageFile == null
-          //       ? AssetImage('assets/images/dog_profile.png')
-          //       : FileImage(File(_imageFile!.path)) as ImageProvider<Object>,
-          // ),
           Positioned(
-              bottom: 5,
-              right: 10,
+              bottom: -10,
+              right: -10,
               child: InkWell(
-                onTap: () {
-                  showModalBottomSheet(
-                      context: context, builder: ((builder) => bottomSheet()));
-                },
-                child: Icon(
-                  Icons.camera_alt,
-                  color: Colors.grey,
-                  size: 40,
-                ),
-              ))
+                  onTap: () {
+                    showModalBottomSheet(
+                        context: context,
+                        builder: ((builder) => bottomSheet()));
+                  },
+                  child: Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color(0xFFA8ABFF),
+                      border: Border.all(
+                        color: Colors.white, // 테두리 색상
+                        width: 3, // 테두리 두께
+                      ),
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.camera_alt,
+                        color: Colors.white,
+                        size: 23,
+                      ),
+                    ),
+                  )))
         ],
       ),
     );
   }
-
-  // Widget nameTextField() {
-  //   return TextFormField(
-  //     decoration: InputDecoration(
-  //         border: OutlineInputBorder(
-  //           borderSide: BorderSide(
-  //             color: Colors.grey,
-  //           ),
-  //         ),
-  //         focusedBorder: OutlineInputBorder(
-  //           borderSide: BorderSide(
-  //             color: Colors.grey,
-  //             width: 2,
-  //           ),
-  //         ),
-  //         prefixIcon: Icon(
-  //           Icons.person,
-  //           color: Colors.grey,
-  //         ),
-  //         labelText: 'Name',
-  //         hintText: 'Input your name'
-  //     ),
-  //   );
-  // }
 
   Widget bottomSheet() {
     return Container(
@@ -197,9 +214,9 @@ class _CreatePreferState extends State<CreatePrefer> {
         child: Column(
           children: <Widget>[
             Text(
-              'Choose Profile photo',
+              '프로필 사진 선택',
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 18,
               ),
             ),
             SizedBox(

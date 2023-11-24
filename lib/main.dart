@@ -13,7 +13,7 @@ import 'store_page/clothes.dart';
 import 'store_page/clothes_detail.dart';
 import 'my_page/my_page.dart';
 import 'my_page/create_prefer.dart';
-import 'my_page/settings.dart';
+import 'settings.dart';
 import 'create_board.dart';
 
 import 'package:mungshinsa/providers/board_provider.dart';
