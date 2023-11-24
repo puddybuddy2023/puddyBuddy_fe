@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+import 'package:mungshinsa/store_page/review_detail.dart';
 import 'package:provider/provider.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 
@@ -54,6 +55,7 @@ class MyApp extends StatelessWidget {
           '/index': (context) => IndexScreen(),
           '/board_detail': (context) => BoardDetail(),
           '/clothesDetail': (context) => ClothesDetail(),
+          '/reviewDetail': (context) => ReviewDetail(),
           '/myPage': (context) => MyPage(),
           '/createPrefer': (context) => CreatePrefer(),
           '/settings': (context) => Settings(),

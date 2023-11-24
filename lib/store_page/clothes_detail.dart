@@ -65,7 +65,7 @@ class _ClothesDetailState extends State<ClothesDetail> {
                                 onTap: () {
                                   Navigator.pushNamed(
                                     context,
-                                    '/board_detail',
+                                    '/reviewDetail',
                                     arguments: result[index],
                                   );
                                 },
