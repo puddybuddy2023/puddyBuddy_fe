@@ -79,98 +79,88 @@ class _MyPageState extends State<MyPage> {
               ],
             ),
           ),
-          FutureBuilder(
-            future: preferProvider.fetchPreferById(1),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                List<dynamic> result = snapshot.data!;
-                return Column(
-                  children: [
-                    Container(
-                      // 카드 슬라이더
-                      height: 200,
-                      child: PageView.builder(
-                          controller: controller,
-                          itemCount: result.length + 1,
-                          onPageChanged: (page) {
-                            setState(() {
-                              currentPage = page;
-                            });
-                          },
-                          itemBuilder: (context, index) {
-                            if (index == result.length) {
-                              // 마지막 페이지일 때
-                              return Container(
-                                padding:
-                                    const EdgeInsets.fromLTRB(20, 15, 15, 15),
-                                margin: const EdgeInsets.symmetric(
-                                    horizontal: 15, vertical: 5),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: Color(0xFFA6A6A6FF),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.black.withOpacity(0.1),
-                                          blurRadius: 3,
-                                          spreadRadius: 3,
-                                          offset: const Offset(0, 1))
-                                    ]),
-                                child: Column(
+          Consumer<PreferProvider>(builder: (context, preferProvider, child) {
+            final preferList = preferProvider.getPreferListByUserId(1);
+            //print(preferList);
+            return Column(
+              children: [
+                Container(
+                  // 카드 슬라이더
+                  height: 200,
+                  child: PageView.builder(
+                      controller: controller,
+                      itemCount: preferList.length + 1,
+                      onPageChanged: (page) {
+                        setState(() {
+                          currentPage = page;
+                        });
+                      },
+                      itemBuilder: (context, index) {
+                        if (index == preferList.length) {
+                          // 마지막 페이지일 때
+                          return Container(
+                            padding: const EdgeInsets.fromLTRB(20, 15, 15, 15),
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 5),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: Color(0xFFA6A6A6FF),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      blurRadius: 3,
+                                      spreadRadius: 3,
+                                      offset: const Offset(0, 1))
+                                ]),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        FloatingActionButton(
-                                          mini: true,
-                                          backgroundColor: Colors.black,
-                                          onPressed: () {
-                                            Navigator.pushNamed(
-                                                context, '/createPrefer');
-                                          },
-                                          child: Icon(
-                                            Icons.add,
-                                            size: 20,
-                                          ),
-                                        )
-                                      ],
-                                    ),
+                                    FloatingActionButton(
+                                      heroTag: 'createPrefer',
+                                      mini: true,
+                                      backgroundColor: Colors.black,
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                            context, '/createPrefer');
+                                      },
+                                      child: Icon(
+                                        Icons.add,
+                                        size: 20,
+                                      ),
+                                    )
                                   ],
                                 ),
-                              ); // 일반 카드를 반환하 // 추가 버튼을 반환하는 함수 호출
-                            } else {
-                              print(result[index]);
-                              return buildPreferCard(
-                                  result[index]); // 선호조건 카드를 반환하는 함수 호출
-                            }
-                          }),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        for (num i = 0; i < result.length + 1; i++)
-                          Container(
-                            margin: const EdgeInsets.all(3),
-                            width: 10,
-                            height: 10,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: i == currentPage
-                                    ? Color(0xFFA6A6A6FF)
-                                    : Colors.black.withOpacity(.2)),
-                          )
-                      ],
-                    ),
+                              ],
+                            ),
+                          ); // 일반 카드를 반환하 // 추가 버튼을 반환하는 함수 호출
+                        } else {
+                          return buildPreferCard(
+                              preferList[index]); // 선호조건 카드를 반환하는 함수 호출
+                        }
+                      }),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    for (num i = 0; i < preferList.length + 1; i++)
+                      Container(
+                        margin: const EdgeInsets.all(3),
+                        width: 10,
+                        height: 10,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: i == currentPage
+                                ? Color(0xFFA6A6A6FF)
+                                : Colors.black.withOpacity(.2)),
+                      )
                   ],
-                );
-              } else {
-                return Container(
-                  height: 210,
-                );
-              }
-            },
-          ),
+                ),
+              ],
+            );
+          }),
           const SizedBox(
             height: 15,
           ),
@@ -231,7 +221,7 @@ Widget buildPreferCard(Map<dynamic, dynamic> result) {
         Column(
           children: [
             Container(
-              margin: EdgeInsets.only(top: 15),
+              margin: EdgeInsets.only(top: 10),
               height: 100,
               width: 100,
               decoration: BoxDecoration(
@@ -247,7 +237,7 @@ Widget buildPreferCard(Map<dynamic, dynamic> result) {
               height: 5,
             ),
             Text(
-              result['name'] + '(${result['breedTagName']})',
+              result['name'] + '\n(${result['breedTagName']})',
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
             ),
           ],

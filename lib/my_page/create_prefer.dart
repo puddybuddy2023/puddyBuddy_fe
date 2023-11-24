@@ -17,13 +17,16 @@ class _CreatePreferState extends State<CreatePrefer> {
   final ImagePicker _picker = ImagePicker();
   TextEditingController _nameController = TextEditingController();
   TextEditingController _breedController = TextEditingController();
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('반려견 등록', style: TextStyle(color: Colors.black),),
+          title: Text(
+            '반려견 등록',
+            style: TextStyle(color: Colors.black),
+          ),
           elevation: 0,
           backgroundColor: Colors.white,
           iconTheme: IconThemeData(color: Colors.black)),
@@ -36,7 +39,9 @@ class _CreatePreferState extends State<CreatePrefer> {
                 child: Column(
                   children: [
                     imageProfile(),
-                    SizedBox(height: 60,),
+                    SizedBox(
+                      height: 60,
+                    ),
                     Container(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,7 +51,7 @@ class _CreatePreferState extends State<CreatePrefer> {
                             style: TextStyle(fontSize: 16),
                           ),
                           TextFormField(
-                            //controller: _reviewController, // 컨트롤러 할당
+                            controller: _nameController, // 컨트롤러 할당
                             decoration: const InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.black),
@@ -60,13 +65,15 @@ class _CreatePreferState extends State<CreatePrefer> {
                               return null;
                             },
                           ),
-                          SizedBox(height: 30,),
+                          SizedBox(
+                            height: 30,
+                          ),
                           Text(
                             '종',
                             style: TextStyle(fontSize: 16),
                           ),
                           TextFormField(
-                            //controller: _reviewController, // 컨트롤러 할당
+                            controller: _breedController, // 컨트롤러 할당
                             decoration: const InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.black),
@@ -83,7 +90,9 @@ class _CreatePreferState extends State<CreatePrefer> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 30,),
+                    SizedBox(
+                      height: 30,
+                    ),
                   ],
                 ),
               ),
@@ -92,11 +101,17 @@ class _CreatePreferState extends State<CreatePrefer> {
                 width: double.infinity,
                 height: 40,
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    await preferProvider.createPrefer(1);
+                    Navigator.pop(context);
+                    // setState(() {
+                    //   // 데이터가 변경되었음을 알려서 페이지를 다시 그림
+                    // });
+                    //Navigator.of(context).pushReplacementNamed('/myPage');
                   },
                   child: Text('등록'),
-                  style:
-                  ElevatedButton.styleFrom(backgroundColor: Color(0xFFA8ABFF)),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFFA8ABFF)),
                 )),
           ],
         ),
@@ -108,25 +123,43 @@ class _CreatePreferState extends State<CreatePrefer> {
     return Center(
       child: Stack(
         children: <Widget>[
-          CircleAvatar(
-            radius: 60,
-            backgroundColor: Color(0xFFA8ABFF),
-            backgroundImage: _imageFile == null ? AssetImage('assets/images/dog_profile.png') : FileImage(File(_imageFile!.path)) as ImageProvider<Object>,
+          Container(
+            margin: EdgeInsets.only(top: 15),
+            height: 100,
+            width: 100,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: Color(0xFFA8ABFF),
+              image: DecorationImage(
+                image: _imageFile == null
+                    ? AssetImage('assets/images/dog_profile.png')
+                    : FileImage(File(_imageFile!.path))
+                        as ImageProvider<Object>,
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
+          // CircleAvatar(
+          //   radius: 60,
+          //   backgroundColor: Color(0xFFA8ABFF),
+          //   backgroundImage: _imageFile == null
+          //       ? AssetImage('assets/images/dog_profile.png')
+          //       : FileImage(File(_imageFile!.path)) as ImageProvider<Object>,
+          // ),
           Positioned(
-              bottom: 20,
-              right: 20,
+              bottom: 5,
+              right: 10,
               child: InkWell(
                 onTap: () {
-                  showModalBottomSheet(context: context, builder: ((builder) => bottomSheet()));
+                  showModalBottomSheet(
+                      context: context, builder: ((builder) => bottomSheet()));
                 },
                 child: Icon(
                   Icons.camera_alt,
                   color: Colors.grey,
                   size: 40,
                 ),
-              )
-          )
+              ))
         ],
       ),
     );
@@ -160,10 +193,7 @@ class _CreatePreferState extends State<CreatePrefer> {
     return Container(
         height: 100,
         width: MediaQuery.of(context).size.width,
-        margin: EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 20
-        ),
+        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: Column(
           children: <Widget>[
             Text(
@@ -172,19 +202,27 @@ class _CreatePreferState extends State<CreatePrefer> {
                 fontSize: 20,
               ),
             ),
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 IconButton(
-                  icon: Icon(Icons.camera, size: 50,),
+                  icon: Icon(
+                    Icons.camera,
+                    size: 50,
+                  ),
                   onPressed: () {
                     takePhoto(ImageSource.camera);
                   },
                   //label: Text('Camera', style: TextStyle(fontSize: 20),),
                 ),
                 IconButton(
-                  icon: Icon(Icons.photo_library, size: 50,),
+                  icon: Icon(
+                    Icons.photo_library,
+                    size: 50,
+                  ),
                   onPressed: () {
                     takePhoto(ImageSource.gallery);
                   },
@@ -193,8 +231,7 @@ class _CreatePreferState extends State<CreatePrefer> {
               ],
             )
           ],
-        )
-    );
+        ));
   }
 
   takePhoto(ImageSource source) async {
@@ -204,5 +241,3 @@ class _CreatePreferState extends State<CreatePrefer> {
     });
   }
 }
-
-

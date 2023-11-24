@@ -119,10 +119,13 @@ class _StoreState extends State<Store> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    clothesList[i]['storeId'].toString(),
+                                    clothesList[i]['storeName'].toString(),
                                     textAlign: TextAlign.start,
                                   ),
-                                  Text(clothesList[i]['name']),
+                                  Text(
+                                    clothesList[i]['name'],
+                                    style: TextStyle(fontSize: 16),
+                                  ),
                                 ],
                               )),
                         ],

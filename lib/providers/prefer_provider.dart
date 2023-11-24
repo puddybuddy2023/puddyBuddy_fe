@@ -9,43 +9,50 @@ class PreferProvider with ChangeNotifier {
   Future<List<dynamic>> fetchPreferById(int uid) async {
     Response response;
     Dio dio = new Dio();
-    response = await dio.get("$_API_PREFIX/$uid");
+    response = await dio.get("$_API_PREFIX/users/$uid");
     List<dynamic> result = (response.data)['result'];
     //print(result);
+    //notifyListeners();
     return result;
   }
 
-  // final List<dynamic> _preferList = List.empty(growable: true);
-  // List<dynamic> getPreferListByUserId(int userId) {
-  //   _fetchPrefersByUserId(userId);
-  //   return _preferList;
-  // }
-  //
-  // Future<void> _fetchPrefersByUserId(int userId) async {
-  //   Response response;
-  //   Dio dio = new Dio();
-  //   response = await dio.get('$_API_PREFIX/$userId');
-  //   final result = (response.data)['result'];
-  //
-  //   _preferList.clear(); // 이전에 저장된 목록을 비운다.
-  //   _preferList.addAll(result);
-  //   notifyListeners(); // 데이터가 업데이트되었음을 리스너에게 알린다.
-  // }
-
-  /* 선호조건 생성 */
-  Future<void> createPrefer(int uid) async {
-    Response response;
-    Dio dio = new Dio();
-    response = await dio.get("$_API_PREFIX/create/$uid");
-    Map<dynamic, dynamic> responseMap = (response.data)['result'][0];
-    //print(_responseMap['name']);
+  final List<dynamic> _preferList = List.empty(growable: true);
+  List<dynamic> getPreferListByUserId(int userId) {
+    _fetchPrefersByUserId(userId);
+    return _preferList;
   }
 
-  Future<void> deletePrefer(int uid) async {
+  Future<void> _fetchPrefersByUserId(int userId) async {
     Response response;
     Dio dio = new Dio();
-    response = await dio.get("$_API_PREFIX/delete/$uid");
-    Map<dynamic, dynamic> responseMap = (response.data)['result'][0];
+    response = await dio.get('$_API_PREFIX/users/$userId');
+    final result = (response.data)['result'];
+
+    _preferList.clear(); // 이전에 저장된 목록을 비운다.
+    _preferList.addAll(result);
+    notifyListeners(); // 데이터가 업데이트되었음을 리스너에게 알린다.
+  }
+
+  /* 선호조건 생성 */
+  Future<void> createPrefer(int userId) async {
+    Response response;
+    Dio dio = new Dio();
+    response = await dio.post("$_API_PREFIX/create/$userId", data: {
+      "userId": userId,
+      "preferName": "아리",
+      "chest": 5,
+      "back": 5,
+      "personalColorId": 1,
+      "breedTagId": 1
+    });
+    print((response.data));
+  }
+
+  Future<void> deletePrefer(int userId) async {
+    Response response;
+    Dio dio = new Dio();
+    response = await dio.get("$_API_PREFIX/delete/$userId");
+    Map<dynamic, dynamic> responseMap = (response.data)['result'];
     //print(_responseMap['name']);
   }
 }
