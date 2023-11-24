@@ -56,24 +56,34 @@ class BoardProvider with ChangeNotifier {
   }
 
   /* 옷 아이디로 보드 가져오기*/
-  List<dynamic> getBoardListByClothesId(int clothesId) {
-    _fetchBoardsByClothesId(clothesId); // 게시물을 가져온다.
-    return _boardList;
-  }
+  // List<dynamic> getBoardListByClothesId(int clothesId) {
+  //   _fetchBoardsByClothesId(clothesId); // 게시물을 가져온다.
+  //   return _boardList;
+  // }
+  //
+  // void _fetchBoardsByClothesId(int clothesId) async {
+  //   Response response;
+  //   Dio dio = new Dio();
+  //   response = await dio
+  //       .get("$_API_PREFIX", queryParameters: {'clothes_id': clothesId});
+  //   List<dynamic> result = (response.data)['result'];
+  //   //print((response.data)['result']);
+  //
+  //   _boardList.clear(); // 이전에 저장된 목록을 비운다.
+  //   _boardList.addAll(result);
+  //   //print(_boardList);
+  //   notifyListeners();
+  // }
 
-  void _fetchBoardsByClothesId(int clothesId) async {
+  Future<List<dynamic>> fetchClothesById(int clothesId) async {
     Response response;
     Dio dio = new Dio();
-    response = await dio.get("$_API_PREFIX", queryParameters: {'clothes_id': 1});
+    response = await dio
+        .get("$_API_PREFIX", queryParameters: {'clothes_id': clothesId});
     List<dynamic> result = (response.data)['result'];
-    //print((response.data)['result']);
-
-    _boardList.clear(); // 이전에 저장된 목록을 비운다.
-    _boardList.addAll(result);
-    //print(_boardList);
-    notifyListeners();
+    //print(result);
+    return result;
   }
-
 
   /* 게시글 상세보기 */
   Future<Map<dynamic, dynamic>> getBoardDetail(int boardId) async {

@@ -155,28 +155,83 @@ class _BoardDetailState extends State<BoardDetail> {
             //   },
             // ),
           ),
-          InkWell(
-            onTap: () {
-              clothesProvider.getClothesByClothesId(1);
-            },
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(7.0),
-              ),
-              color: Color(0xFFA8ABFF),
-              child: Container(
-                height: 70,
-                child: Row(
-                  children: [
-                    Text(
-                      '착용한 옷 정보',
-                      style: TextStyle(color: Colors.white),
+          FutureBuilder(
+              future: clothesProvider.getClothesByClothesId(board['clothesId']),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  final result = snapshot.data!;
+                  return InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/clothesDetail',
+                          arguments: result);
+                    },
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(7.0),
+                      ),
+                      color: Color(0xFFA8ABFF),
+                      child: Container(
+                        height: 80,
+                        child: Row(
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.all(10),
+                              height: 60,
+                              width: 60,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(7),
+                                color: Colors.white,
+                                image: const DecorationImage(
+                                  image: AssetImage(
+                                      'assets/images/dog_profile.png'),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  result['storeName'],
+                                  style: TextStyle(
+                                    color: Colors.black54,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 3,
+                                ),
+                                Text(
+                                  result['name'],
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700),
+                                ),
+                                SizedBox(
+                                  height: 3,
+                                ),
+                                Text(
+                                  result['personalColor'],
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+                  );
+                } else {
+                  return Container(
+                    height: 70,
+                  );
+                }
+              }),
           CommentsPanel(
               commentProvider: commentProvider,
               board: board), // comments section
@@ -186,6 +241,93 @@ class _BoardDetailState extends State<BoardDetail> {
   }
 }
 
+/* 옷 정보 영역 */
+class ClothesPanel extends StatelessWidget {
+  const ClothesPanel({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    //Map<dynamic, dynamic> clothes = clothesProvider.getClothesByClothesId(1);
+    return FutureBuilder(
+        future: clothesProvider.getClothesByClothesId(1),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final result = snapshot.data!;
+            return InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, '/clothesDetail',
+                    arguments: result);
+              },
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(7.0),
+                ),
+                color: Color(0xFFA8ABFF),
+                child: Container(
+                  height: 80,
+                  child: Row(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.all(10),
+                        height: 60,
+                        width: 60,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(7),
+                          color: Colors.white,
+                          image: const DecorationImage(
+                            image: AssetImage('assets/images/dog_profile.png'),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            result['storeName'],
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 14,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 3,
+                          ),
+                          Text(
+                            result['name'],
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          SizedBox(
+                            height: 3,
+                          ),
+                          Text(
+                            result['personalColor'],
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          } else {
+            return Container(
+              height: 70,
+            );
+          }
+        });
+  }
+}
+
+/* 댓글 영역 */
 class CommentsPanel extends StatefulWidget {
   final CommentProvider commentProvider;
   final dynamic board;

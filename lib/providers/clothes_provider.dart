@@ -7,7 +7,6 @@ const _API_PREFIX =
 
 class ClothesProvider with ChangeNotifier {
   final List<dynamic> _clothesList = List.empty(growable: true);
-
   List<dynamic> getClothesList() {
     _fetchClothes();
     return _clothesList;
@@ -30,8 +29,8 @@ class ClothesProvider with ChangeNotifier {
   Future<Map<dynamic, dynamic>> getClothesByClothesId(int clothesId) async {
     Response response;
     Dio dio = new Dio();
-    response = await dio.get("$_API_PREFIX/search",
-        queryParameters: {'sizeClothes_id': clothesId});
+    response = await dio.get("$_API_PREFIX/$clothesId",
+        queryParameters: {'clothes_id': clothesId});
     Map<dynamic, dynamic> result = (response.data)['result'];
     print(result);
     return result;

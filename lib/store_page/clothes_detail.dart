@@ -46,41 +46,84 @@ class _ClothesDetailState extends State<ClothesDetail> {
                 SizedBox(
                   height: 20,
                 ),
-                Consumer<BoardProvider>(
-                    builder: (context, boardProvider, child) {
-                  final boardList = boardProvider.getBoardListByClothesId(1);
-                  return GridView.builder(
-                      padding: EdgeInsets.all(15),
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: boardList.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2, childAspectRatio: 1 / 1),
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              '/board_detail',
-                              arguments: boardList[index],
-                            );
-                          },
-                          child: Container(
-                            padding: EdgeInsets.all(1),
-                            margin: EdgeInsets.all(1),
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image:
-                                    Image.network(boardList[index]['photoUrl'])
-                                        .image,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        );
-                      });
-                }),
+                FutureBuilder(
+                    future:
+                        boardProvider.fetchClothesById(clothes['clothesId']),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        final result = snapshot.data!;
+                        return GridView.builder(
+                            padding: EdgeInsets.all(15),
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: result.length,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2, childAspectRatio: 1 / 1),
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    '/board_detail',
+                                    arguments: result[index],
+                                  );
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(1),
+                                  margin: EdgeInsets.all(1),
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: Image.network(
+                                              result[index]['photoUrl'])
+                                          .image,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            });
+                      } else {
+                        return Container();
+                      }
+                    }),
+
+                // Consumer<BoardProvider>(
+                //     builder: (context, boardProvider, child) {
+                //   final boardList = boardProvider
+                //       .getBoardListByClothesId(clothes['clothesId']);
+                //   return GridView.builder(
+                //       padding: EdgeInsets.all(15),
+                //       shrinkWrap: true,
+                //       physics: const NeverScrollableScrollPhysics(),
+                //       itemCount: boardList.length,
+                //       gridDelegate:
+                //           const SliverGridDelegateWithFixedCrossAxisCount(
+                //               crossAxisCount: 2, childAspectRatio: 1 / 1),
+                //       itemBuilder: (context, index) {
+                //         return InkWell(
+                //           onTap: () {
+                //             Navigator.pushNamed(
+                //               context,
+                //               '/board_detail',
+                //               arguments: boardList[index],
+                //             );
+                //           },
+                //           child: Container(
+                //             padding: EdgeInsets.all(1),
+                //             margin: EdgeInsets.all(1),
+                //             decoration: BoxDecoration(
+                //               image: DecorationImage(
+                //                 image:
+                //                     Image.network(boardList[index]['photoUrl'])
+                //                         .image,
+                //                 fit: BoxFit.cover,
+                //               ),
+                //             ),
+                //           ),
+                //         );
+                //       });
+                // }),
               ],
             ),
           ),

@@ -202,6 +202,7 @@ class _MyPageState extends State<MyPage> {
   }
 }
 
+/* 반려견 카드 영역 */
 Widget buildPreferCard(Map<dynamic, dynamic> result) {
   return Container(
     padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
