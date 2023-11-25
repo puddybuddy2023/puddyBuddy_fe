@@ -7,6 +7,7 @@ const _API_PREFIX =
 
 class CommentProvider with ChangeNotifier {
   /*댓글 전체 가져오기*/
+
   final List<dynamic> _commentList = List.empty(growable: true);
   List<dynamic> getCommentList(int boardId) {
     _fetchComments(boardId);

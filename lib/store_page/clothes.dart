@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/clothes_provider.dart';
+import 'package:getwidget/getwidget.dart';
 
 class Store extends StatefulWidget {
   const Store({super.key});
@@ -11,8 +12,11 @@ class Store extends StatefulWidget {
 
 class _StoreState extends State<Store> {
   bool isSwitched = false;
+  int colorId = -1;
+  //int personalcolorId = 0;
   @override
   Widget build(BuildContext context) {
+    TextEditingController searchTextEditingController = TextEditingController();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -37,126 +41,206 @@ class _StoreState extends State<Store> {
       ),
       body: Column(
         children: [
+          /* 검색 영역 */
           Container(
-            margin: EdgeInsets.all(5),
-            height: 40,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: Colors.grey.shade200, // 배경색
-              borderRadius: BorderRadius.circular(20), // 모서리 둥글게
-            ),
+            // 검색창
+            padding: const EdgeInsets.all(8.0),
+            height: 60,
             child: TextField(
+              controller: searchTextEditingController,
               decoration: InputDecoration(
-                prefixIcon: Icon(
+                suffixIcon: Icon(
                   Icons.search,
                   color: Color(0xFFA8ABFF),
-                ), // 검색 아이콘
-                border: InputBorder.none, // 기본 테두리 제거
-                contentPadding:
-                    EdgeInsets.symmetric(horizontal: 15), // 내용과 모서리 간 여백
+                ),
+                hintText: '검색어를 입력해주세요',
+                contentPadding: EdgeInsets.only(left: 10.0),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black), // 까만색 테두리
+                ),
               ),
             ),
           ),
-          Row(
-            children: [
-              Text('  펫스널컬러'),
-              Switch(
-                value: isSwitched,
-                onChanged: (value) {
-                  // 스위치의 상태가 변경될 때 호출되는 함수
-                  setState(() {
-                    isSwitched = value; // 스위치의 상태 업데이트
-                  });
-                },
-              ),
-            ],
+          Container(
+            // filtering
+            margin: EdgeInsets.only(left: 10, bottom: 10),
+            child: Row(
+              children: [
+                GFToggle(
+                  value: isSwitched,
+                  onChanged: (value) {
+                    setState(() {
+                      isSwitched = value!;
+                      colorId = value ? 1 : -1;
+                    });
+                  },
+                  enabledThumbColor: Colors.white,
+                  enabledTrackColor: Color(0xFFA8ABFF),
+                  enabledText: '펫컬',
+                  enabledTextStyle: TextStyle(
+                      fontWeight: FontWeight.w700, color: Colors.white),
+                  type: GFToggleType.ios,
+                ),
+              ],
+            ),
           ),
+          /* 옷 목록 영역 */
           Expanded(
             child: Consumer<ClothesProvider>(
                 builder: (context, boardProvider, child) {
-              final clothesList = boardProvider.getClothesList();
+              final clothesList = boardProvider.getClothesList(colorId);
               return GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  childAspectRatio: 1 / 1.4,
+                  childAspectRatio: 1 / 1.32,
                 ),
+                itemCount: clothesList.length,
                 itemBuilder: (c, i) {
-                  return InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/clothesDetail',
-                          arguments: clothesList[i]);
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(4),
-                      margin: EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(7),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.1),
-                            spreadRadius: 1,
-                            blurRadius: 10,
-                            offset: Offset(0, 1),
-                          ),
-                        ], // 원하는 정도의 둥근 모서리 반지름 설정
-                      ),
-                      child: Column(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.all(5),
-                            width: 180, // 원하는 너비 설정
-                            height: 180, // 원하는 높이 설정
-                            decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(10),
+                  return GridTile(
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/clothesDetail',
+                            arguments: clothesList[i]);
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(4),
+                        margin: EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(7),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26.withOpacity(0.1),
+                              spreadRadius: 1,
+                              blurRadius: 5,
+                              offset: Offset(0, 1),
                             ),
-                          ),
-                          Container(
-                              padding: EdgeInsets.all(5),
-                              alignment: Alignment.centerLeft,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    clothesList[i]['storeName'].toString(),
-                                    textAlign: TextAlign.start,
-                                  ),
-                                  Text(
-                                    clothesList[i]['name'],
-                                    style: TextStyle(fontSize: 16),
-                                  ),
-                                ],
-                              )),
-                        ],
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.all(5),
+                              width: 180, // 원하는 너비 설정
+                              height: 180, // 원하는 높이 설정
+                              decoration: BoxDecoration(
+                                color: Colors.grey,
+                                borderRadius: BorderRadius.circular(7),
+                              ),
+                            ),
+                            Container(
+                                padding: EdgeInsets.all(5),
+                                alignment: Alignment.centerLeft,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      clothesList[i]['storeName'].toString(),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                    Text(
+                                      clothesList[i]['name'],
+                                      style: TextStyle(fontSize: 16),
+                                      //softWrap: false,
+                                      overflow: TextOverflow.fade,
+                                      maxLines: 2,
+                                    ),
+                                  ],
+                                )),
+                          ],
+                        ),
+                        //child: Image.network(clothesList[i]['photoUrl']),
                       ),
-                      //child: Image.network(clothesList[i]['photoUrl']),
                     ),
                   );
                 },
-                itemCount: clothesList.length,
               );
             }),
           ),
         ],
       ),
     );
+  }
+}
 
-    return Scaffold(
-      body: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 1 / 1.2,
-        ),
-        itemBuilder: (c, i) {
-          return Container(
-            padding: EdgeInsets.all(5),
-            margin: EdgeInsets.all(5),
-            color: Colors.grey,
-          );
-        },
-        itemCount: 15,
-      ),
+class DisplayClothes extends StatelessWidget {
+  const DisplayClothes({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    int colorId = -1;
+    //int personalcolorId = 0;
+    return Expanded(
+      child:
+          Consumer<ClothesProvider>(builder: (context, boardProvider, child) {
+        final clothesList = boardProvider.getClothesList(colorId);
+        return GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 1 / 1.32,
+          ),
+          itemCount: clothesList.length,
+          itemBuilder: (c, i) {
+            return GridTile(
+              child: InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, '/clothesDetail',
+                      arguments: clothesList[i]);
+                },
+                child: Container(
+                  padding: EdgeInsets.all(4),
+                  margin: EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(7),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black26.withOpacity(0.1),
+                        spreadRadius: 1,
+                        blurRadius: 5,
+                        offset: Offset(0, 1),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.all(5),
+                        width: 180, // 원하는 너비 설정
+                        height: 180, // 원하는 높이 설정
+                        decoration: BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                      ),
+                      Container(
+                          padding: EdgeInsets.all(5),
+                          alignment: Alignment.centerLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                clothesList[i]['storeName'].toString(),
+                                textAlign: TextAlign.start,
+                              ),
+                              Text(
+                                clothesList[i]['name'],
+                                style: TextStyle(fontSize: 16),
+                                //softWrap: false,
+                                overflow: TextOverflow.fade,
+                                maxLines: 2,
+                              ),
+                            ],
+                          )),
+                    ],
+                  ),
+                  //child: Image.network(clothesList[i]['photoUrl']),
+                ),
+              ),
+            );
+          },
+        );
+      }),
     );
   }
 }

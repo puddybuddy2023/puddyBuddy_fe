@@ -6,16 +6,19 @@ const _API_PREFIX =
     'http://ec2-13-124-164-167.ap-northeast-2.compute.amazonaws.com/clothes';
 
 class ClothesProvider with ChangeNotifier {
+  /* clothes search */
   final List<dynamic> _clothesList = List.empty(growable: true);
-  List<dynamic> getClothesList() {
-    _fetchClothes();
+  List<dynamic> getClothesList(int colorId) {
+    _fetchClothes(colorId);
     return _clothesList;
   }
 
-  Future<void> _fetchClothes() async {
+  Future<void> _fetchClothes(int colorId) async {
     Response response;
     Dio dio = new Dio();
-    response = await dio.get('$_API_PREFIX/search');
+    response = await dio.get('$_API_PREFIX/search', queryParameters: {
+      'color_id': colorId,
+    });
     final result = (response.data)['result'];
 
     //print(response.data.toString());

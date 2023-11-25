@@ -45,6 +45,7 @@ dependencies:
   url_launcher: ^6.2.1
   kakao_flutter_sdk_user: ^1.7.0
   cached_network_image: ^3.3.0
+  getwidget: ^4.0.0
 
 
 

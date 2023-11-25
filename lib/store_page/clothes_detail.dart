@@ -33,14 +33,43 @@ class _ClothesDetailState extends State<ClothesDetail> {
                     color: Colors.grey,
                   ),
                 ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5, left: 10.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // TODO: 버튼이 눌렸을 때 수행할 작업 추가
+                        },
+                        child: Text('피팅'),
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.black,
+                          fixedSize: Size(20, 20), // 너비 200, 높이 50으로 설정
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
                 Container(
                   height: 100,
                   width: MediaQuery.of(context).size.width * 0.8,
                   padding: EdgeInsets.all(10),
-                  child: Text(
-                    clothes['name'],
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Text(
+                      //   clothes['storeName'],
+                      //   style: TextStyle(
+                      //     color: Colors.black54,
+                      //     fontSize: 14,
+                      //   ),
+                      // ),
+                      Text(
+                        clothes['name'],
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.normal),
+                      ),
+                    ],
                   ),
                 ),
                 SizedBox(
