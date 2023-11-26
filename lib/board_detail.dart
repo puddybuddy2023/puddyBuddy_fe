@@ -359,30 +359,37 @@ class _CommentsPanelState extends State<CommentsPanel> {
       child: Column(
         children: [
           Container(
-            margin: EdgeInsets.all(10),
-            height: 50,
+            margin: const EdgeInsets.all(10gi),
             child: TextFormField(
               controller: _commentController, // 컨트롤러 할당
               decoration: InputDecoration(
-                  enabledBorder: const OutlineInputBorder(
-                    borderSide: const BorderSide(
-                      color: Colors.grey,
-                    ),
-                  ),
-                  suffixIcon: IconButton(
-                    onPressed: () {
+                contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                border: OutlineInputBorder(
+                  // 외곽선 테두리 스타일 설정
+                  borderSide: const BorderSide(color: Colors.black, width: 1),
+                  borderRadius: BorderRadius.circular(7), // 모서리 둥글기 설정
+                ),
+                hintText: '댓글을 남겨주세요',
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    if (_commentController.text == '') {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text('내용을 입력해주세요'),
+                        duration: Duration(seconds: 2), //올라와있는 시간
+                      ));
+                    } else {
                       commentProvider.createComments(widget.board['boardId'],
                           widget.board['userId'], _commentController.text);
                       FocusManager.instance.primaryFocus?.unfocus();
                       _commentController.clear();
-                    },
-                    icon: Icon(
-                      Icons.send,
-                      color: Color(0xFFA8ABFF),
-                    ),
+                    }
+                  },
+                  icon: Icon(
+                    Icons.send,
+                    color: Color(0xFFA8ABFF),
                   ),
-                  contentPadding: EdgeInsets.only(left: 10),
-                  hintText: '댓글을 남겨주세요'),
+                ),
+              ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return '댓글을 입력해주세요';

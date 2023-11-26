@@ -239,22 +239,19 @@ class _WriteNewBoardState extends State<WriteNewBoard> {
                         if (showImage == null) {
                           ScaffoldMessenger.of(context)
                               .showSnackBar(const SnackBar(
-                            content: Text(
-                                '사진을 선택해주세요'), //snack bar의 내용. icon, button같은것도 가능하다.
+                            content: Text('사진을 선택해주세요'),
                             duration: Duration(seconds: 2), //올라와있는 시간
                           ));
                         } else if (_reviewController.text == '') {
                           ScaffoldMessenger.of(context)
                               .showSnackBar(const SnackBar(
-                            content: Text(
-                                '리뷰를 입력해주세요'), //snack bar의 내용. icon, button같은것도 가능하다.
+                            content: Text('리뷰를 입력해주세요'),
                             duration: Duration(seconds: 2), //올라와있는 시간
                           ));
                         } else if (selectedPrefer == -1) {
                           ScaffoldMessenger.of(context)
                               .showSnackBar(const SnackBar(
-                            content: Text(
-                                '강아지를 선택해주세요'), //snack bar의 내용. icon, button같은것도 가능하다.
+                            content: Text('강아지를 선택해주세요'),
                             duration: Duration(seconds: 2), //올라와있는 시간
                           ));
                         } else {

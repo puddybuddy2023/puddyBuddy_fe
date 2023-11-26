@@ -78,8 +78,8 @@ class _StoreState extends State<Store> {
                   enabledTrackColor: Color(0xFFA8ABFF),
                   enabledText: '펫컬',
                   disabledText: '펫컬',
-                  enabledTextStyle: TextStyle(
-                      fontWeight: FontWeight.w700, color: Colors.white),
+                  // enabledTextStyle: TextStyle(
+                  //     fontWeight: FontWeight.w700, color: Colors.white),
                   type: GFToggleType.ios,
                 ),
               ],
