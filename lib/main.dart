@@ -5,9 +5,9 @@ import 'package:provider/provider.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 
 import 'widgets/bottom_navigation_bar.dart';
-import 'splash_screen.dart';
-import 'log_in.dart';
-import 'nickname.dart';
+import 'login_page/splash_screen.dart';
+import 'login_page/log_in.dart';
+import 'login_page/nickname.dart';
 import 'boards.dart';
 import 'package:mungshinsa/board_detail.dart';
 import 'store_page/clothes.dart';

@@ -359,7 +359,7 @@ class _CommentsPanelState extends State<CommentsPanel> {
       child: Column(
         children: [
           Container(
-            margin: const EdgeInsets.all(10gi),
+            margin: const EdgeInsets.all(10),
             child: TextFormField(
               controller: _commentController, // 컨트롤러 할당
               decoration: InputDecoration(

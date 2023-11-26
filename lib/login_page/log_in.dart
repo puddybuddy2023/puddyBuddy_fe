@@ -87,10 +87,11 @@ class _LogInState extends State<LogIn> {
   void _get_user_info() async {
     try {
       User user = await UserApi.instance.me();
-      int userId = user.id;
+      String? userEmail = user.kakaoAccount?.email;
       print('사용자 정보 요청 성공'
           '\n회원번호: ${user.id}'
-          '\n이메일: ${user.kakaoAccount?.email}');
+          '\n이메일: '
+          ' ${user.kakaoAccount?.email}');
     } catch (error) {
       print('사용자 정보 요청 실패 $error');
     }
@@ -158,8 +159,12 @@ class _LogInState extends State<LogIn> {
                     try {
                       await UserApi.instance.loginWithKakaoAccount();
                       print('카카오계정으로 로그인 성공!');
+                      // if(){
+                      //   setLogin();
+                      // }
                       setLogin();
                       _get_user_info();
+
                       Navigator.of(context).pushReplacementNamed('/nickname');
                     } catch (error) {
                       print('카카오계정으로 로그인 실패 $error');
