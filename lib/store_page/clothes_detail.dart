@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mungshinsa/providers/board_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../providers/clothes_provider.dart';
 
 class ClothesDetail extends StatefulWidget {
   const ClothesDetail({super.key});
@@ -26,12 +27,36 @@ class _ClothesDetailState extends State<ClothesDetail> {
           Expanded(
             child: ListView(
               children: [
-                Container(
-                  width: MediaQuery.of(context).size.width, // 원하는 너비 설정
-                  height: MediaQuery.of(context).size.width, // 원하는 높이 설정
-                  decoration: BoxDecoration(
-                    color: Colors.grey,
-                  ),
+                FutureBuilder<Map<dynamic, dynamic>>(
+                  future: clothesProvider.getClothesPhoto(clothes['clothesId']),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      CircularProgressIndicator();
+                      return Center(child: CircularProgressIndicator());
+                    } else {
+                      if (snapshot.hasError) {
+                        // 에러가 있다면 에러 메시지를 보여줄 위젯
+                        return Center(child: Text('이미지를 불러오는 중에 에러가 발생했어요.'));
+                      } else {
+                        // 데이터를 성공적으로 불러왔을 때 Container를 보여줄 위젯
+                        final result = snapshot.data!;
+                        return Container(
+                          margin: EdgeInsets.all(5),
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                            color: Colors.grey,
+                            borderRadius: BorderRadius.circular(7),
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                  result['photourl1']), // 가져온 이미지로 설정
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        );
+                      }
+                    }
+                  },
                 ),
                 Row(
                   children: [
@@ -75,9 +100,18 @@ class _ClothesDetailState extends State<ClothesDetail> {
                 SizedBox(
                   height: 20,
                 ),
+                Text(
+                  '    Reviews',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w900,
+                    //fontStyle: FontStyle.italic,
+                  ),
+                ),
                 FutureBuilder(
-                    future:
-                        boardProvider.fetchClothesById(clothes['clothesId']),
+                    future: boardProvider
+                        .fetchBoardsByClothesId(clothes['clothesId']),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         final result = snapshot.data!;
@@ -116,43 +150,6 @@ class _ClothesDetailState extends State<ClothesDetail> {
                         return Container();
                       }
                     }),
-
-                // Consumer<BoardProvider>(
-                //     builder: (context, boardProvider, child) {
-                //   final boardList = boardProvider
-                //       .getBoardListByClothesId(clothes['clothesId']);
-                //   return GridView.builder(
-                //       padding: EdgeInsets.all(15),
-                //       shrinkWrap: true,
-                //       physics: const NeverScrollableScrollPhysics(),
-                //       itemCount: boardList.length,
-                //       gridDelegate:
-                //           const SliverGridDelegateWithFixedCrossAxisCount(
-                //               crossAxisCount: 2, childAspectRatio: 1 / 1),
-                //       itemBuilder: (context, index) {
-                //         return InkWell(
-                //           onTap: () {
-                //             Navigator.pushNamed(
-                //               context,
-                //               '/board_detail',
-                //               arguments: boardList[index],
-                //             );
-                //           },
-                //           child: Container(
-                //             padding: EdgeInsets.all(1),
-                //             margin: EdgeInsets.all(1),
-                //             decoration: BoxDecoration(
-                //               image: DecorationImage(
-                //                 image:
-                //                     Image.network(boardList[index]['photoUrl'])
-                //                         .image,
-                //                 fit: BoxFit.cover,
-                //               ),
-                //             ),
-                //           ),
-                //         );
-                //       });
-                // }),
               ],
             ),
           ),
@@ -163,8 +160,7 @@ class _ClothesDetailState extends State<ClothesDetail> {
               child: ElevatedButton(
                 onPressed: () async {
                   final url = Uri.parse(clothes['shoppingSiteUrl']);
-                  //final url = Uri(scheme: 'https', host: clothes['shoppingSiteUrl']);
-                  print(url);
+                  //print(url);
                   if (await canLaunchUrl(url)) {
                     launchUrl(Uri.parse(clothes['shoppingSiteUrl']));
                   }

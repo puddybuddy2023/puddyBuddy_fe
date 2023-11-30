@@ -8,14 +8,14 @@ import 'widgets/bottom_navigation_bar.dart';
 import 'login_page/splash_screen.dart';
 import 'login_page/log_in.dart';
 import 'login_page/nickname.dart';
-import 'boards.dart';
-import 'package:mungshinsa/board_detail.dart';
+import 'board_page/boards.dart';
+import 'package:mungshinsa/board_page/board_detail.dart';
 import 'store_page/clothes.dart';
 import 'store_page/clothes_detail.dart';
 import 'my_page/my_page.dart';
 import 'my_page/create_prefer.dart';
 import 'settings.dart';
-import 'create_board.dart';
+import 'board_page/create_board.dart';
 
 import 'package:mungshinsa/providers/board_provider.dart';
 import 'providers/comments_provider.dart';
@@ -43,6 +43,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'PuddyBuddy',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
             primaryColor: Colors.blue,
             primarySwatch: Colors.indigo,

@@ -1,10 +1,8 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mungshinsa/providers/user_provider.dart';
 
 class LogIn extends StatefulWidget {
   const LogIn({super.key});
@@ -18,6 +16,11 @@ class _LogInState extends State<LogIn> {
     // 로그인 상태를 저장
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('isLogin', true);
+  }
+
+  Future setEmail(String email) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('email', email);
   }
 
   // Future<void> getAdditionalKakaoAccount() async {
@@ -92,6 +95,7 @@ class _LogInState extends State<LogIn> {
           '\n회원번호: ${user.id}'
           '\n이메일: '
           ' ${user.kakaoAccount?.email}');
+      setEmail(userEmail!);
     } catch (error) {
       print('사용자 정보 요청 실패 $error');
     }
@@ -147,8 +151,8 @@ class _LogInState extends State<LogIn> {
                       try {
                         await UserApi.instance.loginWithKakaoAccount();
                         print('카카오계정으로 로그인 성공');
-                        setLogin();
                         _get_user_info();
+                        setLogin();
                         Navigator.of(context).pushReplacementNamed('/nickname');
                       } catch (error) {
                         print('카카오계정으로 로그인 실패 $error');
@@ -159,12 +163,10 @@ class _LogInState extends State<LogIn> {
                     try {
                       await UserApi.instance.loginWithKakaoAccount();
                       print('카카오계정으로 로그인 성공!');
-                      // if(){
-                      //   setLogin();
-                      // }
-                      setLogin();
                       _get_user_info();
-
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      setLogin();
                       Navigator.of(context).pushReplacementNamed('/nickname');
                     } catch (error) {
                       print('카카오계정으로 로그인 실패 $error');

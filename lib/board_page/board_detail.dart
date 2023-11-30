@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mungshinsa/providers/clothes_provider.dart';
 import 'package:provider/provider.dart';
-import '../models/comments_model.dart';
+import '../../models/comments_model.dart';
 import 'package:mungshinsa/providers/board_provider.dart';
 import 'package:mungshinsa/providers/prefer_provider.dart';
-import "../providers/comments_provider.dart";
-import "../providers/breed_tags_provider.dart";
+import '../../providers/comments_provider.dart';
+import '../../providers/breed_tags_provider.dart';
 
 class BoardDetail extends StatefulWidget {
   const BoardDetail({super.key});
@@ -50,29 +50,33 @@ class _BoardDetailState extends State<BoardDetail> {
             ),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Row(
-                children: [
-                  Container(
-                    height: 40,
-                    width: 40,
-                    margin: EdgeInsets.all(5.0),
-                    decoration: BoxDecoration(
-                        color: Colors.grey, shape: BoxShape.circle),
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    '사용자${board['userId']}',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  Spacer(),
-                  if (board['userId'] == 1)
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.delete, color: Colors.grey),
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 20,
+                      backgroundColor: Color(0xFFA8ABFF),
+                      backgroundImage:
+                          AssetImage('assets/images/user_profile.png'),
                     ),
-                ],
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      '사용자${board['userId']}',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    Spacer(),
+                    if (board['userId'] == 1)
+                      IconButton(
+                        onPressed: () {
+                          boardProvider.deleteBoard(board['boardId']);
+                        },
+                        icon: Icon(Icons.delete, color: Colors.grey),
+                      ),
+                  ],
+                ),
               ),
               AspectRatio(
                 aspectRatio: 1.0 / 1,
@@ -107,53 +111,53 @@ class _BoardDetailState extends State<BoardDetail> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(7.0), // 모서리를 더 둥글게 조정
             ),
-            // child: FutureBuilder(
-            //   future: preferProvider.fetchPreferById(board['userId']),
-            //   builder: (context, snapshot) {
-            //     if (snapshot.hasData) {
-            //       Map<dynamic, dynamic> responseMap = snapshot.data!;
-            //       return Container(
-            //         padding:
-            //             EdgeInsets.only(left: 10, right: 10, top: 7, bottom: 7),
-            //         child: Row(
-            //           children: [
-            //             CircleAvatar(
-            //               radius: 23,
-            //               backgroundColor: Color(0xFFA8ABFF),
-            //               backgroundImage:
-            //                   AssetImage('assets/images/dog_profile.png'),
-            //             ),
-            //             SizedBox(
-            //               width: 10,
-            //             ),
-            //             Column(
-            //               crossAxisAlignment: CrossAxisAlignment.start,
-            //               children: [
-            //                 Text(
-            //                   responseMap['name'],
-            //                   style: TextStyle(
-            //                       color: Colors.white,
-            //                       fontSize: 16,
-            //                       fontWeight: FontWeight.w600),
-            //                 ),
-            //                 Text(
-            //                   responseMap['chest'].toString() +
-            //                       ' / ' +
-            //                       responseMap['back'].toString() +
-            //                       ' (가슴둘레 / 등길이)',
-            //                   style:
-            //                       TextStyle(color: Colors.white, fontSize: 15),
-            //                 ),
-            //               ],
-            //             ),
-            //           ],
-            //         ),
-            //       );
-            //     } else {
-            //       return CircularProgressIndicator();
-            //     }
-            //   },
-            // ),
+            child: FutureBuilder(
+              future: preferProvider.fetchPreferById(board['userId']),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  Map<dynamic, dynamic> responseMap = snapshot.data![0];
+                  return Container(
+                    padding:
+                        EdgeInsets.only(left: 10, right: 10, top: 7, bottom: 7),
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 23,
+                          backgroundColor: Color(0xFFA8ABFF),
+                          backgroundImage:
+                              AssetImage('assets/images/dog_profile.png'),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              responseMap['name'],
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            Text(
+                              responseMap['chest'].toString() +
+                                  ' / ' +
+                                  responseMap['back'].toString() +
+                                  ' (가슴둘레 / 등길이)',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 15),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  return CircularProgressIndicator();
+                }
+              },
+            ),
           ),
           FutureBuilder(
               future: clothesProvider.getClothesByClothesId(board['clothesId']),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import "../providers/board_provider.dart";
-import 'providers/prefer_provider.dart';
+import '../../providers/board_provider.dart';
+import '../providers/prefer_provider.dart';
 
 final ImagePicker picker = ImagePicker();
 // List<XFile?> multiImage = []; // 갤러리에서 여러 장의 사진을 선택해서 저장할 변수
@@ -18,7 +18,6 @@ class WriteNewBoard extends StatefulWidget {
 }
 
 class _WriteNewBoardState extends State<WriteNewBoard> {
-  //final _reviewformkey = GlobalKey<FormState>(); // for textformfield validation
   @override
   Widget build(BuildContext context) {
     TextEditingController _reviewController = TextEditingController();
@@ -34,7 +33,6 @@ class _WriteNewBoardState extends State<WriteNewBoard> {
         ),
         body: SingleChildScrollView(
           child: Form(
-            //key: _reviewformkey,
             child: Column(
               children: [
                 const SizedBox(
@@ -149,8 +147,6 @@ class _WriteNewBoardState extends State<WriteNewBoard> {
                 ),
                 Container(
                   margin: const EdgeInsets.all(10),
-                  // decoration: BoxDecoration(
-                  //     border: Border.all(color: Colors.black, width: 0.5)),
                   child: DropdownButtonFormField(
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -166,16 +162,8 @@ class _WriteNewBoardState extends State<WriteNewBoard> {
                           value: index, child: Text(prefers[index]['name']));
                     }),
                     onChanged: (value) {
-                      setState(() {
-                        selectedPrefer = prefers[value!]['preferId'];
-                        print(selectedPrefer);
-                      });
-                    },
-                    validator: (value) {
-                      if (value == null) {
-                        return '강아지를 선택해주세요';
-                      }
-                      return null;
+                      selectedPrefer = prefers[value!]['preferId'];
+                      print(selectedPrefer);
                     },
                   ),
                 ),
@@ -255,17 +243,10 @@ class _WriteNewBoardState extends State<WriteNewBoard> {
                             duration: Duration(seconds: 2), //올라와있는 시간
                           ));
                         } else {
-                          boardProvider.createBoard(showImage, 2,
+                          boardProvider.createBoard(showImage, 1,
                               selectedPrefer, 2, _reviewController.text);
                           Navigator.pop(context); // 현재 페이지 닫기
                         }
-                        // if (_reviewformkey.currentState!.validate()) {
-                        //   _reviewformkey.currentState!.save();
-                        //
-                        //   boardProvider.createBoard(showImage, 2,
-                        //       selectedPrefer, 2, _reviewController.text);
-                        //   Navigator.pop(context); // 현재 페이지 닫기
-                        // }
                       },
                       child: const Text('업로드'),
                       style: ElevatedButton.styleFrom(

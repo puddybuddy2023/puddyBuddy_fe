@@ -7,7 +7,6 @@ const _API_PREFIX =
 
 class CommentProvider with ChangeNotifier {
   /*댓글 전체 가져오기*/
-
   final List<dynamic> _commentList = List.empty(growable: true);
   List<dynamic> getCommentList(int boardId) {
     _fetchComments(boardId);
@@ -31,6 +30,7 @@ class CommentProvider with ChangeNotifier {
     notifyListeners(); // 데이터가 업데이트되었음을 리스너에게 알린다.
   }
 
+  /* 댓글 작성 */
   Future<void> createComments(int boardId, int userId, String content) async {
     Response response;
     Dio dio = new Dio();
@@ -43,6 +43,7 @@ class CommentProvider with ChangeNotifier {
     print((response.data));
   }
 
+  /* 댓글 삭제 */
   Future<void> deleteComments(int commentId) async {
     Response response;
     Dio dio = new Dio();

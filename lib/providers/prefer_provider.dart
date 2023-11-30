@@ -6,15 +6,15 @@ const _API_PREFIX =
     'http://ec2-13-124-164-167.ap-northeast-2.compute.amazonaws.com/prefers';
 
 class PreferProvider with ChangeNotifier {
-  // Future<List<dynamic>> fetchPreferById(int uid) async {
-  //   Response response;
-  //   Dio dio = new Dio();
-  //   response = await dio.get("$_API_PREFIX/users/$uid");
-  //   List<dynamic> result = (response.data)['result'];
-  //   //print(result);
-  //   //notifyListeners();
-  //   return result;
-  // }
+  Future<List<dynamic>> fetchPreferById(int userId) async {
+    Response response;
+    Dio dio = new Dio();
+    response = await dio.get("$_API_PREFIX/users/$userId");
+    List<dynamic> result = (response.data)['result'];
+    //print(result);
+    //notifyListeners();
+    return result;
+  }
 
   final List<dynamic> _preferList = List.empty(growable: true);
   List<dynamic> getPreferListByUserId(int userId) {
@@ -49,6 +49,7 @@ class PreferProvider with ChangeNotifier {
     print((response.data));
   }
 
+  /* 선호조건 삭제 */
   Future<void> deletePrefer(int userId) async {
     Response response;
     Dio dio = new Dio();

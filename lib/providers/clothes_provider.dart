@@ -6,8 +6,9 @@ const _API_PREFIX =
     'http://ec2-13-124-164-167.ap-northeast-2.compute.amazonaws.com/clothes';
 
 class ClothesProvider with ChangeNotifier {
-  /* clothes search */
+  /* 옷 검색 */
   final List<dynamic> _clothesList = List.empty(growable: true);
+
   List<dynamic> getClothesList(int colorId) {
     _fetchClothes(colorId);
     return _clothesList;
@@ -35,7 +36,31 @@ class ClothesProvider with ChangeNotifier {
     response = await dio.get("$_API_PREFIX/$clothesId",
         queryParameters: {'clothes_id': clothesId});
     Map<dynamic, dynamic> result = (response.data)['result'];
-    print(result);
+    //print(result);
+    return result;
+  }
+
+  Future<List<dynamic>> clothesSearch(int colorId) async {
+    Response response;
+    Dio dio = new Dio();
+    response = await dio.get('$_API_PREFIX/search', queryParameters: {
+      'color_id': colorId,
+    });
+    List<dynamic> result = (response.data)['result'];
+
+    //print(response.data.toString());
+    return result;
+  }
+
+  /* 옷 사진 받아오기 */
+  Future<Map<dynamic, dynamic>> getClothesPhoto(int clothesId) async {
+    Response response;
+    Dio dio = new Dio();
+    response = await dio.get(
+        "http://ec2-13-124-164-167.ap-northeast-2.compute.amazonaws.com/clothesPhotos/$clothesId",
+        queryParameters: {'clothes_id': clothesId});
+    Map<dynamic, dynamic> result = (response.data)['result'];
+    //print(result);
     return result;
   }
 }

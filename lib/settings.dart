@@ -1,8 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Settings extends StatelessWidget {
   const Settings({super.key});
+  Future setLogout() async {
+    // 로그인 상태를 저장
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isLogin', false);
+    prefs.setString('email', '');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +50,12 @@ class Settings extends StatelessWidget {
                                   ),
                                   minimumSize: Size(100, 40), // 버튼의 최소 크기 지정
                                 ),
-                                onPressed: () => Navigator.of(context).pop(),
+                                onPressed: () {
+                                  setLogout();
+                                  Navigator.of(context).pushNamedAndRemoveUntil(
+                                      '/login', (route) => false);
+                                  //Navigator.pushNamed(context, '/login');
+                                },
                                 child: Text('예',
                                     style: TextStyle(color: Colors.white)),
                               ),

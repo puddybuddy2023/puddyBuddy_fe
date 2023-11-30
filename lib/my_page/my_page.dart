@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:mungshinsa/providers/board_provider.dart';
 import 'package:mungshinsa/providers/prefer_provider.dart';
 import 'package:provider/provider.dart';
+import '../petsonal_color/start_page.dart';
 import 'create_prefer.dart';
 
 class MyPage extends StatefulWidget {
@@ -137,8 +138,8 @@ class _MyPageState extends State<MyPage> {
                             ),
                           ); // 일반 카드를 반환하 // 추가 버튼을 반환하는 함수 호출
                         } else {
-                          return buildPreferCard(
-                              preferList[index]); // 선호조건 카드를 반환하는 함수 호출
+                          return PreferCardPanel(result: preferList[index]);
+                          // 선호조건 카드를 반환하는 함수 호출
                         }
                       }),
                 ),
@@ -165,37 +166,78 @@ class _MyPageState extends State<MyPage> {
             height: 15,
           ),
           Container(height: 1, color: Colors.grey),
-          Consumer<BoardProvider>(builder: (context, boardProvider, child) {
-            final boardList = boardProvider.getBoardListByUserId(1);
-            return GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: boardList.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3, childAspectRatio: 1 / 1),
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        '/board_detail',
-                        arguments: boardList[index],
-                      );
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(1),
-                      margin: const EdgeInsets.all(1),
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image:
-                              Image.network(boardList[index]['photoUrl']).image,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  );
-                });
-          }),
+          FutureBuilder(
+              future: boardProvider.fetchBoardsByUserId(1),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: Container());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else {
+                  // 데이터가 정상적으로 도착하면 여기서 UI를 만들어서 반환합니다.
+                  final result = snapshot.data!;
+                  return GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: result.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3, childAspectRatio: 1 / 1),
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              '/board_detail',
+                              arguments: result[index],
+                            );
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(1),
+                            margin: const EdgeInsets.all(1),
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: Image.network(result[index]['photoUrl'])
+                                    .image,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        );
+                      });
+                }
+              }),
+          // Consumer<BoardProvider>(builder: (context, boardProvider, child) {
+          //   final boardList = boardProvider.getBoardListByUserId(1);
+          //   return GridView.builder(
+          //       shrinkWrap: true,
+          //       physics: const NeverScrollableScrollPhysics(),
+          //       itemCount: boardList.length,
+          //       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          //           crossAxisCount: 3, childAspectRatio: 1 / 1),
+          //       itemBuilder: (context, index) {
+          //         return InkWell(
+          //           onTap: () {
+          //             Navigator.pushNamed(
+          //               context,
+          //               '/board_detail',
+          //               arguments: boardList[index],
+          //             );
+          //           },
+          //           child: Container(
+          //             padding: const EdgeInsets.all(1),
+          //             margin: const EdgeInsets.all(1),
+          //             decoration: BoxDecoration(
+          //               image: DecorationImage(
+          //                 image:
+          //                     Image.network(boardList[index]['photoUrl']).image,
+          //                 fit: BoxFit.cover,
+          //               ),
+          //             ),
+          //           ),
+          //         );
+          //       });
+          // }),
         ],
       ),
     );
@@ -203,168 +245,217 @@ class _MyPageState extends State<MyPage> {
 }
 
 /* 반려견 카드 영역 */
-Widget buildPreferCard(Map<dynamic, dynamic> result) {
-  return Container(
-    padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
-    margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-    decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        color: const Color(0xFFA8ABFF),
-        boxShadow: [
-          BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 6,
-              spreadRadius: 3,
-              offset: const Offset(0, 0))
-        ]),
-    child: Row(
+class PreferCardPanel extends StatelessWidget {
+  final Map<dynamic, dynamic> result;
+
+  const PreferCardPanel({super.key, required this.result});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
       children: [
-        Column(
-          children: [
-            Container(
-              margin: const EdgeInsets.only(top: 10),
-              height: 100,
-              width: 100,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: Colors.white,
-                image: const DecorationImage(
-                  image: AssetImage('assets/images/dog_profile.png'),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Text(
-              result['name'],
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
-              textAlign: TextAlign.center,
-            ),
-            Text(
-              result['breedTagName'],
-              style: const TextStyle(
-                  color: Colors.black54,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
         Container(
-          margin: const EdgeInsets.only(left: 20, top: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
+          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: const Color(0xFFA8ABFF),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 6,
+                    spreadRadius: 3,
+                    offset: const Offset(0, 0))
+              ]),
+          child: Row(
             children: [
-              Row(
+              Column(
                 children: [
-                  const Text(
-                    'size',
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'Inter',
-                        fontWeight: FontWeight.w900,
-                        fontStyle: FontStyle.italic),
-                  ),
                   Container(
-                    margin: const EdgeInsets.all(5),
-                    height: 23,
-                    width: 60,
-                    child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.black,
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(15), // 모서리를 둥글게 조정
-                          ),
-                          padding: EdgeInsets.zero,
-                          minimumSize: const Size(60, 23),
-                        ),
-                        child: const Text(
-                          '측정하기',
-                          style: TextStyle(color: Colors.white),
-                        )),
+                    margin: const EdgeInsets.only(top: 10),
+                    height: 100,
+                    width: 100,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: Colors.white,
+                      image: const DecorationImage(
+                        image: AssetImage('assets/images/dog_profile.png'),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    result['name'],
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.w700),
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    result['breedTagName'],
+                    style: const TextStyle(
+                        color: Colors.black54,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700),
+                    textAlign: TextAlign.center,
                   ),
                 ],
               ),
-              Text(
-                '${result['chest']} / ${result['back']} (가슴둘레 / 등길이)',
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
+              Container(
+                margin: const EdgeInsets.only(left: 20, top: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        const Text(
+                          'size',
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w900,
+                              fontStyle: FontStyle.italic),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.all(5),
+                          height: 23,
+                          width: 60,
+                          child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          PetsonalColorStartPage()),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.black,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.circular(15), // 모서리를 둥글게 조정
+                                ),
+                                padding: EdgeInsets.zero,
+                                minimumSize: const Size(60, 23),
+                              ),
+                              child: const Text(
+                                '측정하기',
+                                style: TextStyle(color: Colors.white),
+                              )),
+                        ),
+                      ],
+                    ),
+                    Text(
+                      '${result['chest']} / ${result['back']} (가슴둘레 / 등길이)',
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        const Text(
+                          'petsonal color',
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w900,
+                              fontStyle: FontStyle.italic),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.all(5),
+                          height: 23,
+                          width: 50,
+                          child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          PetsonalColorStartPage()),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.black,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.circular(15), // 모서리를 둥글게 조정
+                                ),
+                                padding: EdgeInsets.zero,
+                                minimumSize: const Size(50, 23),
+                              ),
+                              child: const Text(
+                                '테스트',
+                                style: TextStyle(color: Colors.white),
+                              )),
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(right: 7),
+                          color: Colors.grey,
+                          height: 35,
+                          width: 35,
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(right: 7),
+                          color: Colors.grey,
+                          height: 35,
+                          width: 35,
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(right: 7),
+                          color: Colors.grey,
+                          height: 35,
+                          width: 35,
+                        ),
+                        Container(
+                          color: Colors.grey,
+                          height: 35,
+                          width: 35,
+                        )
+                      ],
+                    ),
+                  ],
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Row(
-                children: [
-                  const Text(
-                    'petsonal color',
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'Inter',
-                        fontWeight: FontWeight.w900,
-                        fontStyle: FontStyle.italic),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.all(5),
-                    height: 23,
-                    width: 50,
-                    child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.black,
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(15), // 모서리를 둥글게 조정
-                          ),
-                          padding: EdgeInsets.zero,
-                          minimumSize: const Size(50, 23),
-                        ),
-                        child: const Text(
-                          '테스트',
-                          style: TextStyle(color: Colors.white),
-                        )),
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Row(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(right: 7),
-                    color: Colors.grey,
-                    height: 35,
-                    width: 35,
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(right: 7),
-                    color: Colors.grey,
-                    height: 35,
-                    width: 35,
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(right: 7),
-                    color: Colors.grey,
-                    height: 35,
-                    width: 35,
-                  ),
-                  Container(
-                    color: Colors.grey,
-                    height: 35,
-                    width: 35,
-                  )
-                ],
               ),
             ],
           ),
         ),
+        Positioned(
+          top: 10,
+          right: 10,
+          child: PopupMenuButton(
+            icon: Icon(Icons.more_vert), // 3dot 아이콘
+            itemBuilder: (BuildContext context) {
+              return <PopupMenuEntry>[
+                PopupMenuItem(
+                  child: Text('수정'),
+                  value: 'item1',
+                ),
+                PopupMenuItem(
+                  child: Text('삭제'),
+                  value: 'item2',
+                ),
+                // Add more PopupMenuItems as needed
+              ];
+            },
+            onSelected: (value) {
+              // Handle the selection of PopupMenuItems here
+            },
+          ),
+        ),
       ],
-    ),
-  );
+    );
+  }
 }
