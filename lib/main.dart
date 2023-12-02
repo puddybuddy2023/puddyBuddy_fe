@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+import 'package:mungshinsa/petsonal_color_test_page/petcol_test_start.dart';
 import 'package:mungshinsa/store_page/review_detail.dart';
+import 'package:mungshinsa/user_page.dart';
 import 'package:provider/provider.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 
@@ -50,16 +52,18 @@ class MyApp extends StatelessWidget {
             fontFamily: 'NanumBarunGothic'),
         home: IndexScreen(),
         routes: {
-          '/splash': (context) => SplashScreen(),
-          '/login': (context) => LogIn(),
-          '/nickname': (context) => Nickname(),
+          '/splash': (context) => const SplashScreen(),
+          '/login': (context) => const LogIn(),
+          '/nickname': (context) => const Nickname(),
           '/index': (context) => IndexScreen(),
-          '/board_detail': (context) => BoardDetail(),
-          '/clothesDetail': (context) => ClothesDetail(),
-          '/reviewDetail': (context) => ReviewDetail(),
-          '/myPage': (context) => MyPage(),
-          '/createPrefer': (context) => CreatePrefer(),
-          '/settings': (context) => Settings(),
+          '/board_detail': (context) => const BoardDetail(),
+          '/clothesDetail': (context) => const ClothesDetail(),
+          '/reviewDetail': (context) => const ReviewDetail(),
+          '/myPage': (context) => const MyPage(),
+          '/userPage': (context) => const UserPage(),
+          '/createPrefer': (context) => const CreatePrefer(),
+          '/petsnalColorStart': (context) => const PetsnalColorStartPage(),
+          '/settings': (context) => const Settings(),
         },
         initialRoute: '/index',
       ),
@@ -77,7 +81,11 @@ class IndexScreen extends StatefulWidget {
 class _IndexScreenState extends State<IndexScreen> {
   int _currentIndex = 0;
 
-  final List<Widget> _widgetOptions = <Widget>[FeedView(), Store(), MyPage()];
+  final List<Widget> _widgetOptions = <Widget>[
+    const FeedView(),
+    const Store(),
+    const MyPage()
+  ];
 
   void changePage(int index) {
     // 하단바의 아이템을 클릭할 때 실행되는 함수
@@ -95,21 +103,22 @@ class _IndexScreenState extends State<IndexScreen> {
         children: [
           Flexible(
             child: DotNavigationBar(
-              marginR: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-              paddingR: EdgeInsets.only(bottom: 5, top: 5),
-              itemPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+              marginR: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+              paddingR: const EdgeInsets.only(bottom: 5, top: 5),
+              itemPadding:
+                  const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
               boxShadow: [
                 // 하단바 그림자
                 BoxShadow(
                   color: Colors.black12.withOpacity(0.5),
                   spreadRadius: 0,
                   blurRadius: 2,
-                  offset: Offset(0, 2),
+                  offset: const Offset(0, 2),
                 )
               ],
               dotIndicatorColor: Colors.transparent,
               // 선택된 아이템을 가리키는 점이 보이지 않길 원하면 투명 상태로 설정해야 함
-              selectedItemColor: Color(0xFFA8ABFF),
+              selectedItemColor: const Color(0xFFA8ABFF),
               // 선택된 상태의 아이템 색상
               unselectedItemColor: Colors.black,
               // 선택되지 않은 상태의 아이템 색상
@@ -121,19 +130,19 @@ class _IndexScreenState extends State<IndexScreen> {
               items: [
                 DotNavigationBarItem(
                   // 하단바에 들어갈 아이템들
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.window,
                     size: 35,
                   ),
                 ),
                 DotNavigationBarItem(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.shopping_bag_rounded,
                     size: 35,
                   ),
                 ),
                 DotNavigationBarItem(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.person,
                     size: 35,
                   ),
@@ -145,12 +154,12 @@ class _IndexScreenState extends State<IndexScreen> {
             padding: const EdgeInsets.only(right: 30.0),
             child: FloatingActionButton(
               // BottomNavigationBar 옆에 추가한 Button
-              backgroundColor: Color(0xFFA8ABFF),
+              backgroundColor: const Color(0xFFA8ABFF),
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => WriteNewBoard()));
+                    MaterialPageRoute(builder: (_) => const WriteNewBoard()));
               },
-              child: Icon(
+              child: const Icon(
                 Icons.edit,
                 color: Colors.black,
                 size: 30,

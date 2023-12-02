@@ -133,8 +133,8 @@ class BoardProvider with ChangeNotifier {
   Future<void> deleteBoard(int boardId) async {
     Response response;
     Dio dio = new Dio();
-    response = await dio
-        .get("$_API_PREFIX/delete/1", queryParameters: {'boardId': boardId});
+    response = await dio.get("$_API_PREFIX/delete/$boardId",
+        queryParameters: {'boardId': boardId});
     //Map<dynamic, dynamic> responseMap = (response.data)['result'];
     print(response);
   }

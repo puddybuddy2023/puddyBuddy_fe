@@ -3,24 +3,56 @@ import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../providers/petsnal_color_provider.dart';
-import 'test_page.dart';
-
 final ImagePicker picker = ImagePicker();
 XFile? selectImage;
 XFile? showImage;
 
-class PetsonalColorStartPage extends StatefulWidget {
-  const PetsonalColorStartPage({super.key});
+class SizeMeasureStartPage extends StatefulWidget {
+  const SizeMeasureStartPage({super.key});
 
   @override
-  State<PetsonalColorStartPage> createState() => _PetsonalColorStartPageState();
+  State<SizeMeasureStartPage> createState() => _SizeMeasureStartPageState();
 }
 
-class _PetsonalColorStartPageState extends State<PetsonalColorStartPage> {
+class _SizeMeasureStartPageState extends State<SizeMeasureStartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        leading: SizedBox.shrink(),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text(
+          'SIZE',
+          style: TextStyle(
+            color: Colors.black,
+            fontFamily: 'Inter',
+          ),
+        ),
+        centerTitle: true,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(top: 10, bottom: 10, right: 5.0),
+            child: ElevatedButton(
+              style: ButtonStyle(
+                shape: MaterialStateProperty.all<OutlinedBorder>(
+                  CircleBorder(),
+                ),
+                minimumSize: MaterialStateProperty.all<Size>(Size(30, 30)),
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Icon(
+                Icons.close,
+                color: Colors.white, // 아이콘 색상을 하얀색으로 변경합니다.
+              ),
+            ),
+          ),
+        ],
+      ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -31,39 +63,9 @@ class _PetsonalColorStartPageState extends State<PetsonalColorStartPage> {
         ),
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 30.0),
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all<OutlinedBorder>(
-                        CircleBorder(),
-                      ),
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.black),
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Icon(
-                      Icons.close,
-                      color: Colors.white, // 아이콘 색상을 하얀색으로 변경합니다.
-                    ),
-                  ),
-                ),
-              ],
+            SizedBox(
+              height: 80,
             ),
-            // Text(
-            //   'PETSNAL COLOR TEST',
-            //   style: TextStyle(
-            //       color: Colors.black,
-            //       fontSize: 25,
-            //       fontWeight: FontWeight.w900,
-            //       fontStyle: FontStyle.italic,
-            //       fontFamily: 'Inter'),
-            // ),
             Padding(
                 padding: const EdgeInsets.only(left: 15.0, right: 15, top: 25),
                 child: GuidelinePanel()),
@@ -81,8 +83,8 @@ class _PetsonalColorStartPageState extends State<PetsonalColorStartPage> {
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   child: Container(
                     padding: EdgeInsets.all(10),
-                    height: 200,
-                    width: 200,
+                    height: 180,
+                    width: 320,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
                       borderRadius: BorderRadius.all(
@@ -150,17 +152,19 @@ class _PetsonalColorStartPageState extends State<PetsonalColorStartPage> {
                       ))
                 ],
               ),
-
             SizedBox(
               height: 25,
             ),
             ElevatedButton(
               onPressed: () {
-                petsnalColorProvider.PetsnalColorStart(showImage, 1);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Stage1()),
-                );
+                // Future<Map<dynamic, dynamic>> result;
+                // result = petsnalColorProvider.PetsnalColorStart(showImage, 1);
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => Stage1(argument: result),
+                //   ),
+                // );
               },
               style: ElevatedButton.styleFrom(
                 primary: Colors.white,
@@ -169,7 +173,7 @@ class _PetsonalColorStartPageState extends State<PetsonalColorStartPage> {
                   borderRadius: BorderRadius.circular(20), // 모서리를 조절해요
                 ),
               ),
-              child: Text('테스트 시작'),
+              child: Text('측정 시작'),
             ),
           ],
         ),
@@ -202,8 +206,8 @@ class GuidelinePanel extends StatelessWidget {
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 20,
+                fontFamily: 'Inter',
                 fontWeight: FontWeight.w900,
-                fontStyle: FontStyle.italic,
               ),
             ),
             Row(
@@ -214,11 +218,17 @@ class GuidelinePanel extends StatelessWidget {
                       '<예시>',
                       style: TextStyle(fontSize: 16),
                     ),
-                    SizedBox(height: 8), // 텍스트와 상자 사이 여백 조절
+                    SizedBox(height: 3), // 텍스트와 상자 사이 여백 조절
                     Container(
                       width: 110, // 가로 전체 사이즈로 설정
-                      height: 110, // 상자의 높이 설정
-                      color: Colors.grey, // 회색으로 설정
+                      height: 110,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(
+                              'assets/images/petsnalcolor_example.jpg'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ],
                 ),

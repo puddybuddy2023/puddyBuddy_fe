@@ -36,7 +36,7 @@ class PetsnalColorProvider with ChangeNotifier {
           options: Options(contentType: Headers.jsonContentType));
 
       Map<dynamic, dynamic> result = (response.data)['result'];
-      print(result);
+      //print(result);
       return result;
     } catch (e) {
       if (e is DioError) {

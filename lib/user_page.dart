@@ -6,56 +6,32 @@ import 'package:provider/provider.dart';
 import '../petsonal_color_test_page/petcol_test_start.dart';
 import '../size_measure_page/size_start.dart';
 
-class MyPage extends StatefulWidget {
-  const MyPage({super.key});
+class UserPage extends StatefulWidget {
+  const UserPage({super.key});
 
   @override
-  State<MyPage> createState() => _MyPageState();
+  State<UserPage> createState() => _MyPageState();
 }
 
-class _MyPageState extends State<MyPage> {
+class _MyPageState extends State<UserPage> {
   final PageController controller = PageController(initialPage: 0);
   int currentPage = 0;
 
   @override
   Widget build(BuildContext context) {
+    final userId = ModalRoute.of(context)!.settings.arguments as dynamic;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        shape: const Border(
-          bottom: BorderSide(
-            color: Colors.grey,
-            width: 0.2,
-          ),
-        ),
-        title: const Text(
-          'PuddyBuddy',
-          style: TextStyle(
-              color: Colors.black,
-              fontFamily: 'Inter',
-              fontSize: 23,
-              fontWeight: FontWeight.w900,
-              fontStyle: FontStyle.italic),
-        ),
-        actions: [
-          // Add your icon button here
-          IconButton(
-            icon: const Icon(
-              Icons.settings,
-              color: Colors.black87,
+          elevation: 0,
+          backgroundColor: Colors.white,
+          shape: Border(
+            bottom: BorderSide(
+              color: Colors.grey,
+              width: 0.5,
             ),
-            onPressed: () {
-              Navigator.pushNamed(
-                context,
-                '/settings',
-              );
-            },
           ),
-        ],
-      ),
+          iconTheme: IconThemeData(color: Colors.black)),
       body: ListView(
         children: [
           Container(
@@ -81,7 +57,7 @@ class _MyPageState extends State<MyPage> {
             ),
           ),
           Consumer<PreferProvider>(builder: (context, preferProvider, child) {
-            final preferList = preferProvider.getPreferListByUserId(1);
+            final preferList = preferProvider.getPreferListByUserId(userId);
             //print(preferList);
             return Column(
               children: [
@@ -90,63 +66,21 @@ class _MyPageState extends State<MyPage> {
                   height: 200,
                   child: PageView.builder(
                       controller: controller,
-                      itemCount: preferList.length + 1,
+                      itemCount: preferList.length,
                       onPageChanged: (page) {
                         //setState(() {
                         currentPage = page;
                         //});
                       },
                       itemBuilder: (context, index) {
-                        if (index == preferList.length) {
-                          // 마지막 페이지일 때
-                          return Container(
-                            padding: const EdgeInsets.fromLTRB(20, 15, 15, 15),
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 5),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: const Color(0xFFA6A6A6FF),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.black.withOpacity(0.1),
-                                      blurRadius: 3,
-                                      spreadRadius: 3,
-                                      offset: const Offset(0, 1))
-                                ]),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    FloatingActionButton(
-                                      heroTag: 'createPrefer',
-                                      mini: true,
-                                      backgroundColor: Colors.black,
-                                      onPressed: () {
-                                        Navigator.pushNamed(
-                                            context, '/createPrefer');
-                                      },
-                                      child: const Icon(
-                                        Icons.add,
-                                        size: 20,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ); // 일반 카드를 반환하 // 추가 버튼을 반환하는 함수 호출
-                        } else {
-                          return PreferCardPanel(result: preferList[index]);
-                          // 선호조건 카드를 반환하는 함수 호출
-                        }
+                        return PreferCardPanel(result: preferList[index]);
+                        // 선호조건 카드를 반환하는 함수 호출
                       }),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    for (num i = 0; i < preferList.length + 1; i++)
+                    for (num i = 0; i < preferList.length; i++)
                       Container(
                         margin: const EdgeInsets.all(3),
                         width: 10,
@@ -167,7 +101,7 @@ class _MyPageState extends State<MyPage> {
           ),
           Container(height: 1, color: Colors.grey),
           FutureBuilder(
-              future: boardProvider.fetchBoardsByUserId(1),
+              future: boardProvider.fetchBoardsByUserId(userId),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: Container());
@@ -318,33 +252,6 @@ class PreferCardPanel extends StatelessWidget {
                               fontWeight: FontWeight.w900,
                               fontStyle: FontStyle.italic),
                         ),
-                        Container(
-                          margin: const EdgeInsets.all(5),
-                          height: 23,
-                          width: 60,
-                          child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          SizeMeasureStartPage()),
-                                );
-                              },
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.black,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(15), // 모서리를 둥글게 조정
-                                ),
-                                padding: EdgeInsets.zero,
-                                minimumSize: const Size(60, 23),
-                              ),
-                              child: const Text(
-                                '측정하기',
-                                style: TextStyle(color: Colors.white),
-                              )),
-                        ),
                       ],
                     ),
                     Text(
@@ -367,35 +274,6 @@ class PreferCardPanel extends StatelessWidget {
                               fontWeight: FontWeight.w900,
                               fontStyle: FontStyle.italic),
                         ),
-                        Container(
-                          margin: const EdgeInsets.all(5),
-                          height: 23,
-                          width: 50,
-                          child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    settings: RouteSettings(
-                                        name: "/petsnalColorStart"),
-                                    builder: (context) =>
-                                        PetsnalColorStartPage(),
-                                  ),
-                                );
-                              },
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.black,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(15), // 모서리를 둥글게 조정
-                                ),
-                                padding: EdgeInsets.zero,
-                                minimumSize: const Size(50, 23),
-                              ),
-                              child: const Text(
-                                '테스트',
-                                style: TextStyle(color: Colors.white),
-                              )),
-                        )
                       ],
                     ),
                     const SizedBox(
@@ -432,29 +310,6 @@ class PreferCardPanel extends StatelessWidget {
                 ),
               ),
             ],
-          ),
-        ),
-        Positioned(
-          top: 10,
-          right: 10,
-          child: PopupMenuButton(
-            icon: Icon(Icons.more_vert), // 3dot 아이콘
-            itemBuilder: (BuildContext context) {
-              return <PopupMenuEntry>[
-                PopupMenuItem(
-                  child: Text('수정'),
-                  value: 'item1',
-                ),
-                PopupMenuItem(
-                  child: Text('삭제'),
-                  value: 'item2',
-                ),
-                // Add more PopupMenuItems as needed
-              ];
-            },
-            onSelected: (value) {
-              // Handle the selection of PopupMenuItems here
-            },
           ),
         ),
       ],

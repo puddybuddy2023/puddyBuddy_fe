@@ -45,7 +45,7 @@ class _StoreState extends State<Store> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.white,
@@ -260,14 +260,18 @@ class ClothesGridItem extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(7),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black26.withOpacity(0.1),
-                spreadRadius: 1,
-                blurRadius: 5,
-                offset: const Offset(0, 1),
-              ),
-            ],
+            border: Border.all(
+              color: Colors.black26, // 테두리 색상
+              width: 0.7, // 테두리 두께
+            ),
+            // boxShadow: [
+            //   BoxShadow(
+            //     color: Colors.black26,
+            //     spreadRadius: 0.5,
+            //     blurRadius: 1,
+            //     offset: const Offset(0, 1),
+            //   ),
+            // ],
           ),
           child: Column(
             children: [
@@ -290,7 +294,7 @@ class ClothesGridItem extends StatelessWidget {
                         width: 180,
                         height: 180,
                         decoration: BoxDecoration(
-                          color: Colors.grey,
+                          color: Colors.white,
                           borderRadius: BorderRadius.circular(7),
                           image: DecorationImage(
                             image: NetworkImage(

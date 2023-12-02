@@ -54,24 +54,38 @@ class _BoardDetailState extends State<BoardDetail> {
                 padding: const EdgeInsets.all(5.0),
                 child: Row(
                   children: [
-                    CircleAvatar(
-                      radius: 20,
-                      backgroundColor: Color(0xFFA8ABFF),
-                      backgroundImage:
-                          AssetImage('assets/images/user_profile.png'),
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      '사용자${board['userId']}',
-                      style: TextStyle(fontSize: 16),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          '/userPage',
+                          arguments: board['userId'],
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 20,
+                            backgroundColor: Color(0xFFA8ABFF),
+                            backgroundImage:
+                                AssetImage('assets/images/user_profile.png'),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            '사용자${board['userId']}',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ],
+                      ),
                     ),
                     Spacer(),
                     if (board['userId'] == 1)
                       IconButton(
                         onPressed: () {
                           boardProvider.deleteBoard(board['boardId']);
+                          Navigator.pop(context);
                         },
                         icon: Icon(Icons.delete, color: Colors.grey),
                       ),
@@ -164,181 +178,137 @@ class _BoardDetailState extends State<BoardDetail> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   final result = snapshot.data!;
-                  return InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/clothesDetail',
-                          arguments: result);
-                    },
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(7.0),
-                      ),
-                      color: Color(0xFFA8ABFF),
-                      child: Container(
-                        height: 80,
-                        child: Row(
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.all(10),
-                              height: 60,
-                              width: 60,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(7),
-                                color: Colors.white,
-                                image: const DecorationImage(
-                                  image: AssetImage(
-                                      'assets/images/dog_profile.png'),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  result['storeName'],
-                                  style: TextStyle(
-                                    color: Colors.black54,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 3,
-                                ),
-                                Text(
-                                  result['name'],
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700),
-                                ),
-                                SizedBox(
-                                  height: 3,
-                                ),
-                                Text(
-                                  result['personalColor'],
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
+                  return ClothesCard(board: result);
                 } else {
                   return Container(
                     height: 70,
                   );
                 }
               }),
-          CommentsPanel(
-              commentProvider: commentProvider,
-              board: board), // comments section
+          CommentsPanel(board: board), // comments section
         ],
       ),
     );
   }
 }
 
-/* 옷 정보 영역 */
-class ClothesPanel extends StatelessWidget {
-  const ClothesPanel({super.key});
+/* 착용 제품 카드 */
+class ClothesCard extends StatelessWidget {
+  final dynamic board;
+  const ClothesCard({super.key, required this.board});
 
   @override
   Widget build(BuildContext context) {
     //Map<dynamic, dynamic> clothes = clothesProvider.getClothesByClothesId(1);
-    return FutureBuilder(
-        future: clothesProvider.getClothesByClothesId(1),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            final result = snapshot.data!;
-            return InkWell(
-              onTap: () {
-                Navigator.pushNamed(context, '/clothesDetail',
-                    arguments: result);
-              },
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(7.0),
-                ),
-                color: Color(0xFFA8ABFF),
-                child: Container(
-                  height: 80,
-                  child: Row(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.all(10),
-                        height: 60,
-                        width: 60,
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(context, '/clothesDetail', arguments: board);
+      },
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(7.0),
+        ),
+        color: Color(0xFFA8ABFF),
+        child: Container(
+          height: 80,
+          child: Row(
+            children: [
+              FutureBuilder<Map<dynamic, dynamic>>(
+                future: clothesProvider.getClothesPhoto(board['clothesId']),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    const CircularProgressIndicator();
+                    return const Center(child: CircularProgressIndicator());
+                  } else {
+                    if (snapshot.hasError) {
+                      // 에러가 있다면 에러 메시지를 보여줄 위젯
+                      return const Center(
+                          child: Text('이미지를 불러오는 중에 에러가 발생했어요.'));
+                    } else {
+                      // 데이터를 성공적으로 불러왔을 때 Container를 보여줄 위젯
+                      final photoResult = snapshot.data!;
+                      return Container(
+                        margin: const EdgeInsets.only(
+                            left: 5, right: 9, top: 5, bottom: 5),
+                        width: 70,
+                        height: 70,
                         decoration: BoxDecoration(
+                          color: Colors.grey,
                           borderRadius: BorderRadius.circular(7),
-                          color: Colors.white,
-                          image: const DecorationImage(
-                            image: AssetImage('assets/images/dog_profile.png'),
+                          image: DecorationImage(
+                            image: NetworkImage(
+                                photoResult['photourl1']), // 가져온 이미지로 설정
                             fit: BoxFit.cover,
                           ),
                         ),
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            result['storeName'],
-                            style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: 14,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 3,
-                          ),
-                          Text(
-                            result['name'],
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700),
-                          ),
-                          SizedBox(
-                            height: 3,
-                          ),
-                          Text(
-                            result['personalColor'],
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                      );
+                    }
+                  }
+                },
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    board['storeName'],
+                    style: TextStyle(
+                      color: Colors.black54,
+                      fontSize: 14,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 3,
+                  ),
+                  Text(
+                    board['name'],
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700),
+                  ),
+                  SizedBox(
+                    height: 3,
+                  ),
+                  Text(
+                    board['personalColor'],
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+              Spacer(),
+              Container(
+                margin: const EdgeInsets.all(5),
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(7),
+                  image: DecorationImage(
+                    image: AssetImage(
+                        'assets/images/shop_arrow.png'), // 가져온 이미지로 설정
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
-            );
-          } else {
-            return Container(
-              height: 70,
-            );
-          }
-        });
+              SizedBox(
+                width: 13,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
 /* 댓글 영역 */
 class CommentsPanel extends StatefulWidget {
-  final CommentProvider commentProvider;
   final dynamic board;
 
-  const CommentsPanel(
-      {Key? key, required this.commentProvider, required this.board})
-      : super(key: key);
+  const CommentsPanel({Key? key, required this.board}) : super(key: key);
 
   @override
   State<CommentsPanel> createState() => _CommentsPanelState();
@@ -379,7 +349,7 @@ class _CommentsPanelState extends State<CommentsPanel> {
                     if (_commentController.text == '') {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text('내용을 입력해주세요'),
-                        duration: Duration(seconds: 2), //올라와있는 시간
+                        duration: Duration(seconds: 2), // 올라와있는 시간
                       ));
                     } else {
                       commentProvider.createComments(widget.board['boardId'],
