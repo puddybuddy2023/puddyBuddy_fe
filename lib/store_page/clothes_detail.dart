@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mungshinsa/providers/board_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -16,6 +17,7 @@ class _ClothesDetailState extends State<ClothesDetail> {
   Widget build(BuildContext context) {
     final clothes = ModalRoute.of(context)!.settings.arguments as dynamic;
     return Scaffold(
+      backgroundColor: Colors.white,
       extendBody: true,
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -32,7 +34,13 @@ class _ClothesDetailState extends State<ClothesDetail> {
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       CircularProgressIndicator();
-                      return Center(child: CircularProgressIndicator());
+                      return Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.width,
+                          child: const SpinKitPumpingHeart(
+                            color: Color(0xFFA8ABFF),
+                            size: 50.0,
+                          ));
                     } else {
                       if (snapshot.hasError) {
                         // 에러가 있다면 에러 메시지를 보여줄 위젯
@@ -45,7 +53,6 @@ class _ClothesDetailState extends State<ClothesDetail> {
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
-                            color: Colors.grey,
                             borderRadius: BorderRadius.circular(7),
                             image: DecorationImage(
                               image: NetworkImage(

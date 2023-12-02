@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/clothes_provider.dart';
-import 'package:getwidget/getwidget.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../providers/prefer_provider.dart';
 
 class Store extends StatefulWidget {
@@ -38,8 +37,8 @@ class _StoreState extends State<Store> {
   ];
 
   String? selectedPrefer;
-  int selectedColor = -1;
-  bool isSwitched = false;
+  int selectedColorId = -1;
+  //bool isSwitched = false;
   int petsnalColorId = -1;
   //int personalcolorId = 0;
   @override
@@ -70,7 +69,7 @@ class _StoreState extends State<Store> {
         children: [
           Container(
             height: 5,
-            color: Colors.grey.shade100,
+            color: Colors.grey.shade200,
           ),
           Container(
             // filtering
@@ -93,26 +92,42 @@ class _StoreState extends State<Store> {
                                 color: Colors.white,
                               ),
                             ),
-                            items: List.generate(result.length, (index) {
-                              return DropdownMenuItem(
-                                  value: result[index]['name'],
+                            items: List.generate((result.length + 1), (index) {
+                              if (index == 0) {
+                                return DropdownMenuItem(
+                                  value: '0',
                                   child: Text(
-                                    result[index]['name'],
+                                    '선택 안함',
                                     style: const TextStyle(
-                                        color: Colors.white, fontSize: 15),
-                                  ));
+                                        color: Colors.white, fontSize: 14),
+                                  ),
+                                );
+                              } else {
+                                return DropdownMenuItem(
+                                  value: index.toString(),
+                                  child: Text(
+                                    result[index - 1]['name'],
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 14),
+                                  ),
+                                );
+                              }
                             }),
                             value: selectedPrefer,
                             onChanged: (value) {
                               setState(() {
                                 selectedPrefer = value.toString();
-                                print(selectedPrefer);
+                                int.parse(value!) - 1 == -1
+                                    ? petsnalColorId = 1
+                                    : petsnalColorId =
+                                        result[int.parse(value) - 1]
+                                            ['personalColorId'];
                               });
                             },
                             buttonStyleData: ButtonStyleData(
-                              padding: const EdgeInsets.only(left: 8),
+                              padding: const EdgeInsets.only(left: 5),
                               height: 30,
-                              width: 70,
+                              width: 95,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 color: const Color(0xFFA8ABFF),
@@ -124,6 +139,7 @@ class _StoreState extends State<Store> {
                               iconDisabledColor: Colors.white,
                             ),
                             dropdownStyleData: DropdownStyleData(
+                              padding: EdgeInsets.all(0),
                               maxHeight: 200,
                               width: 130,
                               decoration: BoxDecoration(
@@ -138,9 +154,7 @@ class _StoreState extends State<Store> {
                           ),
                         );
                       } else {
-                        return Container(
-                          height: 70,
-                        );
+                        return Container();
                       }
                     }),
                 const SizedBox(
@@ -177,7 +191,7 @@ class _StoreState extends State<Store> {
                           colors: colors,
                           onColorSelected: (selectedColor) {
                             setState(() {
-                              this.selectedColor = selectedColor;
+                              this.selectedColorId = selectedColor;
                             });
                           },
                         );
@@ -186,7 +200,7 @@ class _StoreState extends State<Store> {
                   },
                   child: const Text(
                     '색상',
-                    style: TextStyle(color: Colors.black), // 버튼 텍스트 색상
+                    style: TextStyle(color: Colors.black54), // 버튼 텍스트 색상
                   ),
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all<OutlinedBorder>(
@@ -194,13 +208,14 @@ class _StoreState extends State<Store> {
                         borderRadius:
                             BorderRadius.circular(20.0), // 버튼 모서리 둥글기 설정
                         side: const BorderSide(
-                            color: Colors.black), // 테두리 색상 및 두께 설정
+                            color: Colors.black54,
+                            width: 0.7), // 테두리 색상 및 두께 설정
                       ),
                     ),
                     backgroundColor: MaterialStateProperty.all<Color>(
-                      selectedColor == -1
+                      selectedColorId == -1
                           ? colors[0][1]
-                          : colors[selectedColor][1],
+                          : colors[selectedColorId][1],
                     ),
                     minimumSize: MaterialStateProperty.all<Size>(
                       const Size(60.0, 20.0), // 버튼의 최소 너비와 높이 설정
@@ -210,12 +225,16 @@ class _StoreState extends State<Store> {
               ],
             ),
           ),
+          Container(
+            height: 5,
+            color: Colors.grey.shade200,
+          ),
           /* 옷 목록 영역 */
           FutureBuilder(
-              future: clothesProvider.clothesSearch(selectedColor),
+              future: clothesProvider.clothesSearch(selectedColorId),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
+                  return Container();
                 } else if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 } else {
@@ -226,7 +245,7 @@ class _StoreState extends State<Store> {
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        childAspectRatio: 1 / 1.32,
+                        childAspectRatio: 1 / 1.33,
                       ),
                       itemCount: result.length,
                       itemBuilder: (c, index) {
@@ -242,109 +261,7 @@ class _StoreState extends State<Store> {
   }
 }
 
-class ClothesGridItem extends StatelessWidget {
-  final Map<String, dynamic> itemData;
-
-  const ClothesGridItem({required this.itemData});
-
-  @override
-  Widget build(BuildContext context) {
-    return GridTile(
-      child: InkWell(
-        onTap: () {
-          Navigator.pushNamed(context, '/clothesDetail', arguments: itemData);
-        },
-        child: Container(
-          padding: const EdgeInsets.all(4),
-          margin: const EdgeInsets.all(4),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(7),
-            border: Border.all(
-              color: Colors.black26, // 테두리 색상
-              width: 0.7, // 테두리 두께
-            ),
-            // boxShadow: [
-            //   BoxShadow(
-            //     color: Colors.black26,
-            //     spreadRadius: 0.5,
-            //     blurRadius: 1,
-            //     offset: const Offset(0, 1),
-            //   ),
-            // ],
-          ),
-          child: Column(
-            children: [
-              FutureBuilder<Map<dynamic, dynamic>>(
-                future: clothesProvider.getClothesPhoto(itemData['clothesId']),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    const CircularProgressIndicator();
-                    return const Center(child: CircularProgressIndicator());
-                  } else {
-                    if (snapshot.hasError) {
-                      // 에러가 있다면 에러 메시지를 보여줄 위젯
-                      return const Center(
-                          child: Text('이미지를 불러오는 중에 에러가 발생했어요.'));
-                    } else {
-                      // 데이터를 성공적으로 불러왔을 때 Container를 보여줄 위젯
-                      final result = snapshot.data!;
-                      return Container(
-                        margin: const EdgeInsets.all(5),
-                        width: 180,
-                        height: 180,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(7),
-                          image: DecorationImage(
-                            image: NetworkImage(
-                                result['photourl1']), // 가져온 이미지로 설정
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      );
-                    }
-                  }
-                },
-              ),
-              // Container(
-              //   margin: EdgeInsets.all(5),
-              //   width: 180,
-              //   height: 180,
-              //   decoration: BoxDecoration(
-              //     color: Colors.grey,
-              //     borderRadius: BorderRadius.circular(7),
-              //   ),
-              // ),
-              Container(
-                padding: const EdgeInsets.all(5),
-                alignment: Alignment.centerLeft,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      '가게 이름',
-                      //itemData['storeName'].toString(),
-                      textAlign: TextAlign.start,
-                      style: TextStyle(fontSize: 12, color: Colors.black54),
-                    ),
-                    Text(
-                      itemData['name'],
-                      style: const TextStyle(fontSize: 14),
-                      overflow: TextOverflow.fade,
-                      maxLines: 2,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
+/* 색상 선택 창 */
 class ColorSelectDialog extends StatelessWidget {
   final List<dynamic> colors;
   final ValueChanged<int> onColorSelected;
@@ -367,7 +284,7 @@ class ColorSelectDialog extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 4,
-              childAspectRatio: 1 / 1.1,
+              childAspectRatio: 1 / 1,
             ),
             itemBuilder: (context, index) {
               return InkWell(
@@ -376,15 +293,18 @@ class ColorSelectDialog extends StatelessWidget {
                   Navigator.pop(context);
                 },
                 child: Container(
-                  margin:
-                      const EdgeInsets.only(left: 10, right: 10, bottom: 20),
+                  margin: const EdgeInsets.only(left: 5, right: 5, bottom: 10),
                   child: Column(
                     children: [
                       Container(
+                        // color circle
                         margin: const EdgeInsets.only(bottom: 5),
-                        width: 50,
-                        height: 50,
+                        width: 40,
+                        height: 40,
                         decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black12,
+                          ),
                           shape: BoxShape.circle,
                           color: colors[index][1],
                         ),
@@ -401,6 +321,118 @@ class ColorSelectDialog extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+/* 상품 타일 */
+class ClothesGridItem extends StatelessWidget {
+  final Map<String, dynamic> itemData;
+
+  const ClothesGridItem({required this.itemData});
+
+  @override
+  Widget build(BuildContext context) {
+    return GridTile(
+      child: InkWell(
+        onTap: () {
+          Navigator.pushNamed(context, '/clothesDetail', arguments: itemData);
+        },
+        child: Container(
+          margin: EdgeInsets.all(4),
+          child: Material(
+            elevation: 2,
+            borderRadius: const BorderRadius.all(Radius.circular(7)),
+            child: Container(
+              padding: const EdgeInsets.all(0),
+              margin: const EdgeInsets.all(0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(7),
+                // border: Border.all(
+                //   color: Colors.black26,
+                //   width: 0.7, // 테두리 두께
+                // ),
+              ),
+              child: Column(
+                children: [
+                  FutureBuilder<Map<dynamic, dynamic>>(
+                    future:
+                        clothesProvider.getClothesPhoto(itemData['clothesId']),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Container(
+                            width: 200,
+                            height: 200,
+                            child: SpinKitPumpingHeart(
+                              color: Color(0xFFA8ABFF),
+                              size: 50.0,
+                            ));
+                      } else {
+                        if (snapshot.hasError) {
+                          return const Center(child: Text('ERROR'));
+                        } else {
+                          final result = snapshot.data!;
+                          return Container(
+                            // image container
+                            margin: const EdgeInsets.all(0),
+                            width: 200,
+                            height: 200,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(7),
+                                topRight: Radius.circular(7),
+                              ),
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                    result['photourl3']), // 가져온 이미지로 설정
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          );
+                        }
+                      }
+                    },
+                  ),
+                  // Container(
+                  //   margin: EdgeInsets.all(5),
+                  //   width: 180,
+                  //   height: 180,
+                  //   decoration: BoxDecoration(
+                  //     color: Colors.grey,
+                  //     borderRadius: BorderRadius.circular(7),
+                  //   ),
+                  // ),
+                  Container(
+                    padding: const EdgeInsets.all(5),
+                    alignment: Alignment.centerLeft,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          '가게 이름',
+                          //itemData['storeName'].toString(),
+                          textAlign: TextAlign.start,
+                          style: TextStyle(fontSize: 12, color: Colors.black54),
+                        ),
+                        SizedBox(
+                          height: 3,
+                        ),
+                        Text(
+                          itemData['name'],
+                          style: const TextStyle(fontSize: 14),
+                          overflow: TextOverflow.fade,
+                          maxLines: 2,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

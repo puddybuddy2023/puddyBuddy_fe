@@ -48,6 +48,7 @@ dependencies:
   getwidget: ^4.0.0
   dotted_border: ^2.1.0
   dropdown_button2: ^2.3.9
+  flutter_spinkit: ^5.2.0
 
 
 
