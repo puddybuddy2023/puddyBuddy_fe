@@ -69,51 +69,37 @@ class Question6 extends StatelessWidget {
 }
 
 class AdditinalQuestionOrNextStage extends StatelessWidget {
-  const AdditinalQuestionOrNextStage({Key? key}) : super(key: key);
-
+  const AdditinalQuestionOrNextStage({super.key});
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Map<dynamic, dynamic>>(
-      future: _processStage(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          // 비동기 작업이 완료될 때까지 로딩 인디케이터나 다른 로딩 UI를 표시합니다.
-          return CircularProgressIndicator();
-        } else if (snapshot.hasError) {
-          // 에러를 처리합니다.
-          print('Error: ${snapshot.error}');
-          return SizedBox(); // 기본 위젯을 반환하거나 에러 케이스를 처리합니다.
-        } else {
-          // 비동기 작업이 완료되었을 때의 로직을 처리합니다.
-          testInfo.images = snapshot.data!;
-          testInfo.currentStage = snapshot.data!['nextStage'];
-          testInfo.clearScore();
-          testInfo.clearResultList();
-
-          return Stage2Question1();
-        }
-      },
-    );
-  }
-
-  Future<Map<dynamic, dynamic>> _processStage() async {
     if (testInfo.warmClearLow == testInfo.coolDullHigh) {
-      // 조건이 충족되면 AdditionalQuestion 위젯을 즉시 반환합니다.
-      return {'nextPage': Stage2Question1()};
+      return AdditionalQuestion(imageNum: 6, nextPage: Stage2Question1());
     } else {
-      try {
-        Map<dynamic, dynamic> result =
-            await petsnalColorProvider.PetsnalColorStage(
-          testInfo.currentStage,
-          1,
-          testInfo.resultList,
-        );
-        return result;
-      } catch (error) {
-        // 에러를 처리하고 기본값을 반환합니다.
-        print('Error: $error');
-        return {}; // 로직에 맞게 빈 맵이나 기본값을 반환합니다.
-      }
+      print('warm: ${testInfo.warmClearLow} cool: ${testInfo.coolDullHigh}');
+      print(testInfo.currentStage);
+      print(testInfo.resultList);
+      return FutureBuilder<Map<dynamic, dynamic>>(
+        future: petsnalColorProvider.PetsnalColorStage(
+            testInfo.currentStage, 1, testInfo.resultList),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            // 비동기 작업이 완료될 때까지 로딩 인디케이터나 다른 로딩 UI를 표시합니다.
+            return CircularProgressIndicator();
+          } else if (snapshot.hasError) {
+            // 에러를 처리합니다.
+            print('Error: ${snapshot.error}');
+            return SizedBox(); // 기본 위젯을 반환하거나 에러 케이스를 처리합니다.
+          } else {
+            // 비동기 작업이 완료되었을 때의 로직을 처리합니다.
+            testInfo.images = snapshot.data!;
+            testInfo.currentStage = snapshot.data!['nextStage'];
+            testInfo.clearScore();
+            testInfo.clearResultList();
+
+            return Stage2Question1();
+          }
+        },
+      );
     }
   }
 }
