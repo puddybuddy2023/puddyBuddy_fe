@@ -4,6 +4,7 @@ import '../providers/clothes_provider.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../providers/prefer_provider.dart';
+import '../widgets.dart';
 
 class Store extends StatefulWidget {
   const Store({super.key});
@@ -36,35 +37,19 @@ class _StoreState extends State<Store> {
     ['기타', Colors.white, 19],
   ];
 
+  List<String> sizes = ['XS', 'S', 'M', 'L', 'XL'];
+
   String? selectedPrefer;
+  String? selectedSize;
+  int petsnalColorId = -1;
   int selectedColorId = -1;
   //bool isSwitched = false;
-  int petsnalColorId = -1;
-  //int personalcolorId = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        // shape: Border(
-        //   bottom: BorderSide(
-        //     color: Colors.grey,
-        //     width: 0.2,
-        //   ),
-        // ),
-        title: const Text(
-          'PuddyBuddy',
-          style: TextStyle(
-              color: Colors.black,
-              fontFamily: 'Inter',
-              fontSize: 23,
-              fontWeight: FontWeight.w900,
-              fontStyle: FontStyle.italic),
-        ),
-      ),
+      appBar: const TitleAppBar(),
       body: Column(
         children: [
           Container(
@@ -82,76 +67,20 @@ class _StoreState extends State<Store> {
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         final result = snapshot.data!;
-                        return DropdownButtonHideUnderline(
-                          child: DropdownButton2(
-                            isExpanded: true,
-                            hint: const Text(
-                              '펫컬',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                              ),
-                            ),
-                            items: List.generate((result.length + 1), (index) {
-                              if (index == 0) {
-                                return DropdownMenuItem(
-                                  value: '0',
-                                  child: Text(
-                                    '선택 안함',
-                                    style: const TextStyle(
-                                        color: Colors.white, fontSize: 14),
-                                  ),
-                                );
-                              } else {
-                                return DropdownMenuItem(
-                                  value: index.toString(),
-                                  child: Text(
-                                    result[index - 1]['name'],
-                                    style: const TextStyle(
-                                        color: Colors.white, fontSize: 14),
-                                  ),
-                                );
-                              }
-                            }),
-                            value: selectedPrefer,
-                            onChanged: (value) {
-                              setState(() {
-                                selectedPrefer = value.toString();
-                                int.parse(value!) - 1 == -1
-                                    ? petsnalColorId = 1
-                                    : petsnalColorId =
-                                        result[int.parse(value) - 1]
-                                            ['personalColorId'];
-                              });
-                            },
-                            buttonStyleData: ButtonStyleData(
-                              padding: const EdgeInsets.only(left: 5),
-                              height: 30,
-                              width: 95,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: const Color(0xFFA8ABFF),
-                              ),
-                            ),
-                            iconStyleData: const IconStyleData(
-                              iconSize: 28,
-                              iconEnabledColor: Colors.white,
-                              iconDisabledColor: Colors.white,
-                            ),
-                            dropdownStyleData: DropdownStyleData(
-                              padding: EdgeInsets.all(0),
-                              maxHeight: 200,
-                              width: 130,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: const Color(0xFFA8ABFF),
-                              ),
-                              //offset: const Offset(0, 1),
-                            ),
-                            menuItemStyleData: const MenuItemStyleData(
-                              height: 40,
-                            ),
-                          ),
+                        return PetColFilteringDropdownButton(
+                          result: result,
+                          selectedPrefer: selectedPrefer,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedPrefer = value;
+                              int.parse(value!) - 1 == -1
+                                  ? petsnalColorId = 1
+                                  : petsnalColorId =
+                                      result[int.parse(value) - 1]
+                                          ['personalColorId'];
+                            });
+                          },
+                          petsnalColorId: petsnalColorId,
                         );
                       } else {
                         return Container();
@@ -221,7 +150,78 @@ class _StoreState extends State<Store> {
                       const Size(60.0, 20.0), // 버튼의 최소 너비와 높이 설정
                     ),
                   ),
-                )
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                DropdownButtonHideUnderline(
+                  child: DropdownButton2(
+                    isExpanded: true,
+                    hint: const Text(
+                      '사이즈',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.black38,
+                      ),
+                    ),
+                    items: List.generate(6, (index) {
+                      if (index == 0) {
+                        return DropdownMenuItem(
+                          value: '0',
+                          child: Text(
+                            '사이즈',
+                            style: const TextStyle(
+                                color: Colors.black38, fontSize: 14),
+                          ),
+                        );
+                      } else {
+                        return DropdownMenuItem(
+                          value: index.toString(),
+                          child: Text(
+                            sizes[index - 1],
+                            style: const TextStyle(
+                                color: Colors.black38, fontSize: 14),
+                          ),
+                        );
+                      }
+                    }),
+                    value: selectedPrefer,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedSize = value.toString();
+                      });
+                    },
+                    buttonStyleData: ButtonStyleData(
+                      padding: const EdgeInsets.only(left: 5),
+                      height: 30,
+                      width: 75,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.black38,
+                        ),
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.white,
+                      ),
+                    ),
+                    iconStyleData: const IconStyleData(
+                      iconSize: 28,
+                      iconEnabledColor: Colors.black38,
+                      iconDisabledColor: Colors.black38,
+                    ),
+                    dropdownStyleData: DropdownStyleData(
+                      padding: EdgeInsets.all(0),
+                      maxHeight: 200,
+                      width: 130,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.white,
+                      ),
+                    ),
+                    menuItemStyleData: const MenuItemStyleData(
+                      height: 40,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -231,7 +231,8 @@ class _StoreState extends State<Store> {
           ),
           /* 옷 목록 영역 */
           FutureBuilder(
-              future: clothesProvider.clothesSearch(selectedColorId),
+              future: clothesProvider.clothesSearch(
+                  selectedColorId, -1, petsnalColorId, -1),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Container();
@@ -256,6 +257,84 @@ class _StoreState extends State<Store> {
                 }
               }),
         ],
+      ),
+    );
+  }
+}
+
+/* 펫스널컬러 필터링 Dropdowm Button */
+class PetColFilteringDropdownButton extends StatelessWidget {
+  final List<dynamic> result;
+  final String? selectedPrefer;
+  final ValueChanged<String?> onChanged;
+  final int petsnalColorId;
+
+  const PetColFilteringDropdownButton({
+    required this.result,
+    required this.selectedPrefer,
+    required this.onChanged,
+    required this.petsnalColorId,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButtonHideUnderline(
+      child: DropdownButton2(
+        isExpanded: true,
+        hint: const Text(
+          '펫컬',
+          style: TextStyle(
+            fontSize: 14,
+            color: Colors.white,
+          ),
+        ),
+        items: List.generate((result.length + 1), (index) {
+          if (index == 0) {
+            return DropdownMenuItem(
+              value: '0',
+              child: Text(
+                '선택안함',
+                style: const TextStyle(color: Colors.white, fontSize: 14),
+              ),
+            );
+          } else {
+            return DropdownMenuItem(
+              value: index.toString(),
+              child: Text(
+                result[index - 1]['name'],
+                style: const TextStyle(color: Colors.white, fontSize: 14),
+              ),
+            );
+          }
+        }),
+        value: selectedPrefer,
+        onChanged: onChanged,
+        buttonStyleData: ButtonStyleData(
+          padding: const EdgeInsets.only(left: 5),
+          height: 30,
+          width: 85,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            color: const Color(0xFFA8ABFF),
+          ),
+        ),
+        iconStyleData: const IconStyleData(
+          iconSize: 28,
+          iconEnabledColor: Colors.white,
+          iconDisabledColor: Colors.white,
+        ),
+        dropdownStyleData: DropdownStyleData(
+          padding: EdgeInsets.all(0),
+          maxHeight: 200,
+          width: 130,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            color: const Color(0xFFA8ABFF),
+          ),
+        ),
+        menuItemStyleData: const MenuItemStyleData(
+          height: 40,
+        ),
       ),
     );
   }

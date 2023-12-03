@@ -4,6 +4,7 @@ import 'package:mungshinsa/providers/board_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../providers/clothes_provider.dart';
+import '../widgets.dart';
 
 class ClothesDetail extends StatefulWidget {
   const ClothesDetail({super.key});
@@ -13,17 +14,51 @@ class ClothesDetail extends StatefulWidget {
 }
 
 class _ClothesDetailState extends State<ClothesDetail> {
+  // int currentPage = 0;
   @override
   Widget build(BuildContext context) {
     final clothes = ModalRoute.of(context)!.settings.arguments as dynamic;
     return Scaffold(
       backgroundColor: Colors.white,
       extendBody: true,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.black),
-        elevation: 0,
+      appBar: const GoBackAppBar(),
+      floatingActionButton: SizedBox(
+        width: 80,
+        height: 80,
+        child: FloatingActionButton(
+          heroTag: 'fitting_button',
+          onPressed: () {
+            // 버튼이 눌렸을 때의 동작
+          },
+          elevation: 5,
+          backgroundColor: Color(0xFFA8ABFF),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          child: Container(
+            padding: EdgeInsets.all(3),
+            child: Column(
+              children: [
+                Image.asset(
+                  'assets/images/dog_clothes.png',
+                  width: 60,
+                  height: 55,
+                  //fit: BoxFit.cover,
+                ),
+                Text(
+                  '가상피팅',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold),
+                )
+              ],
+            ),
+          ),
+        ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      bottomNavigationBar: SizedBox(height: 75),
       body: Column(
         children: [
           Expanded(
@@ -33,54 +68,25 @@ class _ClothesDetailState extends State<ClothesDetail> {
                   future: clothesProvider.getClothesPhoto(clothes['clothesId']),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      CircularProgressIndicator();
                       return Container(
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.width,
                           child: const SpinKitPumpingHeart(
                             color: Color(0xFFA8ABFF),
-                            size: 50.0,
+                            size: 100.0,
                           ));
                     } else {
                       if (snapshot.hasError) {
                         // 에러가 있다면 에러 메시지를 보여줄 위젯
-                        return Center(child: Text('이미지를 불러오는 중에 에러가 발생했어요.'));
+                        return Center(child: Text('ERROR'));
                       } else {
-                        // 데이터를 성공적으로 불러왔을 때 Container를 보여줄 위젯
                         final result = snapshot.data!;
-                        return Container(
-                          margin: EdgeInsets.all(5),
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(7),
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                  result['photourl1']), // 가져온 이미지로 설정
-                              fit: BoxFit.cover,
-                            ),
-                          ),
+                        return ImageSlide(
+                          result: result,
                         );
                       }
                     }
                   },
-                ),
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 5, left: 10.0),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // TODO: 버튼이 눌렸을 때 수행할 작업 추가
-                        },
-                        child: Text('피팅'),
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.black,
-                          fixedSize: Size(20, 20), // 너비 200, 높이 50으로 설정
-                        ),
-                      ),
-                    ),
-                  ],
                 ),
                 Container(
                   height: 100,
@@ -99,21 +105,40 @@ class _ClothesDetailState extends State<ClothesDetail> {
                       Text(
                         clothes['name'],
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.normal),
+                            fontSize: 18, fontWeight: FontWeight.normal),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 20,
+                Container(
+                  color: Colors.grey.shade400,
+                  height: 1,
                 ),
-                Text(
-                  '    Reviews',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w900,
-                    //fontStyle: FontStyle.italic,
+                SizedBox(
+                  height: 15,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15.0),
+                  child: Text(
+                    'Reviews',
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w900,
+                      fontFamily: 'Inter',
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15.0),
+                  child: Text(
+                    '이 상품을 착용한 강아지들',
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontSize: 14,
+                      //fontStyle: FontStyle.italic,
+                    ),
                   ),
                 ),
                 FutureBuilder(
@@ -163,30 +188,79 @@ class _ClothesDetailState extends State<ClothesDetail> {
           Container(
               margin: EdgeInsets.all(10),
               width: double.infinity,
-              height: 40,
-              child: ElevatedButton(
-                onPressed: () async {
-                  final url = Uri.parse(clothes['shoppingSiteUrl']);
-                  //print(url);
-                  if (await canLaunchUrl(url)) {
-                    launchUrl(Uri.parse(clothes['shoppingSiteUrl']));
-                  }
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      '구매하기',
-                      style: TextStyle(fontSize: 16),
+              height: 65,
+              child: Column(
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.black,
+                      minimumSize: Size(double.infinity,
+                          40), // ElevatedButton의 최소 크기 설정 (가로는 화면에 꽉 차도록, 높이는 50)
                     ),
-                    Icon(Icons.arrow_forward_rounded)
-                  ],
-                ),
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFA8ABFF)),
+                    onPressed: () async {
+                      final url = Uri.parse(clothes['shoppingSiteUrl']);
+                      //print(url);
+                      if (await canLaunchUrl(url)) {
+                        launchUrl(url);
+                      }
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '구매하러 가기',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        Icon(Icons.arrow_forward_rounded)
+                      ],
+                    ),
+                  ),
+                  Text(
+                    clothes['shoppingSiteUrl'],
+                    style: TextStyle(fontSize: 10, color: Colors.black38),
+                  ),
+                ],
               )),
         ],
       ),
+    );
+  }
+}
+
+class ImageSlide extends StatelessWidget {
+  final Map<dynamic, dynamic> result;
+
+  const ImageSlide({super.key, required this.result});
+
+  @override
+  Widget build(BuildContext context) {
+    final PageController controller = PageController(initialPage: 0);
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.width,
+      child: PageView.builder(
+          controller: controller,
+          itemCount: result.length - 2,
+          // onPageChanged: (page) {
+          //   setState(() {
+          //     currentPage = page;
+          //   });
+          // },
+          itemBuilder: (context, index) {
+            return Container(
+              margin: EdgeInsets.all(5),
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(7),
+                image: DecorationImage(
+                  image: NetworkImage(
+                      result['photourl${index + 1}']), // 가져온 이미지로 설정
+                  fit: BoxFit.cover,
+                ),
+              ),
+            );
+          }),
     );
   }
 }

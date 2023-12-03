@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mungshinsa/petsonal_color_test_page/petcol_test_widgets.dart';
+import 'package:mungshinsa/petsonal_color_test_page/test_info.dart';
 
 import '../providers/petsnal_color_provider.dart';
-import 'petcol_test.dart';
+import 'petcol_test_stage1.dart';
 
 final ImagePicker picker = ImagePicker();
 XFile? selectImage;
@@ -124,27 +125,44 @@ class _PetsnalColorStartPageState extends State<PetsnalColorStartPage> {
                 ],
               ),
             const SizedBox(
-              height: 25,
+              height: 60,
             ),
             ElevatedButton(
               onPressed: () {
-                Future<Map<dynamic, dynamic>> result;
-                result = petsnalColorProvider.PetsnalColorStart(showImage, 1);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Stage1(argument: result),
-                  ),
-                );
+                if (showImage == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('사진을 선택해주세요'),
+                    duration: Duration(seconds: 2), //올라와있는 시간
+                  ));
+                } else {
+                  petsnalColorProvider.PetsnalColorStart(showImage, 1)
+                      .then((Map<dynamic, dynamic> result) {
+                    testInfo.images = result;
+                    testInfo.currentStage = result['nextStage'];
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Question1(),
+                      ),
+                    );
+                  }).catchError((error) {
+                    // 에러 처리 로직
+                    print('Error: $error');
+                  });
+                }
               },
               style: ElevatedButton.styleFrom(
                 primary: Colors.white,
                 onPrimary: Colors.black,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20), // 모서리를 조절해요
+                  borderRadius: BorderRadius.circular(30), // 모서리를 조절해요
                 ),
+                minimumSize: Size(MediaQuery.of(context).size.width * 0.9, 45),
               ),
-              child: const Text('테스트 시작'),
+              child: const Text(
+                '테스트 시작하기',
+                style: TextStyle(fontSize: 16),
+              ),
             ),
           ],
         ),
@@ -196,7 +214,7 @@ class GuidelinePanel extends StatelessWidget {
                       decoration: const BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage(
-                              'assets/images/petsnalcolor_example.jpg'),
+                              'assets/images/petsnal_color/petsnalcolor_example.jpg'),
                           fit: BoxFit.cover,
                         ),
                       ),

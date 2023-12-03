@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mungshinsa/widgets.dart';
 import 'package:provider/provider.dart';
 import '../../providers/board_provider.dart';
 
@@ -13,26 +14,7 @@ class _FeedViewState extends State<FeedView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        shape: Border(
-          bottom: BorderSide(
-            color: Colors.grey,
-            width: 0.5,
-          ),
-        ),
-        title: const Text(
-          'PuddyBuddy',
-          style: TextStyle(
-              color: Colors.black,
-              fontSize: 23,
-              fontWeight: FontWeight.w900,
-              fontStyle: FontStyle.italic,
-              fontFamily: 'Inter'),
-        ),
-      ),
+      appBar: TitleAppBar(),
       body: Consumer<BoardProvider>(builder: (context, boardProvider, child) {
         final boardList = boardProvider.getBoardList();
         return GridView.builder(

@@ -50,6 +50,18 @@ class PetsnalColorProvider with ChangeNotifier {
       }
     }
   }
+
+  Future<Map<dynamic, dynamic>> PetsnalColorStage(
+      int stage, int preferId, List<int> resultList) async {
+    Response response;
+    Dio dio = new Dio();
+    response = await dio.post("$_API_PREFIX/$stage",
+        data: {'preferId': 1, 'resultList': resultList},
+        options: Options(contentType: Headers.jsonContentType));
+    Map<dynamic, dynamic> result = (response.data)['result'];
+    print(result);
+    return result;
+  }
 }
 
 PetsnalColorProvider petsnalColorProvider = PetsnalColorProvider();

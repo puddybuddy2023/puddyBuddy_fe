@@ -12,7 +12,7 @@ class BoardProvider with ChangeNotifier {
   /* 보드 전체 가져오기 */
   List<dynamic> getBoardList() {
     _fetchBoards(); // 게시물을 가져온다.
-    return _boardListForUserId;
+    return _boardList;
   }
 
   void _fetchBoards() async {
@@ -22,30 +22,30 @@ class BoardProvider with ChangeNotifier {
     List<dynamic> result = (response.data)['result'];
     //print((response.data)['result']);
 
-    _boardListForUserId.clear(); // 이전에 저장된 목록을 비운다.
-    _boardListForUserId.addAll(result);
+    _boardList.clear(); // 이전에 저장된 목록을 비운다.
+    _boardList.addAll(result);
     notifyListeners(); // 데이터가 업데이트되었음을 리스너에게 알린다.
   }
 
   /* 사용자 아이디로 보드 가져오기 */
-  final List<dynamic> _boardListForUserId = List.empty(growable: true);
-  List<dynamic> getBoardListByUserId(int userId) {
-    _fetchBoardsByUserId(userId); // 게시물을 가져온다.
-    return _boardList;
-  }
-
-  void _fetchBoardsByUserId(int userId) async {
-    Response response;
-    Dio dio = new Dio();
-    response = await dio.get("$_API_PREFIX", queryParameters: {'user_id': 1});
-    List<dynamic> result = (response.data)['result'];
-    //print((response.data)['result']);
-
-    _boardList.clear(); // 이전에 저장된 목록을 비운다.
-    _boardList.addAll(result);
-    //print(_boardList);
-    notifyListeners();
-  }
+  // final List<dynamic> _boardListForUserId = List.empty(growable: true);
+  // List<dynamic> getBoardListByUserId(int userId) {
+  //   _fetchBoardsByUserId(userId); // 게시물을 가져온다.
+  //   return _boardList;
+  // }
+  //
+  // void _fetchBoardsByUserId(int userId) async {
+  //   Response response;
+  //   Dio dio = new Dio();
+  //   response = await dio.get("$_API_PREFIX", queryParameters: {'user_id': 1});
+  //   List<dynamic> result = (response.data)['result'];
+  //   //print((response.data)['result']);
+  //
+  //   _boardListForUserId.clear(); // 이전에 저장된 목록을 비운다.
+  //   _boardListForUserId.addAll(result);
+  //   //print(_boardList);
+  //   notifyListeners();
+  // }
 
   Future<List<dynamic>> fetchBoardsByUserId(int userId) async {
     Response response;

@@ -44,7 +44,7 @@ class _MyPageState extends State<MyPage> {
           // Add your icon button here
           IconButton(
             icon: const Icon(
-              Icons.settings,
+              Icons.settings_rounded,
               color: Colors.black87,
             ),
             onPressed: () {
@@ -138,7 +138,7 @@ class _MyPageState extends State<MyPage> {
                             ),
                           ); // 일반 카드를 반환하 // 추가 버튼을 반환하는 함수 호출
                         } else {
-                          return PreferCardPanel(result: preferList[index]);
+                          return PreferCard(result: preferList[index]);
                           // 선호조건 카드를 반환하는 함수 호출
                         }
                       }),
@@ -170,11 +170,10 @@ class _MyPageState extends State<MyPage> {
               future: boardProvider.fetchBoardsByUserId(1),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: Container());
+                  return SizedBox();
                 } else if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 } else {
-                  // 데이터가 정상적으로 도착하면 여기서 UI를 만들어서 반환합니다.
                   final result = snapshot.data!;
                   return GridView.builder(
                       shrinkWrap: true,
@@ -245,10 +244,10 @@ class _MyPageState extends State<MyPage> {
 }
 
 /* 반려견 카드 영역 */
-class PreferCardPanel extends StatelessWidget {
+class PreferCard extends StatelessWidget {
   final Map<dynamic, dynamic> result;
 
-  const PreferCardPanel({super.key, required this.result});
+  const PreferCard({super.key, required this.result});
 
   @override
   Widget build(BuildContext context) {
@@ -320,8 +319,8 @@ class PreferCardPanel extends StatelessWidget {
                         ),
                         Container(
                           margin: const EdgeInsets.all(5),
-                          height: 23,
-                          width: 60,
+                          height: 25,
+                          width: 65,
                           child: ElevatedButton(
                               onPressed: () {
                                 Navigator.push(
@@ -335,7 +334,7 @@ class PreferCardPanel extends StatelessWidget {
                                 primary: Colors.black,
                                 shape: RoundedRectangleBorder(
                                   borderRadius:
-                                      BorderRadius.circular(15), // 모서리를 둥글게 조정
+                                      BorderRadius.circular(10), // 모서리를 둥글게 조정
                                 ),
                                 padding: EdgeInsets.zero,
                                 minimumSize: const Size(60, 23),
@@ -369,8 +368,8 @@ class PreferCardPanel extends StatelessWidget {
                         ),
                         Container(
                           margin: const EdgeInsets.all(5),
-                          height: 23,
-                          width: 50,
+                          height: 25,
+                          width: 53,
                           child: ElevatedButton(
                               onPressed: () {
                                 Navigator.of(context).push(
@@ -386,10 +385,10 @@ class PreferCardPanel extends StatelessWidget {
                                 primary: Colors.black,
                                 shape: RoundedRectangleBorder(
                                   borderRadius:
-                                      BorderRadius.circular(15), // 모서리를 둥글게 조정
+                                      BorderRadius.circular(10), // 모서리를 둥글게 조정
                                 ),
                                 padding: EdgeInsets.zero,
-                                minimumSize: const Size(50, 23),
+                                minimumSize: const Size(50, 30),
                               ),
                               child: const Text(
                                 '테스트',

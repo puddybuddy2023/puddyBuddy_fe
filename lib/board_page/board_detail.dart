@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mungshinsa/providers/clothes_provider.dart';
+import 'package:mungshinsa/widgets.dart';
 import 'package:provider/provider.dart';
 import '../../models/comments_model.dart';
 import 'package:mungshinsa/providers/board_provider.dart';
@@ -31,16 +32,7 @@ class _BoardDetailState extends State<BoardDetail> {
 
     return Scaffold(
       backgroundColor: Color(0xFFE8EDF3),
-      appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.white,
-          shape: Border(
-            bottom: BorderSide(
-              color: Colors.grey,
-              width: 0.5,
-            ),
-          ),
-          iconTheme: IconThemeData(color: Colors.black)),
+      appBar: const GoBackAppBar(),
       body: ListView(
         scrollDirection: Axis.vertical,
         children: [
