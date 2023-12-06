@@ -1,6 +1,10 @@
 class TestInfo {
   int currentStage = 0;
-  late Map<dynamic, dynamic> images;
+  late Map<dynamic, dynamic> images = {
+    "nextStage": 1,
+    "photoUrlList": ["a.jpg", "b.jpg"],
+    "result": 1
+  };
 
   List<int> resultList = [];
 

@@ -4,7 +4,7 @@ import 'package:mungshinsa/providers/board_provider.dart';
 import 'package:mungshinsa/providers/prefer_provider.dart';
 import 'package:provider/provider.dart';
 import '../petsonal_color_test_page/petcol_test_start.dart';
-import '../size_measure_page/size_start.dart';
+import '../size_measure_page/measure_start.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({super.key});

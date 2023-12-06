@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../providers/clothes_provider.dart';
 import '../widgets.dart';
+import 'fitting.dart';
 
 class ClothesDetail extends StatefulWidget {
   const ClothesDetail({super.key});
@@ -14,7 +15,6 @@ class ClothesDetail extends StatefulWidget {
 }
 
 class _ClothesDetailState extends State<ClothesDetail> {
-  // int currentPage = 0;
   @override
   Widget build(BuildContext context) {
     final clothes = ModalRoute.of(context)!.settings.arguments as dynamic;
@@ -28,7 +28,12 @@ class _ClothesDetailState extends State<ClothesDetail> {
         child: FloatingActionButton(
           heroTag: 'fitting_button',
           onPressed: () {
-            // 버튼이 눌렸을 때의 동작
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Fitting(),
+              ),
+            );
           },
           elevation: 5,
           backgroundColor: Color(0xFFA8ABFF),
@@ -95,13 +100,16 @@ class _ClothesDetailState extends State<ClothesDetail> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Text(
-                      //   clothes['storeName'],
-                      //   style: TextStyle(
-                      //     color: Colors.black54,
-                      //     fontSize: 14,
-                      //   ),
-                      // ),
+                      Text(
+                        clothes['storeName'],
+                        style: TextStyle(
+                          color: Colors.black54,
+                          fontSize: 14,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
                       Text(
                         clothes['name'],
                         style: TextStyle(
@@ -227,40 +235,66 @@ class _ClothesDetailState extends State<ClothesDetail> {
   }
 }
 
-class ImageSlide extends StatelessWidget {
+class ImageSlide extends StatefulWidget {
   final Map<dynamic, dynamic> result;
 
   const ImageSlide({super.key, required this.result});
 
   @override
+  State<ImageSlide> createState() => _ImageSlideState();
+}
+
+class _ImageSlideState extends State<ImageSlide> {
+  int currentPage = 0;
+  @override
   Widget build(BuildContext context) {
     final PageController controller = PageController(initialPage: 0);
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.width,
-      child: PageView.builder(
-          controller: controller,
-          itemCount: result.length - 2,
-          // onPageChanged: (page) {
-          //   setState(() {
-          //     currentPage = page;
-          //   });
-          // },
-          itemBuilder: (context, index) {
-            return Container(
-              margin: EdgeInsets.all(5),
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(7),
-                image: DecorationImage(
-                  image: NetworkImage(
-                      result['photourl${index + 1}']), // 가져온 이미지로 설정
-                  fit: BoxFit.cover,
-                ),
+    return Column(
+      children: [
+        Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.width,
+          child: PageView.builder(
+              controller: controller,
+              itemCount: widget.result.length - 2,
+              onPageChanged: (page) {
+                setState(() {
+                  currentPage = page;
+                });
+              },
+              itemBuilder: (context, index) {
+                return Container(
+                  margin: EdgeInsets.all(5),
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(7),
+                    image: DecorationImage(
+                      image: NetworkImage(
+                          widget.result['photourl${index + 1}']), // 가져온 이미지로 설정
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                );
+              }),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            for (num i = 0; i < widget.result.length - 2; i++)
+              Container(
+                margin: const EdgeInsets.all(3),
+                width: 10,
+                height: 10,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: i == currentPage
+                        ? const Color(0xFF000000)
+                        : Colors.black.withOpacity(.2)),
               ),
-            );
-          }),
+          ],
+        ),
+      ],
     );
   }
 }

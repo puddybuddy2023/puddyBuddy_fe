@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mungshinsa/providers/clothes_provider.dart';
+import 'package:mungshinsa/user_info.dart';
 import 'package:mungshinsa/widgets.dart';
 import 'package:provider/provider.dart';
 import '../../models/comments_model.dart';
@@ -73,11 +74,68 @@ class _BoardDetailState extends State<BoardDetail> {
                       ),
                     ),
                     Spacer(),
-                    if (board['userId'] == 1)
+                    if (board['userId'] == userInfo.userId)
                       IconButton(
                         onPressed: () {
-                          boardProvider.deleteBoard(board['boardId']);
-                          Navigator.pop(context);
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: Text('알림'),
+                              content: Text('삭제하시겠습니까?'),
+                              actions: [
+                                Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              primary: Color(0xFFA8ABFF),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                              ),
+                                              minimumSize:
+                                                  Size(100, 40), // 버튼의 최소 크기 지정
+                                            ),
+                                            onPressed: () {
+                                              boardProvider.deleteBoard(
+                                                  board['boardId']);
+                                              Navigator.pop(context);
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text('예',
+                                                style: TextStyle(
+                                                    color: Colors.white)),
+                                          ),
+                                          SizedBox(width: 8), // 버튼 간격 조절
+                                          ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              primary: Colors.grey,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                              ),
+                                              minimumSize:
+                                                  Size(100, 40), // 버튼의 최소 크기 지정
+                                            ),
+                                            onPressed: () =>
+                                                Navigator.of(context).pop(),
+                                            child: Text('아니오',
+                                                style: TextStyle(
+                                                    color: Colors.white)),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
                         },
                         icon: Icon(Icons.delete, color: Colors.grey),
                       ),
@@ -345,7 +403,7 @@ class _CommentsPanelState extends State<CommentsPanel> {
                       ));
                     } else {
                       commentProvider.createComments(widget.board['boardId'],
-                          widget.board['userId'], _commentController.text);
+                          userInfo.userId!, _commentController.text);
                       FocusManager.instance.primaryFocus?.unfocus();
                       _commentController.clear();
                     }
@@ -400,11 +458,72 @@ class _CommentsPanelState extends State<CommentsPanel> {
                         ),
                         Spacer(),
                         /* 본인이 작성한 댓글인 경우 삭제 버튼 제공 */
-                        if (commentList[i]['userId'] == 1)
+                        if (commentList[i]['userId'] == userInfo.userId)
                           IconButton(
                             onPressed: () {
-                              commentProvider
-                                  .deleteComments(commentList[i]['commentId']);
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: Text('알림'),
+                                  content: Text('삭제하시겠습니까?'),
+                                  actions: [
+                                    Center(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                  primary: Color(0xFFA8ABFF),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                  ),
+                                                  minimumSize: Size(
+                                                      100, 40), // 버튼의 최소 크기 지정
+                                                ),
+                                                onPressed: () {
+                                                  commentProvider
+                                                      .deleteComments(
+                                                          commentList[i]
+                                                              ['commentId']);
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text('예',
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
+                                              ),
+                                              SizedBox(width: 8), // 버튼 간격 조절
+                                              ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                  primary: Colors.grey,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                  ),
+                                                  minimumSize: Size(
+                                                      100, 40), // 버튼의 최소 크기 지정
+                                                ),
+                                                onPressed: () =>
+                                                    Navigator.of(context).pop(),
+                                                child: Text('아니오',
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
                             },
                             icon: Icon(Icons.delete, color: Colors.grey),
                           ),

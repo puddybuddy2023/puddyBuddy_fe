@@ -50,12 +50,13 @@ class PreferProvider with ChangeNotifier {
   }
 
   /* 선호조건 삭제 */
-  Future<void> deletePrefer(int userId) async {
+  Future<void> deletePrefer(int preferId) async {
     Response response;
     Dio dio = new Dio();
-    response = await dio.get("$_API_PREFIX/delete/$userId");
-    Map<dynamic, dynamic> responseMap = (response.data)['result'];
-    //print(_responseMap['name']);
+    response = await dio.get("$_API_PREFIX/delete/$preferId",
+        queryParameters: {'preferId': preferId});
+    Map<dynamic, dynamic> result = (response.data)['result'];
+    print(result);
   }
 }
 

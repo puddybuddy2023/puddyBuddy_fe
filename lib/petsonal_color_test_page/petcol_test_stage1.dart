@@ -5,7 +5,7 @@ import 'package:mungshinsa/petsonal_color_test_page/petcol_test_stage2.dart';
 import 'package:mungshinsa/petsonal_color_test_page/petcol_test_widgets.dart';
 import 'package:mungshinsa/petsonal_color_test_page/test_info.dart';
 
-import '../providers/petsnal_color_provider.dart';
+import '../providers/petsnal_color_api.dart';
 
 List<String> warmChoices = ['건강한 이미지다', '약간 건강해 보인다.', '누래보인다.'];
 List<String> coolChoices = ['투명하고 깔끔해보인다', '조금 투명하고 깔끔해보인다.', '창백해보인다.'];
@@ -15,7 +15,7 @@ class Question1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Question(
+    return QuestionPage(
         imageNum: 0, choices: warmChoices, nextPage: const Question2());
   }
 }
@@ -25,7 +25,8 @@ class Question2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Question(imageNum: 1, choices: coolChoices, nextPage: Question3());
+    return QuestionPage(
+        imageNum: 1, choices: coolChoices, nextPage: Question3());
   }
 }
 
@@ -34,7 +35,8 @@ class Question3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Question(imageNum: 2, choices: warmChoices, nextPage: Question4());
+    return QuestionPage(
+        imageNum: 2, choices: warmChoices, nextPage: Question4());
   }
 }
 
@@ -43,7 +45,8 @@ class Question4 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Question(imageNum: 3, choices: coolChoices, nextPage: Question5());
+    return QuestionPage(
+        imageNum: 3, choices: coolChoices, nextPage: Question5());
   }
 }
 
@@ -52,7 +55,8 @@ class Question5 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Question(imageNum: 4, choices: warmChoices, nextPage: Question6());
+    return QuestionPage(
+        imageNum: 4, choices: warmChoices, nextPage: Question6());
   }
 }
 
@@ -61,7 +65,7 @@ class Question6 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Question(
+    return QuestionPage(
         imageNum: 5,
         choices: coolChoices,
         nextPage: const AdditinalQuestionOrNextStage());

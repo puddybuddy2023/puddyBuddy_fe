@@ -5,12 +5,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mungshinsa/petsonal_color_test_page/petcol_test_widgets.dart';
 import 'package:mungshinsa/petsonal_color_test_page/test_info.dart';
 
-import '../providers/petsnal_color_provider.dart';
+import '../providers/petsnal_color_api.dart';
 import 'petcol_test_stage1.dart';
-
-final ImagePicker picker = ImagePicker();
-XFile? selectImage;
-XFile? showImage;
 
 class PetsnalColorStartPage extends StatefulWidget {
   const PetsnalColorStartPage({super.key});
@@ -20,6 +16,9 @@ class PetsnalColorStartPage extends StatefulWidget {
 }
 
 class _PetsnalColorStartPageState extends State<PetsnalColorStartPage> {
+  final ImagePicker picker = ImagePicker();
+  XFile? selectImage;
+  XFile? showImage;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,8 +37,9 @@ class _PetsnalColorStartPageState extends State<PetsnalColorStartPage> {
             const SizedBox(
               height: 80,
             ),
+            Image.asset('assets/images/petsnal_color/petcol_title.png'),
             const Padding(
-                padding: EdgeInsets.only(left: 15.0, right: 15, top: 25),
+                padding: EdgeInsets.only(left: 15.0, right: 15, top: 50),
                 child: GuidelinePanel()),
             const SizedBox(
               height: 50,
@@ -55,8 +55,8 @@ class _PetsnalColorStartPageState extends State<PetsnalColorStartPage> {
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   child: Container(
                     padding: const EdgeInsets.all(10),
-                    height: 200,
-                    width: 200,
+                    height: 220,
+                    width: 220,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
                       borderRadius: const BorderRadius.all(
@@ -176,69 +176,96 @@ class GuidelinePanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      elevation: 4, // elevation 정도
-      borderRadius: const BorderRadius.all(Radius.circular(20)),
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        height: 190,
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(
-            Radius.circular(20),
-          ),
-        ),
-        child: Column(
-          children: [
-            const Text(
-              'Guideline',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontFamily: 'Inter',
-                fontWeight: FontWeight.w900,
-              ),
-            ),
-            Row(
-              children: [
-                Column(
-                  children: [
-                    const Text(
-                      '<예시>',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(height: 3), // 텍스트와 상자 사이 여백 조절
-                    Container(
-                      width: 110, // 가로 전체 사이즈로 설정
-                      height: 110,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(
-                              'assets/images/petsnal_color/petsnalcolor_example.jpg'),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  ],
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Material(
+            elevation: 4, // elevation 정도
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(10, 10, 0, 10),
+              height: 165,
+              width: 355,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(20),
                 ),
-                Container(
-                  padding: const EdgeInsets.only(left: 10),
-                  width: 250,
-                  child: const Column(
+              ),
+              child: Column(
+                children: [
+                  Row(
                     children: [
-                      Text(
-                        '1. 정면 사진을 업로드해주세요.\n2. 강아지가 사진의 중심에 위치하게 해주세요.',
-                        style: TextStyle(fontSize: 16),
-                        overflow: TextOverflow.clip,
+                      Column(
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(top: 125, left: 10.0),
+                            child: const Text(
+                              '<예시 이미지>',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        padding: const EdgeInsets.only(left: 30),
+                        width: 215,
+                        child: const Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Guideline',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 27,
+                                  fontFamily: 'Inter',
+                                  fontWeight: FontWeight.w900,
+                                  fontStyle: FontStyle.italic),
+                            ),
+                            SizedBox(
+                              height: 17,
+                            ),
+                            Text(
+                              '1. 정면 사진을 업로드해주세요.\n2. 강아지가 사진의 중심에 위치하게 해주세요.',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            )
+                          ],
+                        ),
                       ),
                     ],
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ],
+          ),
         ),
-      ),
+        Positioned(
+          top: -11,
+          left: -10.0,
+          child: Material(
+            elevation: 4,
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
+            child: Container(
+              width: 150, // 가로 전체 사이즈로 설정
+              height: 150,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.0),
+                image: DecorationImage(
+                  image: AssetImage(
+                      'assets/images/petsnal_color/petsnalcolor_example.jpg'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

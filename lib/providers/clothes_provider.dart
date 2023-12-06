@@ -15,10 +15,10 @@ class ClothesProvider with ChangeNotifier {
       'color_id': colorId,
       'sizeClothes_id': sizeClothes_id,
       'personalcolor_id': personalcolor_id,
-      'store_id': store_id,
+      //'store_id': store_id,
     });
     List<dynamic> result = (response.data)['result'];
-    print(response.data.toString());
+    //print(response.data.toString());
     return result;
   }
 

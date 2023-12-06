@@ -4,7 +4,8 @@ import 'package:mungshinsa/providers/board_provider.dart';
 import 'package:mungshinsa/providers/prefer_provider.dart';
 import 'package:provider/provider.dart';
 import '../petsonal_color_test_page/petcol_test_start.dart';
-import '../size_measure_page/size_start.dart';
+import '../size_measure_page/measure_start.dart';
+import '../user_info.dart';
 
 class MyPage extends StatefulWidget {
   const MyPage({super.key});
@@ -71,7 +72,7 @@ class _MyPageState extends State<MyPage> {
                   width: 7,
                 ),
                 Text(
-                  'userid',
+                  'usernickname',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
@@ -81,7 +82,8 @@ class _MyPageState extends State<MyPage> {
             ),
           ),
           Consumer<PreferProvider>(builder: (context, preferProvider, child) {
-            final preferList = preferProvider.getPreferListByUserId(1);
+            final preferList =
+                preferProvider.getPreferListByUserId(userInfo.userId!);
             //print(preferList);
             return Column(
               children: [
@@ -167,7 +169,7 @@ class _MyPageState extends State<MyPage> {
           ),
           Container(height: 1, color: Colors.grey),
           FutureBuilder(
-              future: boardProvider.fetchBoardsByUserId(1),
+              future: boardProvider.fetchBoardsByUserId(userInfo.userId!),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return SizedBox();
@@ -254,7 +256,7 @@ class PreferCard extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
+          padding: const EdgeInsets.fromLTRB(10, 15, 0, 10),
           margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
@@ -271,9 +273,9 @@ class PreferCard extends StatelessWidget {
               Column(
                 children: [
                   Container(
-                    margin: const EdgeInsets.only(top: 10),
-                    height: 100,
-                    width: 100,
+                    margin: const EdgeInsets.only(top: 5),
+                    height: 115,
+                    width: 115,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
                       color: Colors.white,
@@ -289,21 +291,24 @@ class PreferCard extends StatelessWidget {
                   Text(
                     result['name'],
                     style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.w700),
+                        fontSize: 16, fontWeight: FontWeight.w700),
                     textAlign: TextAlign.center,
+                  ),
+                  SizedBox(
+                    height: 3,
                   ),
                   Text(
                     result['breedTagName'],
                     style: const TextStyle(
                         color: Colors.black54,
-                        fontSize: 16,
+                        fontSize: 13,
                         fontWeight: FontWeight.w700),
                     textAlign: TextAlign.center,
                   ),
                 ],
               ),
               Container(
-                margin: const EdgeInsets.only(left: 20, top: 10),
+                margin: const EdgeInsets.only(left: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -323,43 +328,55 @@ class PreferCard extends StatelessWidget {
                           width: 65,
                           child: ElevatedButton(
                               onPressed: () {
-                                Navigator.push(
-                                  context,
+                                Navigator.of(context).push(
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          SizeMeasureStartPage()),
+                                    settings:
+                                        RouteSettings(name: "/measureStart"),
+                                    builder: (context) => SizeMeasureStart(),
+                                  ),
                                 );
                               },
                               style: ElevatedButton.styleFrom(
                                 primary: Colors.black,
                                 shape: RoundedRectangleBorder(
                                   borderRadius:
-                                      BorderRadius.circular(10), // 모서리를 둥글게 조정
+                                      BorderRadius.circular(30), // 모서리를 둥글게 조정
                                 ),
                                 padding: EdgeInsets.zero,
-                                minimumSize: const Size(60, 23),
+                                minimumSize: const Size(65, 25),
                               ),
                               child: const Text(
                                 '측정하기',
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 13),
                               )),
                         ),
                       ],
                     ),
+                    SizedBox(
+                      height: 5,
+                    ),
                     Text(
-                      '${result['chest']} / ${result['back']} (가슴둘레 / 등길이)',
+                      '목둘레 ·가슴둘레 · 등길이 · 다리길이',
                       style: const TextStyle(
-                        fontSize: 15,
+                        fontSize: 10,
                         fontWeight: FontWeight.w400,
                       ),
                     ),
+                    Text(
+                      '${result['neck']} · ${result['chest']} · ${result['back']} · ${result['leg']}',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
                     const SizedBox(
-                      height: 10,
+                      height: 5,
                     ),
                     Row(
                       children: [
                         const Text(
-                          'petsonal color',
+                          'petsnal color',
                           style: TextStyle(
                               fontSize: 20,
                               fontFamily: 'Inter',
@@ -371,6 +388,7 @@ class PreferCard extends StatelessWidget {
                           height: 25,
                           width: 53,
                           child: ElevatedButton(
+                              // 펫스널컬러 테스트 버튼
                               onPressed: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
@@ -385,14 +403,15 @@ class PreferCard extends StatelessWidget {
                                 primary: Colors.black,
                                 shape: RoundedRectangleBorder(
                                   borderRadius:
-                                      BorderRadius.circular(10), // 모서리를 둥글게 조정
+                                      BorderRadius.circular(30), // 모서리를 둥글게 조정
                                 ),
                                 padding: EdgeInsets.zero,
-                                minimumSize: const Size(50, 30),
+                                minimumSize: const Size(55, 35),
                               ),
                               child: const Text(
                                 '테스트',
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 13),
                               )),
                         )
                       ],
@@ -402,29 +421,106 @@ class PreferCard extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        Container(
-                          margin: const EdgeInsets.only(right: 7),
-                          color: Colors.grey,
-                          height: 35,
-                          width: 35,
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(right: 7),
-                          color: Colors.grey,
-                          height: 35,
-                          width: 35,
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(right: 7),
-                          color: Colors.grey,
-                          height: 35,
-                          width: 35,
-                        ),
-                        Container(
-                          color: Colors.grey,
-                          height: 35,
-                          width: 35,
-                        )
+                        if (result['personalColorId'] == 0) ...[
+                          Container(
+                            margin: const EdgeInsets.only(right: 7),
+                            color: Colors.grey,
+                            height: 35,
+                            width: 35,
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(right: 7),
+                            color: Colors.grey,
+                            height: 35,
+                            width: 35,
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(right: 7),
+                            color: Colors.grey,
+                            height: 35,
+                            width: 35,
+                          ),
+                          Container(
+                            color: Colors.grey,
+                            height: 35,
+                            width: 35,
+                          )
+                        ],
+                        if (result['personalColorId'] == 1) ...[
+                          Container(
+                            margin: const EdgeInsets.only(right: 7),
+                            color: Colors.grey,
+                            height: 35,
+                            width: 35,
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(right: 7),
+                            color: Colors.grey,
+                            height: 35,
+                            width: 35,
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(right: 7),
+                            color: Colors.grey,
+                            height: 35,
+                            width: 35,
+                          ),
+                          Container(
+                            color: Colors.grey,
+                            height: 35,
+                            width: 35,
+                          )
+                        ],
+                        if (result['personalColorId'] == 2) ...[
+                          Container(
+                            margin: const EdgeInsets.only(right: 7),
+                            color: Colors.grey,
+                            height: 35,
+                            width: 35,
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(right: 7),
+                            color: Colors.grey,
+                            height: 35,
+                            width: 35,
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(right: 7),
+                            color: Colors.grey,
+                            height: 35,
+                            width: 35,
+                          ),
+                          Container(
+                            color: Colors.grey,
+                            height: 35,
+                            width: 35,
+                          )
+                        ],
+                        if (result['personalColorId'] == 3) ...[
+                          Container(
+                            margin: const EdgeInsets.only(right: 7),
+                            color: Colors.grey,
+                            height: 35,
+                            width: 35,
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(right: 7),
+                            color: Colors.grey,
+                            height: 35,
+                            width: 35,
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(right: 7),
+                            color: Colors.grey,
+                            height: 35,
+                            width: 35,
+                          ),
+                          Container(
+                            color: Colors.grey,
+                            height: 35,
+                            width: 35,
+                          )
+                        ],
                       ],
                     ),
                   ],
@@ -452,7 +548,12 @@ class PreferCard extends StatelessWidget {
               ];
             },
             onSelected: (value) {
-              // Handle the selection of PopupMenuItems here
+              if (value == 'item1') {
+                // 선택한 항목이 '수정'일 때 실행할 함수 호출
+              } else if (value == 'item2') {
+                // 선택한 항목이 '삭제'일 때 실행할 함수 호출
+                preferProvider.deletePrefer(1);
+              }
             },
           ),
         ),

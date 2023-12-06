@@ -49,6 +49,9 @@ dependencies:
   dotted_border: ^2.1.0
   dropdown_button2: ^2.3.9
   flutter_spinkit: ^5.2.0
+  flutter_secure_storage: ^9.0.0
+  screenshot: ^0.3.0
+  gallery_saver: ^2.0.0
 
 
 
@@ -79,7 +82,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
-    - assets/images/petsnal_color/petsnalcolor_example.jpg
+    - assets/images/petsnal_color/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

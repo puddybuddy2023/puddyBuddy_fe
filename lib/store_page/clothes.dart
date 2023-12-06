@@ -4,6 +4,7 @@ import '../providers/clothes_provider.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../providers/prefer_provider.dart';
+import '../user_info.dart';
 import '../widgets.dart';
 
 class Store extends StatefulWidget {
@@ -63,7 +64,7 @@ class _StoreState extends State<Store> {
             child: Row(
               children: [
                 FutureBuilder(
-                    future: preferProvider.fetchPreferById(1),
+                    future: preferProvider.fetchPreferById(userInfo.userId!),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         final result = snapshot.data!;
@@ -83,7 +84,60 @@ class _StoreState extends State<Store> {
                           petsnalColorId: petsnalColorId,
                         );
                       } else {
-                        return Container();
+                        return DropdownButtonHideUnderline(
+                          child: DropdownButton2(
+                            isExpanded: true,
+                            hint: const Text(
+                              '펫컬',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                              ),
+                            ),
+                            items: List.generate(1, (index) {
+                              return DropdownMenuItem(
+                                value: '0',
+                                child: Text(
+                                  '반려견을 등록해주세요',
+                                  style: const TextStyle(
+                                      color: Colors.white, fontSize: 14),
+                                ),
+                              );
+                            }),
+                            value: selectedPrefer,
+                            onChanged: (value) {
+                              setState(() {
+                                selectedPrefer = value;
+                              });
+                            },
+                            buttonStyleData: ButtonStyleData(
+                              padding: const EdgeInsets.only(left: 5),
+                              height: 30,
+                              width: 85,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: const Color(0xFFA8ABFF),
+                              ),
+                            ),
+                            iconStyleData: const IconStyleData(
+                              iconSize: 28,
+                              iconEnabledColor: Colors.white,
+                              iconDisabledColor: Colors.white,
+                            ),
+                            dropdownStyleData: DropdownStyleData(
+                              padding: EdgeInsets.all(0),
+                              maxHeight: 200,
+                              width: 120,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: const Color(0xFFA8ABFF),
+                              ),
+                            ),
+                            menuItemStyleData: const MenuItemStyleData(
+                              height: 40,
+                            ),
+                          ),
+                        );
                       }
                     }),
                 const SizedBox(
@@ -194,7 +248,7 @@ class _StoreState extends State<Store> {
                     buttonStyleData: ButtonStyleData(
                       padding: const EdgeInsets.only(left: 5),
                       height: 30,
-                      width: 75,
+                      width: 80,
                       decoration: BoxDecoration(
                         border: Border.all(
                           color: Colors.black38,
@@ -293,7 +347,7 @@ class PetColFilteringDropdownButton extends StatelessWidget {
             return DropdownMenuItem(
               value: '0',
               child: Text(
-                '선택안함',
+                '펫컬',
                 style: const TextStyle(color: Colors.white, fontSize: 14),
               ),
             );

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+import 'package:mungshinsa/petsonal_color_test_page/petcol_test_stage1.dart';
 import 'package:mungshinsa/petsonal_color_test_page/petcol_test_start.dart';
+import 'package:mungshinsa/size_measure_page/measure_start.dart';
 import 'package:mungshinsa/store_page/review_detail.dart';
+import 'package:mungshinsa/user_info.dart';
 import 'package:mungshinsa/user_page.dart';
 import 'package:provider/provider.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
@@ -11,6 +14,7 @@ import 'login_page/log_in.dart';
 import 'login_page/nickname.dart';
 import 'board_page/boards.dart';
 import 'package:mungshinsa/board_page/board_detail.dart';
+import 'size_measure_page/measure_result.dart';
 import 'store_page/clothes.dart';
 import 'store_page/clothes_detail.dart';
 import 'my_page/my_page.dart';
@@ -53,7 +57,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/splash': (context) => const SplashScreen(),
           '/login': (context) => const LogIn(),
-          '/nickname': (context) => const Nickname(),
+          '/nickname': (context) => Nickname(),
           '/index': (context) => IndexScreen(),
           '/board_detail': (context) => const BoardDetail(),
           '/clothesDetail': (context) => const ClothesDetail(),
@@ -62,9 +66,11 @@ class MyApp extends StatelessWidget {
           '/userPage': (context) => const UserPage(),
           '/createPrefer': (context) => const CreatePrefer(),
           '/petsnalColorStart': (context) => const PetsnalColorStartPage(),
+          '/measureStart': (context) => const SizeMeasureStart(),
           '/settings': (context) => const Settings(),
+          '/temp': (context) => const MeasureResult(),
         },
-        initialRoute: '/index',
+        initialRoute: '/temp',
       ),
     );
   }
@@ -95,6 +101,8 @@ class _IndexScreenState extends State<IndexScreen> {
 
   @override
   Widget build(BuildContext context) {
+    userInfo.getUserId();
+    userInfo.getUserNickname();
     return Scaffold(
       extendBody: true, // extendBody를 true로 해야 하단바 뒤로도 내용이 보임
       body: _widgetOptions[_currentIndex],
@@ -158,10 +166,19 @@ class _IndexScreenState extends State<IndexScreen> {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (_) => const WriteNewBoard()));
               },
-              child: const Icon(
-                Icons.edit,
-                color: Colors.black,
-                size: 30,
+              child: Container(
+                padding: EdgeInsets.all(3),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/images/footprint.png',
+                      width: 40,
+                      height: 40,
+                      //fit: BoxFit.cover,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

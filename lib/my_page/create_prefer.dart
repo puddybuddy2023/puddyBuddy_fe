@@ -6,6 +6,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mungshinsa/providers/prefer_provider.dart';
 import 'package:mungshinsa/providers/breed_tags_provider.dart';
 
+import '../user_info.dart';
+
 class CreatePrefer extends StatefulWidget {
   const CreatePrefer({super.key});
 
@@ -103,7 +105,7 @@ class _CreatePreferState extends State<CreatePrefer> {
                                       onChanged: (value) {
                                         setState(() {
                                           selectedBreedTag = value! + 1;
-                                          print(selectedBreedTag);
+                                          //print(selectedBreedTag);
                                         });
                                       },
                                       validator: (value) {
@@ -134,8 +136,8 @@ class _CreatePreferState extends State<CreatePrefer> {
                 height: 40,
                 child: ElevatedButton(
                   onPressed: () async {
-                    await preferProvider.createPrefer(
-                        1, _nameController.text, selectedBreedTag);
+                    await preferProvider.createPrefer(userInfo.userId!,
+                        _nameController.text, selectedBreedTag);
                     Navigator.pop(context);
                     // setState(() {
                     //   // 데이터가 변경되었음을 알려서 페이지를 다시 그림

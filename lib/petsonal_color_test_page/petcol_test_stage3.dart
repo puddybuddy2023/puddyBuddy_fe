@@ -4,7 +4,8 @@ import 'package:mungshinsa/petsonal_color_test_page/petcol_test_result.dart';
 import 'package:mungshinsa/petsonal_color_test_page/petcol_test_widgets.dart';
 import 'package:mungshinsa/petsonal_color_test_page/test_info.dart';
 
-import '../providers/petsnal_color_provider.dart';
+import '../loading.dart';
+import '../providers/petsnal_color_api.dart';
 
 class Stage3Q1 extends StatefulWidget {
   const Stage3Q1({
@@ -154,30 +155,39 @@ class _Stage3Q1State extends State<Stage3Q1> {
                   height: 10,
                 ),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (selected == -1) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text('문항을 선택해주세요'),
-                        duration: Duration(seconds: 2), //올라와있는 시간
-                      ));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('문항을 선택해주세요'),
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
                     } else {
                       print(selected);
                       testInfo.addToResultList(selected);
-                      petsnalColorProvider.PetsnalColorStage(
-                              testInfo.currentStage, 1, testInfo.resultList)
-                          .then((Map<dynamic, dynamic> result) {
+                      try {
+                        Map<dynamic, dynamic> result =
+                            await petsnalColorProvider.PetsnalColorStage(
+                          testInfo.currentStage,
+                          1,
+                          testInfo.resultList,
+                        );
                         testInfo.images = result;
                         // 이후에 원하는 다른 로직을 수행
-                      }).catchError((error) {
+
+                        // Future가 완료된 후에 페이지 이동을 수행합니다.
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                Loading(nextPage: PetColResult()),
+                          ),
+                        );
+                      } catch (error) {
                         // 에러 처리 로직
                         print('Error: $error');
-                      });
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => PetColResult(),
-                        ),
-                      );
+                      }
                     }
                   },
                   child: Text(
