@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:mungshinsa/petsonal_color_test_page/petcol_test_stage1.dart';
+import 'package:mungshinsa/petsonal_color_test_page/petcol_test_stage3.dart';
 import 'package:mungshinsa/petsonal_color_test_page/petcol_test_start.dart';
 import 'package:mungshinsa/size_measure_page/measure_start.dart';
 import 'package:mungshinsa/store_page/review_detail.dart';
@@ -68,9 +69,9 @@ class MyApp extends StatelessWidget {
           '/petsnalColorStart': (context) => const PetsnalColorStartPage(),
           '/measureStart': (context) => const SizeMeasureStart(),
           '/settings': (context) => const Settings(),
-          '/temp': (context) => const MeasureResult(),
+          '/temp': (context) => const Stage3Q1(),
         },
-        initialRoute: '/temp',
+        initialRoute: '/splash',
       ),
     );
   }

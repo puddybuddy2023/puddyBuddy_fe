@@ -46,67 +46,158 @@ class _PetColResultState extends State<PetColResult> {
                     child: Column(
                       children: [
                         if (testInfo.images['result'] == 1)
-                          Text(
-                            'Spring',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontFamily: 'Inter',
-                              fontWeight: FontWeight.w900,
-                            ),
-                          ),
-                        Container(
-                          width: 110, // 가로 전체 사이즈로 설정
-                          height: 110,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage(
-                                  'assets/images/petsnal_color/Winter.png'),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        if (testInfo.images['result'] == 2)
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                          Column(
                             children: [
-                              Container(
-                                width: 280, // 가로 전체 사이즈로 설정
-                                height: 340,
-                                margin: EdgeInsets.only(top: 10),
-                                decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage(
-                                        'assets/images/petsnal_color/Winter.png'),
+                              Text(
+                                'Petsnal Color',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 33,
+                                    fontFamily: 'Inter',
+                                    fontStyle: FontStyle.italic),
+                              ),
+                              Text(
+                                '우리 강아지에게 어울리는 색은?',
+                                style: TextStyle(
+                                    color: Colors.black54,
+                                    fontSize: 15,
+                                    fontStyle: FontStyle.italic),
+                              ),
+                              SizedBox(
+                                height: 7,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width: 230, // 가로 전체 사이즈로 설정
+                                    height: 280,
+                                    decoration: const BoxDecoration(
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                            'assets/images/petsnal_color/spring.png'),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        if (testInfo.images['result'] == 2)
+                          Column(
+                            children: [
+                              Text(
+                                'Petsnal Color',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 33,
+                                    fontFamily: 'Inter',
+                                    fontStyle: FontStyle.italic),
+                              ),
+                              Text(
+                                '우리 강아지에게 어울리는 색은?',
+                                style: TextStyle(
+                                    color: Colors.black54,
+                                    fontSize: 15,
+                                    fontStyle: FontStyle.italic),
+                              ),
+                              SizedBox(
+                                height: 7,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width: 230, // 가로 전체 사이즈로 설정
+                                    height: 280,
+                                    margin: EdgeInsets.only(top: 10),
+                                    decoration: const BoxDecoration(
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                            'assets/images/petsnal_color/summer.png'),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
                         if (testInfo.images['result'] == 3)
-                          Text(
-                            'Fall',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontFamily: 'Inter',
-                              fontWeight: FontWeight.w900,
-                            ),
-                          ),
-                        if (testInfo.images['result'] == 4)
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Container(
-                                width: 280, // 가로 전체 사이즈로 설정
-                                height: 340,
-                                margin: EdgeInsets.only(top: 10),
-                                decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage(
-                                        'assets/images/petsnal_color/Winter.png'),
+                              Column(
+                                children: [
+                                  Text(
+                                    'Petsnal Color',
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 33,
+                                        fontFamily: 'Inter',
+                                        fontStyle: FontStyle.italic),
                                   ),
-                                ),
+                                  Text(
+                                    '우리 강아지에게 어울리는 색은?',
+                                    style: TextStyle(
+                                        color: Colors.black54,
+                                        fontSize: 15,
+                                        fontStyle: FontStyle.italic),
+                                  ),
+                                  SizedBox(
+                                    height: 7,
+                                  ),
+                                  Container(
+                                    width: 230, // 가로 전체 사이즈로 설정
+                                    height: 280,
+                                    margin: EdgeInsets.only(top: 10),
+                                    decoration: const BoxDecoration(
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                            'assets/images/petsnal_color/fall.png'),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        if (testInfo.images['result'] == 4)
+                          Column(
+                            children: [
+                              Text(
+                                'Petsnal Color',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 33,
+                                    fontFamily: 'Inter',
+                                    fontStyle: FontStyle.italic),
+                              ),
+                              Text(
+                                '우리 강아지에게 어울리는 색은?',
+                                style: TextStyle(
+                                    color: Colors.black54,
+                                    fontSize: 15,
+                                    fontStyle: FontStyle.italic),
+                              ),
+                              SizedBox(
+                                height: 7,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width: 230, // 가로 전체 사이즈로 설정
+                                    height: 280,
+                                    margin: EdgeInsets.only(top: 10),
+                                    decoration: const BoxDecoration(
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                            'assets/images/petsnal_color/winter.png'),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -118,26 +209,26 @@ class _PetColResultState extends State<PetColResult> {
               SizedBox(
                 height: 60,
               ),
-              ElevatedButton(
-                onPressed: () {
-                  // MaterialPageRoute(
-                  //   builder: (context) => Question1(),
-                  // );
-                },
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.black,
-                  onPrimary: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30), // 모서리를 조절해요
-                  ),
-                  minimumSize:
-                      Size(MediaQuery.of(context).size.width * 0.8, 60),
-                ),
-                child: const Text(
-                  '저장하기',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
+              // ElevatedButton(
+              //   onPressed: () {
+              //     // MaterialPageRoute(
+              //     //   builder: (context) => Question1(),
+              //     // );
+              //   },
+              //   style: ElevatedButton.styleFrom(
+              //     primary: Colors.black,
+              //     onPrimary: Colors.white,
+              //     shape: RoundedRectangleBorder(
+              //       borderRadius: BorderRadius.circular(30), // 모서리를 조절해요
+              //     ),
+              //     minimumSize:
+              //         Size(MediaQuery.of(context).size.width * 0.5, 50),
+              //   ),
+              //   child: const Text(
+              //     '캡쳐하기',
+              //     style: TextStyle(fontSize: 16),
+              //   ),
+              // ),
             ],
           ),
         ));

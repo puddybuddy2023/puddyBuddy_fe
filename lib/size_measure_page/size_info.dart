@@ -1,16 +1,20 @@
 class SizeInfo {
-  int neck = 0;
-  int chest = 0;
-  int back = 0;
-  int leg = 0;
+  int? preferId;
+  int? breedTagId;
+  double neck = 0;
+  double chest = 0;
+  double back = 0;
+  double leg = 0;
 
   int petSizeId = 0;
 
   clearInfo() {
-    int neck = 0;
-    int chest = 0;
-    int back = 0;
-    int leg = 0;
+    preferId = 0;
+    breedTagId = 0;
+    neck = 0;
+    chest = 0;
+    back = 0;
+    leg = 0;
   }
 }
 

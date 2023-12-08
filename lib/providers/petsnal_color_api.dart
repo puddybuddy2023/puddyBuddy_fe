@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
 
 const _API_PREFIX =
-    'http://ec2-13-124-164-167.ap-northeast-2.compute.amazonaws.com/petsnalColors';
+    'http://ec2-3-39-55-229.ap-northeast-2.compute.amazonaws.com/petsnalColors';
 
 class PetsnalColorProvider with ChangeNotifier {
   Future<Map<dynamic, dynamic>> PetsnalColorStart(
@@ -21,7 +21,7 @@ class PetsnalColorProvider with ChangeNotifier {
 
       //dio.options.headers = {'token': token};
       var photoResponse = await photoDio.post(
-        'http://ec2-13-124-164-167.ap-northeast-2.compute.amazonaws.com/uploadNewImg',
+        'http://ec2-3-39-55-229.ap-northeast-2.compute.amazonaws.com/uploadNewImg',
         data: imageFormData,
       );
 
@@ -32,7 +32,10 @@ class PetsnalColorProvider with ChangeNotifier {
       Response response;
       Dio dio = Dio();
       response = await dio.post("$_API_PREFIX/start",
-          data: {'preferId': 1, 'photoUrl': photoResponse.data['uploadImg']},
+          data: {
+            'preferId': preferId,
+            'photoUrl': photoResponse.data['uploadImg']
+          },
           options: Options(contentType: Headers.jsonContentType));
 
       Map<dynamic, dynamic> result = (response.data)['result'];
@@ -56,7 +59,7 @@ class PetsnalColorProvider with ChangeNotifier {
     Response response;
     Dio dio = new Dio();
     response = await dio.post("$_API_PREFIX/$stage",
-        data: {'preferId': 1, 'resultList': resultList},
+        data: {'preferId': preferId, 'resultList': resultList},
         options: Options(contentType: Headers.jsonContentType));
     Map<dynamic, dynamic> result = (response.data)['result'];
     print(result);

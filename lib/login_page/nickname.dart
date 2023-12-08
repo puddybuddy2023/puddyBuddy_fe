@@ -137,8 +137,9 @@ class _NicknameState extends State<Nickname> {
                           setLogin();
                           Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
-                              builder: (context) => Loading(
+                              builder: (context) => LoadingWithNextPage(
                                 nextPage: IndexScreen(),
+                                duration: 2,
                               ),
                             ),
                           );

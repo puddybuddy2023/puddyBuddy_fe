@@ -103,8 +103,10 @@ class _LogInState extends State<LogIn> {
                             setLogin();
                             Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      Loading(nextPage: IndexScreen())),
+                                  builder: (context) => LoadingWithNextPage(
+                                        nextPage: IndexScreen(),
+                                        duration: 2,
+                                      )),
                             );
                           } else {
                             // 존재하지 않는 사용자의 경우, 닉네임 입력 페이지로 이동
@@ -138,8 +140,10 @@ class _LogInState extends State<LogIn> {
                           setLogin();
                           Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    Loading(nextPage: IndexScreen())),
+                                builder: (context) => LoadingWithNextPage(
+                                      nextPage: IndexScreen(),
+                                      duration: 2,
+                                    )),
                           );
                         } else {
                           // 존재하지 않는 사용자의 경우, 닉네임 입력 페이지로 이동

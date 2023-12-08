@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:mungshinsa/petsonal_color_test_page/petcol_test_result.dart';
 import 'package:mungshinsa/petsonal_color_test_page/petcol_test_stage2.dart';
 import 'package:mungshinsa/petsonal_color_test_page/petcol_test_widgets.dart';
 import 'package:mungshinsa/petsonal_color_test_page/test_info.dart';
 
 import '../providers/petsnal_color_api.dart';
 
-List<String> warmChoices = ['건강한 이미지다', '약간 건강해 보인다.', '누래보인다.'];
-List<String> coolChoices = ['투명하고 깔끔해보인다', '조금 투명하고 깔끔해보인다.', '창백해보인다.'];
+List<String> warmChoices = ['활기차 보인다.', '어느 정도 활기차 보인다.', '힘이 없어 보인다.'];
+List<String> coolChoices = ['맑고 깨끗해 보인다.', '어느 정도 맑고 깨끗해 보인다.', '흐릿해 보인다.'];
 
 class Question1 extends StatelessWidget {
   const Question1({Key? key}) : super(key: key);
@@ -84,7 +82,7 @@ class AdditinalQuestionOrNextStage extends StatelessWidget {
       print(testInfo.resultList);
       return FutureBuilder<Map<dynamic, dynamic>>(
         future: petsnalColorProvider.PetsnalColorStage(
-            testInfo.currentStage, 1, testInfo.resultList),
+            testInfo.currentStage, testInfo.preferId!, testInfo.resultList),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             // 비동기 작업이 완료될 때까지 로딩 인디케이터나 다른 로딩 UI를 표시합니다.
@@ -94,8 +92,9 @@ class AdditinalQuestionOrNextStage extends StatelessWidget {
             print('Error: ${snapshot.error}');
             return SizedBox(); // 기본 위젯을 반환하거나 에러 케이스를 처리합니다.
           } else {
-            // 비동기 작업이 완료되었을 때의 로직을 처리합니다.
+            //testInfo.clearImageMap();
             testInfo.images = snapshot.data!;
+            print(testInfo.images);
             testInfo.currentStage = snapshot.data!['nextStage'];
             testInfo.clearScore();
             testInfo.clearResultList();

@@ -2,20 +2,21 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mungshinsa/petsonal_color_test_page/petcol_test_widgets.dart';
 import 'package:mungshinsa/petsonal_color_test_page/test_info.dart';
 
+import '../loading.dart';
+import '../providers/fitting_api.dart';
 import '../providers/petsnal_color_api.dart';
 import 'fitting_result.dart';
 
-class Fitting extends StatefulWidget {
-  const Fitting({super.key});
+class FittingStart extends StatefulWidget {
+  const FittingStart({super.key});
 
   @override
-  State<Fitting> createState() => _FittingState();
+  State<FittingStart> createState() => _FittingStartState();
 }
 
-class _FittingState extends State<Fitting> {
+class _FittingStartState extends State<FittingStart> {
   final ImagePicker picker = ImagePicker();
   XFile? selectImage;
   XFile? showImage;
@@ -23,7 +24,33 @@ class _FittingState extends State<Fitting> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: const PetcolTestAppBar(),
+      appBar: AppBar(
+        leading: SizedBox.shrink(),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: true,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(top: 10, bottom: 10, right: 5.0),
+            child: ElevatedButton(
+              style: ButtonStyle(
+                shape: MaterialStateProperty.all<OutlinedBorder>(
+                  CircleBorder(),
+                ),
+                minimumSize: MaterialStateProperty.all<Size>(Size(30, 30)),
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Icon(
+                Icons.close,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
+      ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -34,10 +61,14 @@ class _FittingState extends State<Fitting> {
         ),
         child: Column(
           children: [
-            const SizedBox(
-              height: 80,
+            Row(
+              children: [
+                const SizedBox(
+                  height: 80,
+                ),
+              ],
             ),
-            Image.asset('assets/images/petsnal_color/petcol_title.png'),
+            Image.asset('assets/images/fitting_title.png'),
             const Padding(
                 padding: EdgeInsets.only(left: 15.0, right: 15, top: 50),
                 child: GuidelinePanel()),
@@ -135,14 +166,14 @@ class _FittingState extends State<Fitting> {
                     duration: Duration(seconds: 2), //올라와있는 시간
                   ));
                 } else {
-                  petsnalColorProvider.PetsnalColorStart(showImage, 1)
+                  fittingAPI.Fitting(showImage, 15)
                       .then((Map<dynamic, dynamic> result) {
-                    testInfo.images = result;
-                    testInfo.currentStage = result['nextStage'];
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => FittingResult(),
+                        builder: (context) => LoadingWithNextPage(
+                            nextPage: FittingResult(result: result),
+                            duration: 20),
                       ),
                     );
                   }).catchError((error) {
@@ -152,15 +183,15 @@ class _FittingState extends State<Fitting> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                onPrimary: Colors.black,
+                primary: Colors.black,
+                onPrimary: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30), // 모서리를 조절해요
                 ),
-                minimumSize: Size(MediaQuery.of(context).size.width * 0.9, 45),
+                minimumSize: Size(MediaQuery.of(context).size.width * 0.85, 45),
               ),
               child: const Text(
-                '테스트 시작하기',
+                '가상 피팅하기',
                 style: TextStyle(fontSize: 16),
               ),
             ),
@@ -211,7 +242,7 @@ class GuidelinePanel extends StatelessWidget {
                         ],
                       ),
                       Container(
-                        padding: const EdgeInsets.only(left: 30),
+                        padding: const EdgeInsets.only(left: 35),
                         width: 215,
                         child: const Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -229,7 +260,7 @@ class GuidelinePanel extends StatelessWidget {
                               height: 17,
                             ),
                             Text(
-                              '1. 정면 사진을 업로드해주세요.\n2. 강아지가 사진의 중심에 위치하게 해주세요.',
+                              '1. 강아지가 정면을 볼 수 있도록 해주세요.\n2. 머리와 발 끝이 보이도록 해주세요',
                               style: TextStyle(fontSize: 16),
                             ),
                             SizedBox(
@@ -257,8 +288,7 @@ class GuidelinePanel extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20.0),
                 image: DecorationImage(
-                  image: AssetImage(
-                      'assets/images/petsnal_color/petsnalcolor_example.jpg'),
+                  image: AssetImage('assets/images/fitting_example.png'),
                   fit: BoxFit.cover,
                 ),
               ),

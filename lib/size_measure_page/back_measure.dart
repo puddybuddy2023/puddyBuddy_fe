@@ -123,7 +123,7 @@ class _BackMeasureState extends State<BackMeasure> {
                             left: 125,
                             bottom: 110,
                             child: Image.asset(
-                              'assets/images/standing_dog.png',
+                              'assets/size_measure/back.png',
                               width: 230,
                               height: 230,
                             ),
@@ -164,7 +164,7 @@ class _BackMeasureState extends State<BackMeasure> {
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      sizeInfo.back = int.parse(_textEditingController.text);
+                      sizeInfo.back = double.parse(_textEditingController.text);
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => LegMeasure()),

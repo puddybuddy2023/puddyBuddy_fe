@@ -8,6 +8,7 @@ import 'package:mungshinsa/providers/board_provider.dart';
 import 'package:mungshinsa/providers/prefer_provider.dart';
 import '../../providers/comments_provider.dart';
 import '../../providers/breed_tags_provider.dart';
+import '../providers/user_api.dart';
 
 class BoardDetail extends StatefulWidget {
   const BoardDetail({super.key});
@@ -66,9 +67,26 @@ class _BoardDetailState extends State<BoardDetail> {
                           SizedBox(
                             width: 5,
                           ),
-                          Text(
-                            '사용자${board['userId']}',
-                            style: TextStyle(fontSize: 16),
+                          FutureBuilder(
+                            future: userProvider.getUserByUserId(
+                                board['userId']), // 비동기 작업을 수행할 Future를 지정합니다.
+                            builder: (context, snapshot) {
+                              // 비동기 작업의 상태에 따라 UI를 빌드합니다.
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                // 작업이 아직 완료되지 않은 경우
+                                return CircularProgressIndicator(); // 로딩 중 인디케이터 등을 표시할 수 있습니다.
+                              } else if (snapshot.hasError) {
+                                // 에러가 발생한 경우
+                                return Text('Error: ${snapshot.error}');
+                              } else {
+                                final result = snapshot.data;
+                                return Text(
+                                  result!['nickname'],
+                                  style: TextStyle(fontSize: 16),
+                                );
+                              }
+                            },
                           ),
                         ],
                       ),

@@ -4,7 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import '../models/board_model.dart';
 
 const _API_PREFIX =
-    'http://ec2-13-124-164-167.ap-northeast-2.compute.amazonaws.com/boards';
+    'http://ec2-3-39-55-229.ap-northeast-2.compute.amazonaws.com/boards';
 
 class BoardProvider with ChangeNotifier {
   final List<dynamic> _boardList = List.empty(growable: true);
@@ -50,7 +50,8 @@ class BoardProvider with ChangeNotifier {
   Future<List<dynamic>> fetchBoardsByUserId(int userId) async {
     Response response;
     Dio dio = new Dio();
-    response = await dio.get("$_API_PREFIX", queryParameters: {'user_id': 1});
+    response =
+        await dio.get("$_API_PREFIX", queryParameters: {'user_id': userId});
     List<dynamic> result = (response.data)['result'];
 
     // List<Board> boards = (response.data).map<Board>((json) {
@@ -101,7 +102,7 @@ class BoardProvider with ChangeNotifier {
 
       //dio.options.headers = {'token': token};
       var response = await dio.post(
-        'http://ec2-13-124-164-167.ap-northeast-2.compute.amazonaws.com/uploadNewImg',
+        'http://ec2-3-39-55-229.ap-northeast-2.compute.amazonaws.com/uploadNewImg',
         data: imageFormData,
       );
       print('성공적으로 업로드했습니다');
@@ -117,7 +118,7 @@ class BoardProvider with ChangeNotifier {
         "content": content,
         "photoUrl": response.data['uploadImg']
       });
-      //print(boardResponse.data.toString());
+      print(boardResponse.data.toString());
     } catch (e) {
       if (e is DioError) {
         print('DioError: ${e.response?.statusCode}');

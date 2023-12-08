@@ -8,14 +8,14 @@ import '../loading.dart';
 import '../providers/petsnal_color_api.dart';
 
 List<String> clearChoices = [
-  'Glossy하고 라인이 깔끔해보인다.',
-  '조금 gloss하고 라인 깔끔해보인다.',
-  'Oily하고 주름이 두드러진다.'
+  '윤기 있고 깔끔하게 보인다.',
+  '어느 정도 윤기 있고 깔끔하게 보인다.',
+  '기름지고 정돈 되지 않게 보인다.'
 ];
 List<String> dullChoices = [
-  '톤이 고르고 윤곽이 매끈해보인다',
-  '조금 고르고 매끈.',
-  '매트하고 탄력이 부족해보인다'
+  '부드럽고 탄력 있게 보인다.',
+  '어느 정도 부드럽고 탄력 있게 보인다.',
+  '매트하고 탄력 없게 보인다.'
 ];
 
 class Stage2Question1 extends StatelessWidget {
@@ -94,7 +94,7 @@ class AdditinalQuestionOrNextStageOrResult extends StatelessWidget {
         print(testInfo.resultList);
         return FutureBuilder<Map<dynamic, dynamic>>(
           future: petsnalColorProvider.PetsnalColorStage(
-              testInfo.currentStage, 1, testInfo.resultList),
+              testInfo.currentStage, testInfo.preferId!, testInfo.resultList),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               // 비동기 작업이 완료될 때까지 로딩 인디케이터나 다른 로딩 UI를 표시합니다.
@@ -104,8 +104,9 @@ class AdditinalQuestionOrNextStageOrResult extends StatelessWidget {
               print('Error: ${snapshot.error}');
               return SizedBox(); // 기본 위젯을 반환하거나 에러 케이스를 처리합니다.
             } else {
-              // 비동기 작업이 완료되었을 때의 로직을 처리합니다.
+              //testInfo.clearImageMap();
               testInfo.images = snapshot.data!;
+              print(testInfo.images);
               testInfo.currentStage = snapshot.data!['nextStage'];
               testInfo.clearScore();
               testInfo.clearResultList();
@@ -124,7 +125,7 @@ class AdditinalQuestionOrNextStageOrResult extends StatelessWidget {
         print(testInfo.currentStage);
         return FutureBuilder<Map<dynamic, dynamic>>(
           future: petsnalColorProvider.PetsnalColorStage(
-              testInfo.currentStage, 1, testInfo.resultList),
+              testInfo.currentStage, testInfo.preferId!, testInfo.resultList),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return CircularProgressIndicator();
@@ -132,12 +133,17 @@ class AdditinalQuestionOrNextStageOrResult extends StatelessWidget {
               print('Error: ${snapshot.error}');
               return SizedBox();
             } else {
+              //testInfo.clearImageMap();
               testInfo.images = snapshot.data!;
+              print(testInfo.images);
               testInfo.currentStage = snapshot.data!['nextStage'];
               testInfo.clearScore();
               testInfo.clearResultList();
 
-              return Loading(nextPage: PetColResult());
+              return LoadingWithNextPage(
+                nextPage: PetColResult(),
+                duration: 2,
+              );
             }
           },
         );

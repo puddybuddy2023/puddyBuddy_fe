@@ -131,7 +131,7 @@ class _NeckMeasureState extends State<NeckMeasure> {
                             left: 125,
                             bottom: 110,
                             child: Image.asset(
-                              'assets/images/standing_dog.png',
+                              'assets/size_measure/neck.png',
                               width: 230,
                               height: 230,
                             ),
@@ -172,7 +172,7 @@ class _NeckMeasureState extends State<NeckMeasure> {
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      sizeInfo.neck = int.parse(_textEditingController.text);
+                      sizeInfo.neck = double.parse(_textEditingController.text);
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => ChestMeasure()),

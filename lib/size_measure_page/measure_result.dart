@@ -11,7 +11,6 @@ class MeasureResult extends StatefulWidget {
 }
 
 class _MeasureResultState extends State<MeasureResult> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _textEditingController = TextEditingController();
   @override
   void dispose() {
@@ -67,20 +66,20 @@ class _MeasureResultState extends State<MeasureResult> {
             Column(
               children: [
                 const SizedBox(
-                  height: 50,
+                  height: 0,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      height: 580,
+                      height: MediaQuery.of(context).size.height * 0.8,
                       child: Stack(
                         clipBehavior: Clip.none,
                         children: [
                           Container(
                             //padding: const EdgeInsets.fromLTRB(20, 15, 15, 15),
                             margin: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 5),
+                                horizontal: 20, vertical: 0),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
                                 color: const Color(0xFFA6A6A6FF),
@@ -102,10 +101,17 @@ class _MeasureResultState extends State<MeasureResult> {
                                       fontStyle: FontStyle.italic,
                                       fontFamily: 'Inter'),
                                 ),
-                                const SizedBox(height: 140),
+                                Image.asset(
+                                  'assets/size_measure/size_graph.png', // 여기에 이미지 경로를 정확하게 기재해주세요
+                                  height: 200,
+                                  width: 370,
+                                ),
+                                const SizedBox(
+                                    height:
+                                        180), // RESULT와 white container 사이 간격 조정
                                 FutureBuilder(
-                                  future: sizeMeasure.getSizeInfo(
-                                      1, sizeInfo.petSizeId),
+                                  future: sizeMeasure
+                                      .getSizeInfo(sizeInfo.petSizeId),
                                   builder: (context, snapshot) {
                                     if (snapshot.connectionState ==
                                         ConnectionState.waiting) {
@@ -113,7 +119,7 @@ class _MeasureResultState extends State<MeasureResult> {
                                       return Container(
                                         padding: const EdgeInsets.only(
                                             left: 20, right: 20, top: 50),
-                                        height: 350,
+                                        height: 200,
                                         width: 370,
                                         decoration: BoxDecoration(
                                           color: Colors.white,
@@ -136,23 +142,56 @@ class _MeasureResultState extends State<MeasureResult> {
                                       return Text('Error: ${snapshot.error}');
                                     } else {
                                       // 비동기 작업 완료 후
+                                      Map<dynamic, dynamic> result =
+                                          snapshot.data!;
                                       return Container(
-                                        padding: const EdgeInsets.only(
-                                            left: 20, right: 20, top: 50),
-                                        height: 350,
+                                        padding: EdgeInsets.only(
+                                            left: 20, right: 20, top: 30),
+                                        height: 200,
                                         width: 370,
                                         decoration: BoxDecoration(
                                           color: Colors.white,
                                           borderRadius:
                                               BorderRadius.circular(15),
                                         ),
-                                        child: const Column(
+                                        child: Column(
                                           children: [
+                                            SizedBox(
+                                              height: 20,
+                                            ),
                                             Text(
-                                              'data',
+                                              '강아지의 사이즈가 같은 종 대비 상위 몇 프로인지 보여줍니다.',
                                               style: TextStyle(
-                                                  color: Colors.black26),
-                                            )
+                                                  color: Colors.black45,
+                                                  fontSize: 12),
+                                            ),
+                                            SizedBox(
+                                              height: 20,
+                                            ),
+                                            Text(
+                                              '목둘레 : 상위 ${result['perNeck'].toInt()}%',
+                                              style: TextStyle(
+                                                  color: Colors.black87,
+                                                  fontSize: 18),
+                                            ),
+                                            Text(
+                                              '가슴둘레 : 상위 ${result['perChest'].toInt()}%',
+                                              style: TextStyle(
+                                                  color: Colors.black87,
+                                                  fontSize: 18),
+                                            ),
+                                            Text(
+                                              '등길이 : 상위 ${result['perBack'].toInt()}%',
+                                              style: TextStyle(
+                                                  color: Colors.black87,
+                                                  fontSize: 18),
+                                            ),
+                                            Text(
+                                              '다리길이 : 상위 ${result['perLeg'].toInt()}%',
+                                              style: TextStyle(
+                                                  color: Colors.black87,
+                                                  fontSize: 18),
+                                            ),
                                           ],
                                         ),
                                       );
@@ -164,7 +203,7 @@ class _MeasureResultState extends State<MeasureResult> {
                           ),
                           Positioned(
                             left: 125,
-                            bottom: 290,
+                            bottom: 130,
                             child: Image.asset(
                               'assets/images/standing_dog.png',
                               width: 230,
@@ -179,23 +218,23 @@ class _MeasureResultState extends State<MeasureResult> {
                 const SizedBox(
                   height: 20,
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    // 캡쳐 동작 또는 원하는 기능 추가
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.black,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 15),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                  ),
-                  child: const Text(
-                    '캡쳐하기',
-                    style: TextStyle(color: Colors.white, fontSize: 15),
-                  ),
-                ),
+                // ElevatedButton(
+                //   onPressed: () {
+                //     // 캡쳐 동작 또는 원하는 기능 추가
+                //   },
+                //   style: ElevatedButton.styleFrom(
+                //     primary: Colors.black,
+                //     padding: const EdgeInsets.symmetric(
+                //         horizontal: 20, vertical: 15),
+                //     shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(30),
+                //     ),
+                //   ),
+                //   child: const Text(
+                //     '캡쳐하기',
+                //     style: TextStyle(color: Colors.white, fontSize: 15),
+                //   ),
+                // ),
               ],
             ),
           ],

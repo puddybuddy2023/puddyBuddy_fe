@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mungshinsa/providers/size_measure_api.dart';
 import 'package:mungshinsa/size_measure_page/size_info.dart';
+import 'package:mungshinsa/user_info.dart';
 
 import 'chest_measure.dart';
 import 'measure_result.dart';
@@ -124,7 +125,7 @@ class _LegMeasureState extends State<LegMeasure> {
                             left: 125,
                             bottom: 110,
                             child: Image.asset(
-                              'assets/images/standing_dog.png',
+                              'assets/size_measure/leg.png',
                               width: 230,
                               height: 230,
                             ),
@@ -164,11 +165,21 @@ class _LegMeasureState extends State<LegMeasure> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
+                    //print('hello');
                     if (_formKey.currentState!.validate()) {
-                      sizeInfo.leg = int.parse(_textEditingController.text);
+                      sizeInfo.leg = double.parse(_textEditingController.text);
+                      print(sizeInfo.neck);
+                      print(sizeInfo.chest);
+                      print(sizeInfo.back);
+                      print(sizeInfo.leg);
                       Map<dynamic, dynamic> result =
-                          await sizeMeasure.MeasureResult(1, sizeInfo.neck,
-                              sizeInfo.chest, sizeInfo.back, sizeInfo.leg);
+                          await sizeMeasure.MeasureResult(
+                              sizeInfo.preferId!,
+                              sizeInfo.breedTagId!,
+                              sizeInfo.neck,
+                              sizeInfo.chest,
+                              sizeInfo.back,
+                              sizeInfo.leg);
                       sizeInfo.petSizeId = result['petsizeId'];
                       Navigator.push(
                         context,

@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import '../models/prefer_model.dart';
 
 const _API_PREFIX =
-    'http://ec2-13-124-164-167.ap-northeast-2.compute.amazonaws.com/prefers';
+    'http://ec2-3-39-55-229.ap-northeast-2.compute.amazonaws.com/prefers';
 
 class PreferProvider with ChangeNotifier {
   Future<List<dynamic>> fetchPreferById(int userId) async {
@@ -41,9 +41,7 @@ class PreferProvider with ChangeNotifier {
     response = await dio.post("$_API_PREFIX/create/$userId", data: {
       "userId": userId,
       "preferName": preferName,
-      "chest": 5,
-      "back": 5,
-      "personalColorId": 1,
+      "personalColorId": 5,
       "breedTagId": breedTagId
     });
     print((response.data));
@@ -55,8 +53,8 @@ class PreferProvider with ChangeNotifier {
     Dio dio = new Dio();
     response = await dio.get("$_API_PREFIX/delete/$preferId",
         queryParameters: {'preferId': preferId});
-    Map<dynamic, dynamic> result = (response.data)['result'];
-    print(result);
+    //Map<dynamic, dynamic> result = (response.data)['result'];
+    //print(result);
   }
 }
 

@@ -214,6 +214,7 @@ class _WriteNewBoardState extends State<WriteNewBoard> {
                       )),
                 if (selectedClothes != null)
                   Card(
+                    margin: const EdgeInsets.all(10),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(7.0),
                     ),
@@ -313,7 +314,20 @@ class _WriteNewBoardState extends State<WriteNewBoard> {
                     ),
                   ),
                 SizedBox(
-                  height: 210,
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Text(
+                    '퍼디버디의 커뮤니티는 모두가 즐겁게 참여할 수 있는 환경을 위해 이용규칙을 마련하고 있습니다. 아래는 강아지 의류 리뷰 피드에 해당하는 주요 내용에 대한 요약 사항입니다. 게시물 작성 전에 커뮤니티 이용규칙 전문을 반드시 확인하시기 바랍니다.\n\n'
+                    '1. 커뮤니티 존중 규칙\n다른 회원을 존중하고 배려하세요.\n무례하거나 공격적인 언어 사용은 금지됩니다.\n\n'
+                    '2. 주제와 관련 없는 내용 금지\n강아지 의류 리뷰 피드는 주로 강아지 의류와 관련된 내용에 중점을 둡니다.\n다른 주제로의 이탈 및 불필요한 토론은 자제해주세요.\n\n'
+                    '3. 불법 활동 및 유해한 콘텐츠 금지\n불법촬영물 등의 게시물은 엄격하게 금지되며, 해당 게시물은 즉시 삭제될 수 있습니다.\n관련 법률에 따른 처벌을 받을 수 있습니다.\n\n'
+                    '4. 정치 및 홍보 금지\n정치 관련 내용이나 홍보성 글은 강아지 의류 리뷰 피드에서 허용되지 않습니다.\n\n'
+                    '5. 존중과 예의\n성별, 종교, 인종, 출신, 지역, 직업, 이념 등에 대한 비방이나 차별적인 언급은 금지됩니다.\n\n'
+                    '이 가이드라인을 준수하면서 즐거운 강아지 의류 리뷰 피드 활동을 즐겨주세요. 위반 시에는 게시물이 삭제되고 서비스 이용이 일정 기간 동안 제한될 수 있습니다. 커뮤니티 이용규칙 전문을 자세히 확인하여 더욱 안전하고 활기찬 커뮤니티를 만들어보세요.',
+                    style: TextStyle(fontSize: 12, color: Colors.black38),
+                  ),
                 ),
                 /* 업로드 버튼 */
                 Container(

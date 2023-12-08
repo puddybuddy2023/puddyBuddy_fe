@@ -1,10 +1,16 @@
 class TestInfo {
+  int? preferId;
+
+  clearPreferId() {
+    preferId = 0;
+  }
+
   int currentStage = 0;
-  late Map<dynamic, dynamic> images = {
-    "nextStage": 1,
-    "photoUrlList": ["a.jpg", "b.jpg"],
-    "result": 1
-  };
+  late Map<dynamic, dynamic> images;
+
+  clearImageMap() {
+    images.clear();
+  }
 
   List<int> resultList = [];
 

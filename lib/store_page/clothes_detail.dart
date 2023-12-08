@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../providers/clothes_provider.dart';
 import '../widgets.dart';
-import 'fitting.dart';
+import 'fitting_start.dart';
 
 class ClothesDetail extends StatefulWidget {
   const ClothesDetail({super.key});
@@ -31,7 +31,7 @@ class _ClothesDetailState extends State<ClothesDetail> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => Fitting(),
+                builder: (context) => FittingStart(),
               ),
             );
           },

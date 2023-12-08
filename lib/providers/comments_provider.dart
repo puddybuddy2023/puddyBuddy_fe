@@ -3,7 +3,7 @@ import '../models/comments_model.dart';
 import 'package:dio/dio.dart';
 
 const _API_PREFIX =
-    'http://ec2-13-124-164-167.ap-northeast-2.compute.amazonaws.com/comments';
+    'http://ec2-3-39-55-229.ap-northeast-2.compute.amazonaws.com/comments';
 
 class CommentProvider with ChangeNotifier {
   /*댓글 전체 가져오기*/

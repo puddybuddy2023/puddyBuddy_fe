@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mungshinsa/petsonal_color_test_page/petcol_test_widgets.dart';
 import 'package:mungshinsa/petsonal_color_test_page/test_info.dart';
 
+import '../loading.dart';
 import '../providers/petsnal_color_api.dart';
 import 'petcol_test_stage1.dart';
 
@@ -21,6 +22,8 @@ class _PetsnalColorStartPageState extends State<PetsnalColorStartPage> {
   XFile? showImage;
   @override
   Widget build(BuildContext context) {
+    final int? preferId = ModalRoute.of(context)?.settings.arguments as int?;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: const PetcolTestAppBar(),
@@ -124,9 +127,7 @@ class _PetsnalColorStartPageState extends State<PetsnalColorStartPage> {
                       ))
                 ],
               ),
-            const SizedBox(
-              height: 60,
-            ),
+            SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
                 if (showImage == null) {
@@ -135,14 +136,16 @@ class _PetsnalColorStartPageState extends State<PetsnalColorStartPage> {
                     duration: Duration(seconds: 2), //올라와있는 시간
                   ));
                 } else {
-                  petsnalColorProvider.PetsnalColorStart(showImage, 1)
+                  petsnalColorProvider.PetsnalColorStart(
+                          showImage, testInfo.preferId!)
                       .then((Map<dynamic, dynamic> result) {
                     testInfo.images = result;
                     testInfo.currentStage = result['nextStage'];
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Question1(),
+                        builder: (context) => LoadingWithNextPage(
+                            nextPage: Question1(), duration: 20),
                       ),
                     );
                   }).catchError((error) {

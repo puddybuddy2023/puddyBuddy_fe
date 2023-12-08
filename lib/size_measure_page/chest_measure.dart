@@ -152,7 +152,7 @@ class _ChestMeasureState extends State<ChestMeasure> {
                                 left: 125,
                                 bottom: 110,
                                 child: Image.asset(
-                                  'assets/images/standing_dog.png',
+                                  'assets/size_measure/chest.png',
                                   width: 230,
                                   height: 230,
                                 ),
@@ -195,7 +195,8 @@ class _ChestMeasureState extends State<ChestMeasure> {
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      sizeInfo.chest = int.parse(_textEditingController.text);
+                      sizeInfo.chest =
+                          double.parse(_textEditingController.text);
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => BackMeasure()),

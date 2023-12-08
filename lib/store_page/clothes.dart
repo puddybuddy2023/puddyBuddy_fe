@@ -33,7 +33,7 @@ class _StoreState extends State<Store> {
     ['라벤더', const Color(0xFFDFC5FE), 14],
     ['오렌지', Colors.orange, 15],
     ['민트', Colors.greenAccent, 16],
-    ['카키', const Color(0xFFF0E68C), 17],
+    ['카키', const Color(0xFF4B6145), 17],
     ['와인', const Color(0xFF722F37), 18],
     ['기타', Colors.white, 19],
   ];
@@ -542,9 +542,8 @@ class ClothesGridItem extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          '가게 이름',
-                          //itemData['storeName'].toString(),
+                        Text(
+                          itemData['storeName'],
                           textAlign: TextAlign.start,
                           style: TextStyle(fontSize: 12, color: Colors.black54),
                         ),
