@@ -1,27 +1,61 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 import '../models/prefer_model.dart';
 
+const _API_PREFIX =
+    'http://ec2-3-39-55-229.ap-northeast-2.compute.amazonaws.com/prefers';
 
-class BoardProvider with ChangeNotifier {
-  final List<Prefer> _boardList = List.empty(growable: true);
-
-  List<Prefer> getPreferList() {
-    _fetchBoards(); // 게시물 목록을 가져온다.
-    return _boardList;
+class PreferProvider with ChangeNotifier {
+  Future<List<dynamic>> fetchPreferById(int userId) async {
+    Response response;
+    Dio dio = new Dio();
+    response = await dio.get("$_API_PREFIX/users/$userId");
+    List<dynamic> result = (response.data)['result'];
+    //print(result);
+    //notifyListeners();
+    return result;
   }
 
-  void _fetchBoards() async {
-    final response = await http
-        .get(Uri.parse('http://ec2-13-124-164-167.ap-northeast-2.compute.amazonaws.com/prefers')); // 서버에서 게시물 데이터를 가져오는 GET 요청을 보낸다.
+  final List<dynamic> _preferList = List.empty(growable: true);
+  List<dynamic> getPreferListByUserId(int userId) {
+    _fetchPrefersByUserId(userId);
+    return _preferList;
+  }
 
-    final List<Prefer> result = jsonDecode(response.body)["result"] // JSON 문자열을 파싱하여 Dart의 Map 형태로 변환
-        .map<Prefer>((json) => Prefer.fromJson(json)) // Map에서 각 JSON 객체를 Board 모델로 mapping
-        .toList(); // 리스트로 변환
+  Future<void> _fetchPrefersByUserId(int userId) async {
+    Response response;
+    Dio dio = new Dio();
+    response = await dio.get('$_API_PREFIX/users/$userId');
+    final result = (response.data)['result'];
 
-    _boardList.clear(); // 이전에 저장된 목록을 비운다.
-    _boardList.addAll(result);
+    _preferList.clear(); // 이전에 저장된 목록을 비운다.
+    _preferList.addAll(result);
     notifyListeners(); // 데이터가 업데이트되었음을 리스너에게 알린다.
   }
+
+  /* 선호조건 생성 */
+  Future<void> createPrefer(
+      int userId, String preferName, int breedTagId) async {
+    Response response;
+    Dio dio = new Dio();
+    response = await dio.post("$_API_PREFIX/create/$userId", data: {
+      "userId": userId,
+      "preferName": preferName,
+      "personalColorId": 5,
+      "breedTagId": breedTagId
+    });
+    print((response.data));
+  }
+
+  /* 선호조건 삭제 */
+  Future<void> deletePrefer(int preferId) async {
+    Response response;
+    Dio dio = new Dio();
+    response = await dio.get("$_API_PREFIX/delete/$preferId",
+        queryParameters: {'preferId': preferId});
+    //Map<dynamic, dynamic> result = (response.data)['result'];
+    //print(result);
+  }
 }
+
+PreferProvider preferProvider = PreferProvider();
