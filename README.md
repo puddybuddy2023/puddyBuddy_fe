@@ -1,4 +1,4 @@
-# mungshinsa
+# PuddyBuddy
 
 A new Flutter project.
 
