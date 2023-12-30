@@ -1,4 +1,4 @@
-# PuddyBuddy
+# PuddyBuddy🐶
 
 A new Flutter project.
 
