@@ -11,7 +11,7 @@
 ### 1️⃣ 코디 공유 피드 및 플랫폼
 
 ### 2️⃣ 펫스널 컬러 진단 기능
-![image](https://github.com/puddybuddy2023/puddyBuddy_fe/assets/110683103/7414abed-c102-49b8-99b5-35a5b041bf8d)
+![캡스톤 매뉴얼](https://github.com/puddybuddy2023/puddyBuddy_fe/assets/110683103/f56c9bde-b1f5-4616-a81c-5886e4717f8d)
 
 ### 3️⃣ 사이즈 측정 기능
 ### 4️⃣ 가상 피팅 기능
