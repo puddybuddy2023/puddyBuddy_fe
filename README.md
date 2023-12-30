@@ -1,6 +1,8 @@
 # 🐶PuddyBuddy🛍️
 반려견 패션을 전문으로 하는 코디 교류 및 쇼핑 플랫폼
+
 *홍보 영상 : https://youtu.be/_QxKwAbv6Uo
+
 *사용자 매뉴얼 : [puddybuddy_maual.pdf](https://github.com/puddybuddy2023/puddyBuddy_fe/files/13797165/puddybuddy_maual.pdf)
 
 ## 📅개발 기간
