@@ -1,16 +1,14 @@
-# mungshinsa
+# 🐶PuddyBuddy🛍️
 
-A new Flutter project.
+반려견 패션을 전문으로 하는 코디 교류 및 쇼핑 플랫폼
 
-## Getting Started
+## 📅개발 기간
+2023.10.13 ~ 2023.12.7
 
-This project is a starting point for a Flutter application.
+## ⚙️기능 소개
+펫웨어를 판매하는 어플은 꽤 존재하나, 대부분 사람 옷, 혹은 다른 애견용품과 함께 반려견 의류를 판매하고 있습니다. 펫웨어만을 전문적으로 판매하는 어플은 보편화된 것이 거의 없습니다. 또한 반려견 패션에 관심이 있는 보호자들이 정보를 공유하고 서로 교류할 수 있는 플랫폼은 존재하지 않는 것으로 보입니다. 저희 어플은 유사 서비스들과 비교하여 사용자의 만족을 위해 아래와 같은 기능을 제공하려 합니다.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 1️⃣ 코디 공유 피드 및 플랫폼
+### 2️⃣ 펫스널 컬러 진단 기능
+### 3️⃣ 사이즈 측정 기능
+### 4️⃣ 가상 피팅 기능
