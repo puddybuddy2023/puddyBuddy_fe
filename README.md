@@ -8,11 +8,12 @@
 ## 👩🏻‍💻 프로젝트 소개
 **반려견 패션을 전문으로 하는 코디 교류 및 쇼핑 플랫폼**
 
-📅 개발 기간 : 2023.10.13 ~ 2023.12.7
+* CAU 2023-2 캡스톤디자인 프로젝트
+* 개발 기간 : 2023.10.13 ~ 2023.12.7
 
-🎬 홍보 영상 : https://youtu.be/_QxKwAbv6Uo
+* 홍보 영상 : https://youtu.be/_QxKwAbv6Uo
 
-📋 사용자 매뉴얼 : [puddybuddy_manual.pdf](https://github.com/puddybuddy2023/puddyBuddy_fe/files/13800238/puddybuddy_manual.pdf)
+* 사용자 매뉴얼 : [puddybuddy_manual.pdf](https://github.com/puddybuddy2023/puddyBuddy_fe/files/13800238/puddybuddy_manual.pdf)
 
 <br>
 
