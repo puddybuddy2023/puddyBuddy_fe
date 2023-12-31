@@ -72,9 +72,13 @@
 
 
 
-| 마이페이지 | 반려견 추가 | 사이즈 측정 |
-| :------------: | :------------: | :------------: |
-|<img  height="350" src="https://github.com/puddybuddy2023/puddyBuddy_fe/assets/110683103/f34b06c7-1c58-4f0c-9b0a-6743f923c406.png"/> |  <img height="350" src="https://github.com/puddybuddy2023/puddyBuddy_fe/assets/110683103/da255ea6-d627-4dc8-9640-a28827d9baff.png"/> |<img  height="350" src="https://github.com/puddybuddy2023/puddyBuddy_fe/assets/110683103/a63ebd86-f31b-406c-92c7-801c2154a24a"/> 
+| 마이페이지 | 반려견 추가 | 
+| :------------: | :------------: |
+|<img  height="350" src="https://github.com/puddybuddy2023/puddyBuddy_fe/assets/110683103/f34b06c7-1c58-4f0c-9b0a-6743f923c406.png"/> |  <img height="350" src="https://github.com/puddybuddy2023/puddyBuddy_fe/assets/110683103/da255ea6-d627-4dc8-9640-a28827d9baff.png"/> |
+
+| 사이즈 측정 |
+| :------------: |
+|<img  height="350" src="https://github.com/puddybuddy2023/puddyBuddy_fe/assets/110683103/a63ebd86-f31b-406c-92c7-801c2154a24a"/> |
 
 |  펫스널컬러 테스트 |
 | :------------: |
