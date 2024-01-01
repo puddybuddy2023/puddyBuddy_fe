@@ -38,6 +38,7 @@
 **FE**
 
 ![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white)
+![Dart](https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white)
 ![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white)
 ![Android Studio](https://img.shields.io/badge/Android%20Studio-3DDC84.svg?style=for-the-badge&logo=android-studio&logoColor=white)
 
@@ -45,6 +46,12 @@
 **CG**
 
 ![Unity](https://img.shields.io/badge/unity-%23000000.svg?style=for-the-badge&logo=unity&logoColor=white)
+
+
+**AI**
+
+![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white)
+![OpenCV](https://img.shields.io/badge/opencv-%23white.svg?style=for-the-badge&logo=opencv&logoColor=white)
 
 **Communication**
 
@@ -121,4 +128,3 @@
 * 플랫폼 내의 옷을 시착한 이미지를 합성하는 기술을 제공합니다.
 * 옷 모델 제작을 위해 기존 강아지 모델을 옷 부분만 남겨 blender로 컷팅하였습니다. 이후 플랫폼에서 제공되는 옷의 패턴 일부를 크롭하여 텍스처로 모델에 적용하였습니다.
 * 텍스처가 반영된 모델의 정면 이미지를 서버에 저장하였고, 이러한 사진을 피팅 기술 사용 단계에서 강아지의 머리와 다리를 탐지하여 몸통에 맞게 변형 후 합성하여 피팅 이미지를 제작했습니다.
-
