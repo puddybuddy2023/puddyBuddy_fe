@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:mungshinsa/petsonal_color_test_page/test_info.dart';
 import 'package:mungshinsa/providers/board_provider.dart';
-import 'package:mungshinsa/providers/prefer_provider.dart';
+import 'package:mungshinsa/providers/prefer_api.dart';
 import 'package:mungshinsa/providers/size_measure_api.dart';
 import 'package:mungshinsa/providers/user_api.dart';
 import 'package:mungshinsa/size_measure_page/size_info.dart';

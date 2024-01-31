@@ -5,9 +5,9 @@ import 'package:mungshinsa/widgets.dart';
 import 'package:provider/provider.dart';
 import '../../models/comments_model.dart';
 import 'package:mungshinsa/providers/board_provider.dart';
-import 'package:mungshinsa/providers/prefer_provider.dart';
+import 'package:mungshinsa/providers/prefer_api.dart';
 import '../../providers/comments_provider.dart';
-import '../../providers/breed_tags_provider.dart';
+import '../../providers/breed_tags_api.dart';
 import '../providers/user_api.dart';
 
 class BoardDetail extends StatefulWidget {

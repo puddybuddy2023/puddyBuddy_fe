@@ -26,7 +26,7 @@ import 'board_page/create_board.dart';
 import 'package:mungshinsa/providers/board_provider.dart';
 import 'providers/comments_provider.dart';
 import 'providers/clothes_provider.dart';
-import 'package:mungshinsa/providers/prefer_provider.dart';
+import 'package:mungshinsa/providers/prefer_api.dart';
 
 void main() {
   KakaoSdk.init(nativeAppKey: 'f636a4a6298ad948a6fb3dd100d602ce');

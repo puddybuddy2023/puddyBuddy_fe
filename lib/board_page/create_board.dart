@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import '../../providers/board_provider.dart';
 import '../providers/clothes_provider.dart';
-import '../providers/prefer_provider.dart';
+import '../providers/prefer_api.dart';
 import '../user_info.dart';
 import 'clothes_select.dart';
 

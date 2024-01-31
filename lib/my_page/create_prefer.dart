@@ -3,8 +3,8 @@ import 'package:flutter/rendering.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
-import 'package:mungshinsa/providers/prefer_provider.dart';
-import 'package:mungshinsa/providers/breed_tags_provider.dart';
+import 'package:mungshinsa/providers/prefer_api.dart';
+import 'package:mungshinsa/providers/breed_tags_api.dart';
 
 import '../user_info.dart';
 
