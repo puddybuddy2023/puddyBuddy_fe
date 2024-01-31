@@ -323,37 +323,6 @@ class _MyPageState extends State<MyPage> {
                       });
                 }
               }),
-          // Consumer<BoardProvider>(builder: (context, boardProvider, child) {
-          //   final boardList = boardProvider.getBoardListByUserId(1);
-          //   return GridView.builder(
-          //       shrinkWrap: true,
-          //       physics: const NeverScrollableScrollPhysics(),
-          //       itemCount: boardList.length,
-          //       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          //           crossAxisCount: 3, childAspectRatio: 1 / 1),
-          //       itemBuilder: (context, index) {
-          //         return InkWell(
-          //           onTap: () {
-          //             Navigator.pushNamed(
-          //               context,
-          //               '/board_detail',
-          //               arguments: boardList[index],
-          //             );
-          //           },
-          //           child: Container(
-          //             padding: const EdgeInsets.all(1),
-          //             margin: const EdgeInsets.all(1),
-          //             decoration: BoxDecoration(
-          //               image: DecorationImage(
-          //                 image:
-          //                     Image.network(boardList[index]['photoUrl']).image,
-          //                 fit: BoxFit.cover,
-          //               ),
-          //             ),
-          //           ),
-          //         );
-          //       });
-          // }),
         ],
       ),
     );
