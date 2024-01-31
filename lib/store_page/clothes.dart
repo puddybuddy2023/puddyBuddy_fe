@@ -293,7 +293,6 @@ class _StoreState extends State<Store> {
                 } else if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 } else {
-                  // 데이터가 정상적으로 도착하면 여기서 UI를 만들어서 반환합니다.
                   final result = snapshot.data!;
                   return Expanded(
                     child: GridView.builder(
